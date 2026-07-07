@@ -1,0 +1,11 @@
+# Local environment secrets caching directory (handled in /dev/shm, but just in case)
+*.env
+.env*
+
+# IDEs
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
