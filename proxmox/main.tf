@@ -13,6 +13,7 @@ resource "proxmox_virtual_environment_vm" "k8s_nodes" {
   tags        = ["terraform", "k8s", "talos"]
   node_name   = var.proxmox_node
   vm_id       = each.value.vmid
+  bios        = "ovmf"
 
   cpu {
     cores = each.value.cores
@@ -36,6 +37,12 @@ resource "proxmox_virtual_environment_vm" "k8s_nodes" {
     interface    = "scsi0"
     size         = each.value.disk
     file_format  = "raw"
+  }
+
+  efi_disk {
+    datastore_id = "local-lvm"
+    file_format  = "raw"
+    type         = "4m"
   }
 
   cdrom {
