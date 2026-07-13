@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-sa
+  namespace: default
+---
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: vault-backend
+spec:
+  provider:
+    vault:
+      server: "https://10.7.82.90:8200"
+      path: "secret"
+      version: "v2"
+      caProvider:
+        type: Secret
+        name: vault-tls-ca
+        namespace: external-secrets
+        key: ca.crt
+      auth:
+        kubernetes:
+          mountPath: "kubernetes"
+          role: "app-role"
+          serviceAccountRef:
+            name: "app-sa"
+            namespace: "default"

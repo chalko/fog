@@ -12,6 +12,14 @@ terraform {
       source  = "hashicorp/local"
       version = "~> 2.5.0"
     }
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 4.3.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.31.0"
+    }
   }
 }
 
@@ -27,3 +35,14 @@ provider "proxmox" {
     username = "root"
   }
 }
+
+provider "vault" {
+  address          = "https://10.7.82.90:8200"
+  skip_child_token = true
+  skip_tls_verify  = true
+}
+
+provider "kubernetes" {
+  config_path = "${path.module}/../kubeconfig"
+}
+
