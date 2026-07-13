@@ -7,7 +7,7 @@ mkdir -p "$SHM_DIR"
 chmod 700 "$SHM_DIR"
 
 # List of env files to manage
-ENVS=("proxmox" "docker" "k8s")
+ENVS=("proxmox" "docker" "k8s" "omni")
 
 # Check if pass is installed
 if ! command -v pass &> /dev/null; then
@@ -49,6 +49,32 @@ load_env() {
                 echo "export PROXMOX_VE_ENDPOINT=\"$endpoint\""
                 echo "export PROXMOX_VE_API_TOKEN=\"${token_id}=${token_secret}\""
             } > "$env_file"
+            ;;
+        omni)
+            # Fetch Omni endpoint and service account key
+            {
+                endpoint="$(pass show fog/omni/api_endpoint 2>/dev/null || echo 'https://your-account.omni.siderolabs.io/')"
+                key="$(pass show fog/omni/service_account_key 2>/dev/null || echo 'YOUR_OMNI_SERVICE_ACCOUNT_KEY')"
+                echo "export OMNI_API_ENDPOINT=\"$endpoint\""
+                echo "export OMNI_SERVICE_ACCOUNT_KEY=\"$key\""
+            } > "$env_file"
+
+            # Auto-generate the Proxmox Omni provider configuration yaml in memory (SHM)
+            {
+                pve_url="$(pass show fog/proxmox/api_url 2>/dev/null || echo 'https://proxmox.local:8006/api2/json')"
+                pve_token_id="$(pass show fog/proxmox/api_token_id 2>/dev/null || echo 'root@pam!terraform')"
+                pve_token_secret="$(pass show fog/proxmox/api_token_secret 2>/dev/null || echo 'YOUR_SECRET')"
+                
+                user_realm="${pve_token_id%%!*}"
+                
+                echo "proxmox:"
+                echo "  username: \"$user_realm\""
+                echo "  url: \"$pve_url\""
+                echo "  tokenID: \"$pve_token_id\""
+                echo "  tokenSecret: \"$pve_token_secret\""
+                echo "  insecureSkipVerify: true"
+            } > "$SHM_DIR/omni-config.yaml"
+            chmod 600 "$SHM_DIR/omni-config.yaml"
             ;;
         docker)
             {

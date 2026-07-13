@@ -1,16 +1,16 @@
-resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
+resource "proxmox_virtual_environment_download_file" "talos_iso" {
   content_type = "iso"
   datastore_id = "local"
   node_name    = var.proxmox_node
-  url          = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
-  file_name    = "jammy-server-cloudimg-amd64.img"
+  url          = "https://github.com/siderolabs/talos/releases/download/v1.9.1/talos-amd64.iso"
+  file_name    = "talos-v1.9.1-amd64.iso"
 }
 
 resource "proxmox_virtual_environment_vm" "k8s_nodes" {
   for_each    = var.k8s_nodes
   name        = each.key
-  description = "Kubernetes Node - Managed by Terraform/OpenTofu"
-  tags        = ["terraform", "k8s", "ubuntu"]
+  description = "Talos Kubernetes Node - Managed by Terraform/OpenTofu"
+  tags        = ["terraform", "k8s", "talos"]
   node_name   = var.proxmox_node
   vm_id       = each.value.vmid
 
@@ -33,21 +33,19 @@ resource "proxmox_virtual_environment_vm" "k8s_nodes" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
     interface    = "scsi0"
     size         = each.value.disk
+    file_format  = "raw"
   }
 
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-
-    user_account {
-      username = "ubuntu"
-      keys     = concat([trimspace(file(pathexpand("~/.ssh/id_rsa_yubikey.pub")))], var.ssh_public_keys)
-    }
+  cdrom {
+    file_id   = proxmox_virtual_environment_download_file.talos_iso.id
+    interface = "ide2"
   }
+
+  operating_system {
+    type = "l26"
+  }
+
+  boot_order = ["ide2", "scsi0"]
 }
