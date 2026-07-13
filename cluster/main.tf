@@ -29,7 +29,8 @@ resource "proxmox_virtual_environment_vm" "k8s_nodes" {
   }
 
   network_device {
-    bridge = var.vm_bridge
+    bridge      = var.vm_bridge
+    mac_address = each.value.mac
   }
 
   disk {
