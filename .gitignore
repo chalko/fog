@@ -22,4 +22,10 @@ Thumbs.db
 # Local binaries
 bin/talosctl
 
+# Talos local configs / secrets
+controlplane.yaml
+worker.yaml
+talosconfig
+
+
 
