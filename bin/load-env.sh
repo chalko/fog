@@ -33,9 +33,21 @@ load_env() {
         proxmox)
             # Try to fetch from pass, write fallback templates if not found
             {
-                echo "export PM_API_URL=\"$(pass show fog/proxmox/api_url 2>/dev/null || echo 'https://proxmox.local:8006/api2/json')\""
-                echo "export PM_API_TOKEN_ID=\"$(pass show fog/proxmox/api_token_id 2>/dev/null || echo 'terraform@pve!token')\""
-                echo "export PM_API_TOKEN_SECRET=\"$(pass show fog/proxmox/api_token_secret 2>/dev/null || echo 'YOUR_SECRET')\""
+                url="$(pass show fog/proxmox/api_url 2>/dev/null || echo 'https://proxmox.local:8006/api2/json')"
+                token_id="$(pass show fog/proxmox/api_token_id 2>/dev/null || echo 'terraform@pve!token')"
+                token_secret="$(pass show fog/proxmox/api_token_secret 2>/dev/null || echo 'YOUR_SECRET')"
+                
+                echo "export PM_API_URL=\"$url\""
+                echo "export PM_API_TOKEN_ID=\"$token_id\""
+                echo "export PM_API_TOKEN_SECRET=\"$token_secret\""
+                
+                # Format endpoint for bpg/proxmox provider (strip trailing /api2/json if present)
+                endpoint="${url%/api2/json}"
+                # Ensure endpoint ends with /
+                [[ "$endpoint" != */ ]] && endpoint="$endpoint/"
+                
+                echo "export PROXMOX_VE_ENDPOINT=\"$endpoint\""
+                echo "export PROXMOX_VE_API_TOKEN=\"${token_id}=${token_secret}\""
             } > "$env_file"
             ;;
         docker)

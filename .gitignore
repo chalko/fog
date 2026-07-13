@@ -9,3 +9,13 @@
 # OS files
 .DS_Store
 Thumbs.db
+
+# Terraform / OpenTofu
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+
