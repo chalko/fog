@@ -78,7 +78,10 @@ load_env() {
             ;;
         docker)
             {
-                echo "export DOCKER_HOST=\"$(pass show fog/docker/host 2>/dev/null || echo 'ssh://user@docker-host.local')\""
+                docker_host="$(pass show fog/docker/host 2>/dev/null)"
+                if [ -n "$docker_host" ]; then
+                    echo "export DOCKER_HOST=\"$docker_host\""
+                fi
             } > "$env_file"
             ;;
         k8s)

@@ -19,3 +19,7 @@ Thumbs.db
 *.tfvars.json
 .terraform.lock.hcl
 
+# Local binaries
+bin/talosctl
+
+
