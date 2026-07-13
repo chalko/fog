@@ -13,9 +13,11 @@ Home lab Infrastructure as Code (IaC) configuration tracking repo for Proxmox VE
 
 ## Secrets Management
 
-Secrets are managed using `pass` (password-store) and cached locally in `/dev/shm/fog/*.env` to avoid prompting for YubiKey authentication/passphrase entry repeatedly during a session.
+Secrets are managed in a split model:
+1. **Bootstrap/Host Secrets**: Stored in `pass` (password-store) and cached locally in `/dev/shm/fog/*.env` for active shell sessions to avoid repeating YubiKey taps.
+2. **Kubernetes Runtime Secrets**: Stored in **HashiCorp Vault** (`https://10.7.82.90:8200`) and dynamically synced into pods using the **External Secrets Operator**.
 
-### Usage
+### Bootstrap Secrets Setup
 
 To fetch and cache your environment variables:
 
@@ -27,7 +29,7 @@ This will:
 1. Verify/create directory `/dev/shm/fog` with `700` permissions.
 2. Read required secrets from `pass` (e.g., `fog/proxmox/api_token_secret`, etc.).
 3. Cache them securely under `/dev/shm/fog/{proxmox,docker,k8s}.env` with `600` permissions.
-4. Source the files in the current shell session.
+4. Source the files in the current shell session (which exports credentials like `VAULT_TOKEN`).
 
 ## Cluster Deployment & Management
 
