@@ -34,14 +34,14 @@ resource "proxmox_virtual_environment_vm" "k8s_nodes" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = "local-fast-lvm"
     interface    = "scsi0"
     size         = each.value.disk
     file_format  = "raw"
   }
 
   efi_disk {
-    datastore_id = "local-lvm"
+    datastore_id = "local-fast-lvm"
     file_format  = "raw"
     type         = "4m"
   }
