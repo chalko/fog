@@ -42,7 +42,7 @@ resource "proxmox_virtual_environment_container" "vault" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = "local-fast-lvm"
     size         = 8
   }
 
