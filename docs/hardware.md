@@ -8,5 +8,5 @@ This document tracks the hardware specifications of nodes and machines in the ho
 - **Form Factor**: Mini PC
 - **CPU**: AMD Ryzen 5 7640HS (or equivalent based on UM760 Slim spec)
 - **RAM**: 16 GB DDR5
-- **Storage**: 512 GB PCIe Gen4 SSD
-- **Primary Role**: (To be determined - e.g., Proxmox VE Host / K8s worker node)
+- **Storage**: 512 GB PCIe Gen4 SSD (boot/root) + 2 TB Samsung 970 EVO Plus NVMe SSD (`local-fast-zfs` pool)
+- **Primary Role**: Proxmox VE Host (`misty`), hosting Kubernetes controlplane/worker nodes and HashiCorp Vault.

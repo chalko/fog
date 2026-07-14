@@ -11,3 +11,14 @@ This directory tracks decisions, architectures, and implementation steps for boo
 3. **Kubernetes Cluster**:
    - Local cluster setup (e.g., Talos Linux, K3s, or kubeadm).
    - Deployment tracking via GitOps (e.g., FluxCD or ArgoCD).
+
+## Completed Plans
+
+All completed milestones and bootstrap documentation are moved to [plans/completed/](file:///home/nick/src/fog/plans/completed):
+
+- [bootstrap_slim.md](file:///home/nick/src/fog/plans/completed/bootstrap_slim.md) - Initial bootstrapping and naming conventions for the Minisforum host.
+- [add_samsung_nvme.md](file:///home/nick/src/fog/plans/completed/add_samsung_nvme.md) - Adding Samsung NVMe SSD to Proxmox VE host using LVM-Thin.
+- [resize_k8s_nodes.md](file:///home/nick/src/fog/plans/completed/resize_k8s_nodes.md) - Storage migration to ZFS and VM resource resizing.
+- [vault_bootstrap.md](file:///home/nick/src/fog/plans/completed/vault_bootstrap.md) - Installation and configuration of HashiCorp Vault with K8s authentication backend.
+- [proxmox_dns_sync.md](file:///home/nick/src/fog/plans/completed/proxmox_dns_sync.md) - Design and Helm deployment details for DNS syncing between PVE and Pi-hole.
+

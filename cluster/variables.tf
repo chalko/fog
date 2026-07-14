@@ -1,6 +1,6 @@
 variable "proxmox_node" {
   type        = string
-  default     = "pve"
+  default     = "misty"
   description = "The name of the Proxmox node to deploy VMs to"
 }
 
