@@ -1,69 +1,100 @@
-# Plan: Resize Kubernetes Nodes (Memory & Disk) on misty
+# Plan: ZFS Storage Migration and VM Resource Resizing on misty
 
-This plan outlines the steps to safely resize the CPU, RAM, and Disk storage allocations for our Kubernetes nodes (`k8s-control-01` and `k8s-worker-01`) on **misty**.
-
----
-
-## Current vs Proposed Allocation
-
-| VM Name | VMID | Current RAM | Proposed RAM | Current Disk | Proposed Disk |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **`k8s-control-01`** | 9010 | 4 GB (4096 MB) | **4 GB** (4096 MB) | 20 GB | **40 GB** |
-| **`k8s-worker-01`** | 9020 | 4 GB (4096 MB) | **10 GB** (10240 MB) | 40 GB | **150 GB** |
+This plan outlines the steps to convert the secondary 2TB Samsung NVMe drive entirely into a **unified ZFS pool** (`local-zfs`), configure ZFS memory constraints on the Proxmox host, and resize the resource allocations (RAM and Disk) for your Kubernetes nodes and Vault.
 
 ---
 
-## Phase 1: Modify Terraform Configuration
-We will update `cluster/variables.tf` to match the proposed values:
+## Proposed Resource Allocation
 
-```hcl
-  default = {
-    "k8s-control-01" = { vmid = 9010, cores = 2, memory = 4096, disk = 40, ip = "10.7.82.15", mac = "BC:24:11:21:FD:75" }
-    "k8s-worker-01"  = { vmid = 9020, cores = 2, memory = 10240, disk = 150, ip = "10.7.82.16", mac = "BC:24:11:6F:84:D1" }
-  }
-```
+| VM Name | VMID | Current RAM | Proposed RAM | Current Disk | Proposed Disk | Target Storage Pool |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`k8s-control-01`** | 9010 | 4 GB (4096 MB) | **4 GB** (4096 MB) | 20 GB | **40 GB** | `local-zfs` |
+| **`k8s-worker-01`** | 9020 | 4 GB (4096 MB) | **10 GB** (10240 MB) | 40 GB | **150 GB** | `local-zfs` |
+| **`vault` (LXC)** | 9090 | 512 MB (default) | **1 GB** (1024 MB) | 8 GB | **16 GB** | `local-zfs` |
 
 ---
 
-## Phase 2: Graceful Shutdown
-To ensure data consistency during the volume resize, we will gracefully shut down the VMs:
+## Phase 1: Evacuate Samsung SSD (Moving Data to Boot Drive)
+To re-initialize the Samsung drive without losing data, we will temporarily move all VM/LXC disks to the boot drive (`local-lvm` which has >340GB free space).
 
-1. SSH into misty and run:
+1. **Vault (LXC 9090):** Shut down the container and move its disk:
    ```bash
-   qm shutdown 9010
-   qm shutdown 9020
+   ssh root@10.7.82.10 "pct stop 9090 && pct move_volume 9090 rootfs local-lvm --delete 1"
    ```
-2. Wait for the status of both VMs to transition to `stopped` in the Proxmox GUI or by running:
+2. **Kubernetes controlplane & worker (VMs 9010 & 9020):** Move their disks live (without shutdown):
    ```bash
-   qm list
+   ssh root@10.7.82.10 "qm move_disk 9010 scsi0 local-lvm --delete && qm move_disk 9010 efidisk0 local-lvm --delete"
+   ssh root@10.7.82.10 "qm move_disk 9020 scsi0 local-lvm --delete && qm move_disk 9020 efidisk0 local-lvm --delete"
    ```
 
 ---
 
-## Phase 3: Apply the Resize via Terraform
-We will run Terraform to modify the disk sizes and memory values on the Proxmox host:
+## Phase 2: Destroy LVM & Create Unified ZFS Pool
+Once the Samsung SSD (`/dev/nvme1n1`) is empty, we will reformat it entirely as a ZFS pool.
 
-1. Run the plan to verify the changes:
+1. **Remove Proxmox storage configuration:**
+   * Go to **Datacenter** $\rightarrow$ **Storage** $\rightarrow$ select `local-fast-lvm` $\rightarrow$ click **Remove**.
+2. **Destroy LVM structures on Samsung SSD:**
+   ```bash
+   ssh root@10.7.82.10 "lvremove -y local-fast-lvm && vgremove local-fast-lvm && pvremove /dev/nvme1n1"
+   ```
+3. **Wipe physical partitions:**
+   ```bash
+   ssh root@10.7.82.10 "wipefs -a /dev/nvme1n1"
+   ```
+4. **Create ZFS Pool:**
+   Create a single-disk ZFS pool named **`local-zfs`** in Proxmox:
+   * Go to **pve (node)** $\rightarrow$ **Disks** $\rightarrow$ **ZFS** $\rightarrow$ click **Create: ZFS**.
+   * Name: `local-zfs`
+   * Disk: Select `/dev/nvme1n1`
+   * RAID Level: `Single Disk`
+   * Click **Create**.
+
+---
+
+## Phase 3: Limit ZFS RAM Usage (ARC Cache)
+Since **misty** has 16GB of RAM, we must prevent ZFS from consuming too much memory by capping the ARC cache size to **2 GB**.
+
+1. SSH into misty and create/edit the ZFS options file:
+   ```bash
+   ssh root@10.7.82.10 "echo 'options zfs zfs_arc_max=2147483648' > /etc/modprobe.d/zfs.conf"
+   ```
+2. Update the initramfs to apply the change on next boot:
+   ```bash
+   ssh root@10.7.82.10 "update-initramfs -u -k all"
+   ```
+
+---
+
+## Phase 4: Modify Terraform Configurations & Apply Resizing
+We will update the configurations to use `local-zfs` as the datastore ID and apply the disk/RAM updates.
+
+1. **Variables File (`cluster/variables.tf`):** Update VM definitions to the new disk/RAM sizes.
+2. **VM Main File (`cluster/main.tf`):** Change `datastore_id` to `"local-zfs"`.
+3. **Vault File (`cluster/vault.tf`):** Change `datastore_id` to `"local-zfs"`, set memory dedicated to `1024`, and set disk size to `16`.
+4. **Shutdown Kubernetes VMs:**
+   ```bash
+   ssh root@10.7.82.10 "qm shutdown 9010 && qm shutdown 9020"
+   ```
+5. **Apply Terraform changes:**
    ```bash
    source /dev/shm/fog/proxmox.env
-   terraform plan
-   ```
-   *Expected output: Updates in-place for memory and disk sizes.*
-2. Apply the changes:
-   ```bash
    terraform apply
    ```
+   *Terraform will relocate VM disk storage back to the new `local-zfs` pool and apply the resized disk and RAM values.*
 
 ---
 
-## Phase 4: Startup & Verification
+## Phase 5: Verification & Boot
 1. Start the VMs:
    ```bash
    qm start 9010
    qm start 9020
+   pct start 9090
    ```
-2. **Auto-Resize Verification:** Talos Linux automatically resizes its partition table and expands the filesystem on boot when it detects a physical disk size change.
-3. Check the status of the cluster nodes once booted:
+2. Verify that Talos Linux automatically resizes partitions and filesystems inside the VMs.
+3. Unseal Vault using `vault operator unseal`.
+4. Check the status of your Kubernetes nodes:
    ```bash
    kubectl --kubeconfig kubeconfig get nodes
    ```
