@@ -41,9 +41,13 @@ resource "proxmox_virtual_environment_container" "vault" {
     bridge = var.vm_bridge
   }
 
+  memory {
+    dedicated = 1024
+  }
+
   disk {
-    datastore_id = "local-fast-lvm"
-    size         = 8
+    datastore_id = "local-fast-zfs"
+    size         = 16
   }
 
   features {
