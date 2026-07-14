@@ -1,6 +1,6 @@
 # Plan: ZFS Storage Migration and VM Resource Resizing on misty
 
-This plan outlines the steps to convert the secondary 2TB Samsung NVMe drive entirely into a **unified ZFS pool** (`local-zfs`), configure ZFS memory constraints on the Proxmox host, and resize the resource allocations (RAM and Disk) for your Kubernetes nodes and Vault.
+This plan outlines the steps to convert the secondary 2TB Samsung NVMe drive entirely into a **unified ZFS pool** (`local-fast-zfs`), configure ZFS memory constraints on the Proxmox host, and resize the resource allocations (RAM and Disk) for your Kubernetes nodes and Vault.
 
 ---
 
@@ -8,9 +8,9 @@ This plan outlines the steps to convert the secondary 2TB Samsung NVMe drive ent
 
 | VM Name | VMID | Current RAM | Proposed RAM | Current Disk | Proposed Disk | Target Storage Pool |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`k8s-control-01`** | 9010 | 4 GB (4096 MB) | **4 GB** (4096 MB) | 20 GB | **40 GB** | `local-zfs` |
-| **`k8s-worker-01`** | 9020 | 4 GB (4096 MB) | **10 GB** (10240 MB) | 40 GB | **150 GB** | `local-zfs` |
-| **`vault` (LXC)** | 9090 | 512 MB (default) | **1 GB** (1024 MB) | 8 GB | **16 GB** | `local-zfs` |
+| **`k8s-control-01`** | 9010 | 4 GB (4096 MB) | **4 GB** (4096 MB) | 20 GB | **40 GB** | `local-fast-zfs` |
+| **`k8s-worker-01`** | 9020 | 4 GB (4096 MB) | **10 GB** (10240 MB) | 40 GB | **150 GB** | `local-fast-zfs` |
+| **`vault` (LXC)** | 9090 | 512 MB (default) | **1 GB** (1024 MB) | 8 GB | **16 GB** | `local-fast-zfs` |
 
 ---
 
@@ -43,9 +43,9 @@ Once the Samsung SSD (`/dev/nvme1n1`) is empty, we will reformat it entirely as 
    ssh root@10.7.82.10 "wipefs -a /dev/nvme1n1"
    ```
 4. **Create ZFS Pool:**
-   Create a single-disk ZFS pool named **`local-zfs`** in Proxmox:
+   Create a single-disk ZFS pool named **`local-fast-zfs`** in Proxmox:
    * Go to **pve (node)** $\rightarrow$ **Disks** $\rightarrow$ **ZFS** $\rightarrow$ click **Create: ZFS**.
-   * Name: `local-zfs`
+   * Name: `local-fast-zfs`
    * Disk: Select `/dev/nvme1n1`
    * RAID Level: `Single Disk`
    * Click **Create**.
@@ -67,11 +67,11 @@ Since **misty** has 16GB of RAM, we must prevent ZFS from consuming too much mem
 ---
 
 ## Phase 4: Modify Terraform Configurations & Apply Resizing
-We will update the configurations to use `local-zfs` as the datastore ID and apply the disk/RAM updates.
+We will update the configurations to use `local-fast-zfs` as the datastore ID and apply the disk/RAM updates.
 
 1. **Variables File (`cluster/variables.tf`):** Update VM definitions to the new disk/RAM sizes.
-2. **VM Main File (`cluster/main.tf`):** Change `datastore_id` to `"local-zfs"`.
-3. **Vault File (`cluster/vault.tf`):** Change `datastore_id` to `"local-zfs"`, set memory dedicated to `1024`, and set disk size to `16`.
+2. **VM Main File (`cluster/main.tf`):** Change `datastore_id` to `"local-fast-zfs"`.
+3. **Vault File (`cluster/vault.tf`):** Change `datastore_id` to `"local-fast-zfs"`, set memory dedicated to `1024`, and set disk size to `16`.
 4. **Shutdown Kubernetes VMs:**
    ```bash
    ssh root@10.7.82.10 "qm shutdown 9010 && qm shutdown 9020"
@@ -81,7 +81,7 @@ We will update the configurations to use `local-zfs` as the datastore ID and app
    source /dev/shm/fog/proxmox.env
    terraform apply
    ```
-   *Terraform will relocate VM disk storage back to the new `local-zfs` pool and apply the resized disk and RAM values.*
+   *Terraform will relocate VM disk storage back to the new `local-fast-zfs` pool and apply the resized disk and RAM values.*
 
 ---
 
