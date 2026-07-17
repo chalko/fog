@@ -1,0 +1,42 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: weave-gitops
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://helm.gitops.weave.works
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: weave-gitops
+  namespace: flux-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: weave-gitops
+      version: "4.0.36"
+      sourceRef:
+        kind: HelmRepository
+        name: weave-gitops
+  values:
+    adminUser:
+      create: true
+      username: admin
+      passwordHash: "$2b$10$Bq83/.YhdVnDB9OGiO5kfexU5dTstbQOCAsMTUZpsIgTyZeSPj1sC"
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - host: flux.fog.chalko.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - flux.fog.chalko.com
+          secretName: weave-gitops-tls
