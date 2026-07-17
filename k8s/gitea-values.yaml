@@ -48,14 +48,16 @@ persistence:
 ingress:
   enabled: true
   className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: gitea.fog.lodge.chalko.com
+    - host: gitea.fog.chalko.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - gitea.fog.lodge.chalko.com
+        - gitea.fog.chalko.com
       secretName: gitea-tls
 
 # Custom health probes referencing Gitea's healthz endpoint

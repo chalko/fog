@@ -8,7 +8,7 @@ env:
         name: pihole-secrets
         key: password
 domainFilters:
-  - "fog.lodge.chalko.com"
+  - "fog.chalko.com"
 policy: sync
 registry: noop
 txtOwnerId: "lodge-k8s-cluster"

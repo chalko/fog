@@ -135,13 +135,13 @@ ingress:
   enabled: true
   className: "nginx" # Adjust depending on your cluster ingress controller (e.g. nginx, traefik)
   hosts:
-    - host: gitea.fog.lodge.chalko.com
+    - host: gitea.fog.chalko.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - gitea.fog.lodge.chalko.com
+        - gitea.fog.chalko.com
       secretName: gitea-tls
 
 # Custom health probes referencing Gitea's healthz endpoint

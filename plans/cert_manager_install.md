@@ -124,13 +124,13 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"  # Tells Cert-Manager to issue certificate
   hosts:
-    - host: gitea.fog.lodge.chalko.com
+    - host: gitea.fog.chalko.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - gitea.fog.lodge.chalko.com
+        - gitea.fog.chalko.com
       secretName: gitea-tls
 ```
 
