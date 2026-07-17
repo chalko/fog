@@ -1,0 +1,80 @@
+# Configuration values for Gitea on Kubernetes
+gitea:
+  admin:
+    username: "admin"
+    passwordKey: "password"
+    existingSecret: "gitea-secrets"
+  
+  config:
+    APP_NAME: "Chalko Home Lab Git Service"
+    security:
+      INSTALL_LOCK: true # Prevent the web installer from appearing
+
+# Additional environment variables to pass to Gitea containers
+deployment:
+  env:
+    - name: GITEA__database__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-secrets
+          key: db-password
+
+# PostgreSQL database sub-chart settings
+postgresql:
+  enabled: true
+  auth:
+    database: "gitea"
+    username: "gitea"
+    existingSecret: "gitea-secrets"
+    secretKeys:
+      adminPasswordKey: "db-password"
+      userPasswordKey: "db-password"
+  primary:
+    persistence:
+      enabled: true
+      size: "8Gi"
+      storageClass: "local-path"
+
+postgresql-ha:
+  enabled: false
+
+# Storage for Gitea repositories
+persistence:
+  enabled: true
+  size: "16Gi"
+  storageClass: "local-path"
+
+# Ingress Controller Configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: gitea.fog.lodge.chalko.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - gitea.fog.lodge.chalko.com
+      secretName: gitea-tls
+
+# Custom health probes referencing Gitea's healthz endpoint
+giteaProbes:
+  liveness:
+    httpGet:
+      path: /api/healthz
+      port: http
+    initialDelaySeconds: 200
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+  readiness:
+    httpGet:
+      path: /api/healthz
+      port: http
+    initialDelaySeconds: 200
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
