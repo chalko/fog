@@ -10,5 +10,7 @@ env:
 domainFilters:
   - "fog.lodge.chalko.com"
 policy: sync
-registry: txt
+registry: noop
 txtOwnerId: "lodge-k8s-cluster"
+extraArgs:
+  - --pihole-api-version=6

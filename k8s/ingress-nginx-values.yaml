@@ -1,0 +1,9 @@
+# Configuration values for ingress-nginx on bare-metal Talos cluster
+controller:
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  kind: DaemonSet
+  service:
+    type: ClusterIP
+  publishService:
+    enabled: false
