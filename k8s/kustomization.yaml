@@ -8,3 +8,6 @@ resources:
   - vault-auth-setup.yaml
   - vault-store.yaml
   - external-dns.yaml
+  - ingress-nginx.yaml
+  - cert-manager.yaml
+  - gitea.yaml
