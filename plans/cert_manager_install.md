@@ -34,16 +34,16 @@ k8s/
 
 ## 3. Vault & Secrets Management
 
-For the DNS-01 challenge, Cert-Manager requires an API token to edit DNS records. We will store this token in Vault at `secret/data/app/cert-manager`.
+For the DNS-01 challenge, Cert-Manager requires a Google Cloud Service Account key to edit DNS records. We will store this JSON key in Vault at `secret/data/app/cert-manager` under the property `service_account_json`.
 
-### Step 3.1: Save Token in Vault
+### Step 3.1: Save Key in Vault
 ```bash
 vault kv put secret/app/cert-manager \
-    dns_api_token="<your-dns-provider-api-token>"
+    service_account_json='{...your-gcp-service-account-json-key-content...}'
 ```
 
 ### Step 3.2: Create ExternalSecret (`k8s/cert-manager-secrets.yaml`)
-Create an `ExternalSecret` to sync the API token into the `cert-manager` namespace:
+Create an `ExternalSecret` to sync the JSON key into the `cert-manager` namespace:
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -60,10 +60,10 @@ spec:
     name: cert-manager-dns-token
     creationPolicy: Owner
   data:
-    - secretKey: api-token
+    - secretKey: service-account.json
       remoteRef:
         key: secret/data/app/cert-manager
-        property: dns_api_token
+        property: service_account_json
 ```
 
 ---
@@ -104,11 +104,11 @@ spec:
       name: letsencrypt-prod-account-key
     solvers:
       - dns01:
-          cloudflare:
-            email: admin@chalko.com
-            apiTokenSecretRef:
+          cloudDNS:
+            project: <your-gcp-project-id>
+            serviceAccountSecretRef:
               name: cert-manager-dns-token
-              key: api-token
+              key: service-account.json
 ```
 
 ---
@@ -138,7 +138,7 @@ ingress:
 
 ## 7. Execution Roadmap
 
-1. **Populate DNS API token** inside Vault.
+1. **Populate GCP Service Account JSON key** inside Vault.
 2. **Install Cert-Manager via Helm**:
    ```bash
    helm install cert-manager jetstack/cert-manager \
