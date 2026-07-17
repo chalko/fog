@@ -11,4 +11,3 @@ resources:
   - ingress-nginx.yaml
   - cert-manager.yaml
   - gitea.yaml
-  - weave-gitops.yaml
