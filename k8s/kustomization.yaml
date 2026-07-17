@@ -7,4 +7,3 @@ resources:
   - gitea-secrets.yaml
   - vault-auth-setup.yaml
   - vault-store.yaml
-  - weave-gitops.yaml
