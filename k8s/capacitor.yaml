@@ -25,6 +25,3 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: capacitor
-  images:
-    - name: ghcr.io/gimlet-io/capacitor
-      newTag: "0.14.0"
