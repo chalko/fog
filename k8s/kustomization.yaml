@@ -11,3 +11,5 @@ resources:
   - ingress-nginx.yaml
   - cert-manager.yaml
   - gitea.yaml
+  - capacitor.yaml
+  - capacitor-ingress.yaml
