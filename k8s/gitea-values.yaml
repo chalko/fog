@@ -9,6 +9,9 @@ gitea:
     APP_NAME: "Chalko Home Lab Git Service"
     security:
       INSTALL_LOCK: true # Prevent the web installer from appearing
+    server:
+      SSH_DOMAIN: "gitea.fog.chalko.com"
+      SSH_PORT: 30222
 
 # Additional environment variables to pass to Gitea containers
 deployment:
@@ -80,3 +83,8 @@ giteaProbes:
     periodSeconds: 10
     successThreshold: 1
     failureThreshold: 3
+# Service Configuration
+service:
+  ssh:
+    type: NodePort
+    nodePort: 30222
