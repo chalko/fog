@@ -105,7 +105,7 @@ spec:
     solvers:
       - dns01:
           cloudDNS:
-            project: <your-gcp-project-id>
+            project: gddns-1041
             serviceAccountSecretRef:
               name: cert-manager-dns-token
               key: service-account.json
