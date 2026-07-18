@@ -91,6 +91,8 @@ load_env() {
             ;;
         vault)
             {
+                echo "export VAULT_ADDR=\"https://10.7.82.90:8200\""
+                echo "export VAULT_SKIP_VERIFY=\"true\""
                 vault_token="$(pass show fog/vault/root_token 2>/dev/null)"
                 if [ -n "$vault_token" ]; then
                     echo "export VAULT_TOKEN=\"$vault_token\""
