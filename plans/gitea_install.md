@@ -21,7 +21,7 @@ We will deploy Gitea using the official Helm chart inside a dedicated namespace 
 To avoid hardcoded credentials, we will configure a role in HashiCorp Vault that authorizes the `gitea` ServiceAccount to read Gitea secrets.
 
 ### Step 2.1: Update Terraform Vault Configuration
-We need to update [vault_config.tf](file:///home/nick/src/fog/cluster/vault_config.tf) to include the `gitea` namespace in the allowed Kubernetes Service Account namespaces:
+We need to update [vault_config.tf](file:///home/nick/src/fog/provision/vault_config.tf) to include the `gitea` namespace in the allowed Kubernetes Service Account namespaces:
 
 ```diff
  resource "vault_kubernetes_auth_backend_role" "app_role" {

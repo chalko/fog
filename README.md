@@ -5,7 +5,7 @@ Home lab Infrastructure as Code (IaC) configuration tracking repo for Proxmox VE
 ## Repository Structure
 
 - `bin/`: Utility scripts (e.g., environment loader)
-- `cluster/`: Declarative cluster infrastructure (Terraform provisioning Proxmox VMs and bootstrapping Talos Linux K8s nodes)
+- `provision/`: Declarative cluster infrastructure (Terraform provisioning Proxmox VMs and bootstrapping Talos Linux K8s nodes)
 - `docker/`: Docker Compose configurations and container definitions
 - `docs/`: Design documentation, hardware inventory, and system setup guides (e.g., [docs/vault.md](file:///home/nick/src/fog/docs/vault.md))
 - `k8s/`: Kubernetes manifests, Helm values, and GitOps configurations
@@ -33,7 +33,7 @@ This will:
 
 ## Cluster Deployment & Management
 
-The Kubernetes cluster is managed entirely using Terraform/OpenTofu inside the `cluster/` directory.
+The Kubernetes cluster is managed entirely using Terraform/OpenTofu inside the `provision/` directory.
 
 ### Quick Start
 1. Fetch and load credentials into your shell:
@@ -42,7 +42,7 @@ The Kubernetes cluster is managed entirely using Terraform/OpenTofu inside the `
    ```
 2. Navigate to the cluster directory, initialize, and deploy:
    ```bash
-   cd cluster
+   cd provision
    terraform init
    terraform apply
    ```
@@ -59,4 +59,14 @@ Once deployed, you can access the cluster using `kubectl` or `talosctl` from the
 export KUBECONFIG=$(pwd)/kubeconfig
 kubectl get nodes
 ```
+
+## Reference & Documentation
+
+For detailed information on design decisions, hardware setups, and operation procedures:
+
+- **Hardware Specifications**: See [docs/hardware.md](file:///home/nick/src/fog/docs/hardware.md) for details on the host node (`misty`).
+- **Secrets & Integration**: See [docs/vault.md](file:///home/nick/src/fog/docs/vault.md) for Vault setup, unsealing steps, and Kubernetes External Secrets configurations.
+- **Environment Management**: See [bin/load-env.sh](file:///home/nick/src/fog/bin/load-env.sh) for credential caching setup.
+- **Completed Infrastructure Milestones**: See [plans/completed/](file:///home/nick/src/fog/plans/completed) for historical blueprints (e.g., node sizing, DNS integration, and disk expansions).
+
 

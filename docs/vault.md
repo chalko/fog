@@ -79,7 +79,7 @@ Manifests: [k8s/vault-auth-setup.yaml](file:///home/nick/src/fog/k8s/vault-auth-
 The Kubernetes authentication method is enabled and managed via **Terraform**.
 - **Mount Path**: `kubernetes`
 - **K8s API Endpoint**: `https://10.7.82.15:6443`
-- **Configurations**: Managed inside [cluster/vault_config.tf](file:///home/nick/src/fog/cluster/vault_config.tf)
+- **Configurations**: Managed inside [provision/vault_config.tf](file:///home/nick/src/fog/provision/vault_config.tf)
 
 ### 3. External Secrets Operator (ESO)
 ESO runs inside Kubernetes to automatically fetch secrets from Vault and sync them as native Kubernetes `Secret` resources.
@@ -110,4 +110,32 @@ resource "vault_kubernetes_auth_backend_role" "app_role" {
   token_policies                   = ["k8s-read"]
 }
 ```
-This configuration is managed inside [cluster/vault_config.tf](file:///home/nick/src/fog/cluster/vault_config.tf).
+This configuration is managed inside [provision/vault_config.tf](file:///home/nick/src/fog/provision/vault_config.tf).
+
+---
+
+## Backup & Disaster Recovery
+
+Since Vault is deployed in an LXC container using a local filesystem storage backend (`/opt/vault/data`), backups must be scheduled at the host or container level.
+
+### 1. Proxmox VE Backups (Recommended)
+The primary backup mechanism is Proxmox VE's built-in backup tool (VZDump/PBS):
+- **Target**: LXC Container `9090` (`vault`).
+- **Mode**: `Snapshot` (allows zero-downtime hot backups).
+- **Schedule**: Automatically configured to back up to PBS or local-backup storage weekly.
+
+### 2. Manual Data Backups
+To take a manual snapshot of the encrypted Vault storage files directly:
+1. SSH to Proxmox VE host (`10.7.82.10`).
+2. Create a tarball of the data directory:
+   ```bash
+   pct exec 9090 -- tar -czf /tmp/vault-data-backup.tar.gz -C /opt/vault/data .
+   ```
+3. Copy the archive out of the container:
+   ```bash
+   pct pull 9090 /tmp/vault-data-backup.tar.gz ./vault-data-backup.tar.gz
+   ```
+
+> [!CAUTION]
+> The raw data backup is encrypted at rest using Vault's key ring. To restore and read this data, you **MUST** have the original unseal keys. Always ensure your unseal keys are securely backed up in `pass` before a recovery event.
+

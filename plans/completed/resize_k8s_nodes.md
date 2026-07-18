@@ -69,9 +69,9 @@ Since **misty** has 16GB of RAM, we must prevent ZFS from consuming too much mem
 ## Phase 4: Modify Terraform Configurations & Apply Resizing
 We will update the configurations to use `local-fast-zfs` as the datastore ID and apply the disk/RAM updates.
 
-1. **Variables File (`cluster/variables.tf`):** Update VM definitions to the new disk/RAM sizes.
-2. **VM Main File (`cluster/main.tf`):** Change `datastore_id` to `"local-fast-zfs"`.
-3. **Vault File (`cluster/vault.tf`):** Change `datastore_id` to `"local-fast-zfs"`, set memory dedicated to `1024`, and set disk size to `16`.
+1. **Variables File (`provision/variables.tf`):** Update VM definitions to the new disk/RAM sizes.
+2. **VM Main File (`provision/main.tf`):** Change `datastore_id` to `"local-fast-zfs"`.
+3. **Vault File (`provision/vault.tf`):** Change `datastore_id` to `"local-fast-zfs"`, set memory dedicated to `1024`, and set disk size to `16`.
 4. **Shutdown Kubernetes VMs:**
    ```bash
    ssh root@10.7.82.10 "qm shutdown 9010 && qm shutdown 9020"
