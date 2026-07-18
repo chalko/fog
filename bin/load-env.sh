@@ -7,7 +7,7 @@ mkdir -p "$SHM_DIR"
 chmod 700 "$SHM_DIR"
 
 # List of env files to manage
-ENVS=("proxmox" "docker" "k8s" "omni")
+ENVS=("proxmox" "docker" "k8s" "omni" "vault")
 
 # Check if pass is installed
 if ! command -v pass &> /dev/null; then
@@ -87,6 +87,14 @@ load_env() {
         k8s)
             {
                 echo "export KUBECONFIG=\"$(pass show fog/k8s/kubeconfig_path 2>/dev/null || echo "$HOME/.kube/config")\""
+            } > "$env_file"
+            ;;
+        vault)
+            {
+                vault_token="$(pass show fog/vault/root_token 2>/dev/null)"
+                if [ -n "$vault_token" ]; then
+                    echo "export VAULT_TOKEN=\"$vault_token\""
+                fi
             } > "$env_file"
             ;;
     esac
