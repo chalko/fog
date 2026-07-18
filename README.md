@@ -8,7 +8,9 @@ Home lab Infrastructure as Code (IaC) configuration tracking repo for Proxmox VE
 - `provision/`: Declarative cluster infrastructure (Terraform provisioning Proxmox VMs and bootstrapping Talos Linux K8s nodes)
 - `docker/`: Docker Compose configurations and container definitions
 - `docs/`: Design documentation, hardware inventory, and system setup guides (e.g., [docs/vault.md](file:///home/nick/src/fog/docs/vault.md))
-- `k8s/`: Kubernetes manifests, Helm values, and GitOps configurations
+- `infrastructure/`: Shared platform components (e.g., cert-manager, ingress-nginx, external-dns, external-secrets)
+- `apps/`: User-facing application deployments (e.g., gitea, capacitor)
+
 
 
 ## Secrets Management

@@ -73,7 +73,7 @@ pct exec 9090 -- env VAULT_ADDR=https://127.0.0.1:8200 VAULT_SKIP_VERIFY=true va
 
 ### 1. Token Reviewer RBAC
 A service account `vault-reviewer` in the `kube-system` namespace is granted the `system:auth-delegator` role. Vault uses this service account's token to query the Kubernetes API and verify the identity of pods requesting secrets.
-Manifests: [k8s/vault-auth-setup.yaml](file:///home/nick/src/fog/k8s/vault-auth-setup.yaml)
+Manifests: [vault-auth-setup.yaml](file:///home/nick/src/fog/infrastructure/base/vault-integration/vault-auth-setup.yaml)
 
 ### 2. Vault Kubernetes Auth Backend
 The Kubernetes authentication method is enabled and managed via **Terraform**.
@@ -85,7 +85,7 @@ The Kubernetes authentication method is enabled and managed via **Terraform**.
 ESO runs inside Kubernetes to automatically fetch secrets from Vault and sync them as native Kubernetes `Secret` resources.
 - **Helm Deployment**: Deployed in the `external-secrets` namespace.
 - **Trust Configuration**: The Vault self-signed certificate is stored in the K8s secret `vault-tls-ca` inside the `external-secrets` namespace.
-- **ClusterSecretStore**: The [k8s/vault-store.yaml](file:///home/nick/src/fog/k8s/vault-store.yaml) manifest configures the connection between ESO and Vault.
+- **ClusterSecretStore**: The [vault-store.yaml](file:///home/nick/src/fog/infrastructure/base/vault-integration/vault-store.yaml) manifest configures the connection between ESO and Vault.
 
 ---
 

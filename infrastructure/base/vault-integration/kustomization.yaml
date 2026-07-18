@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - dns-secrets.yaml
+  - vault-auth-setup.yaml
+  - vault-store.yaml
