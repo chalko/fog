@@ -9,7 +9,7 @@ env:
         key: password
 domainFilters:
   - "fog.chalko.com"
-policy: sync
+policy: upsert-only
 registry: noop
 txtOwnerId: "lodge-k8s-cluster"
 extraArgs:
