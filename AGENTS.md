@@ -21,4 +21,10 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
    - Always configure Talos Linux nodes to use **UEFI (`ovmf` bios)** and allocate an **EFI Disk** (`efi_disk` block) in the Proxmox VM resource configuration.
    - Assign static IPs and explicitly define default routes (`0.0.0.0/0`) and nameservers in the Talos configurations to ensure clock synchronization (`etcd` and `kubelet` require synchronized time).
    - Ensure `kubeconfig`, `talosconfig`, and intermediate `.yaml` configuration files are never committed to Git (validate they are git-ignored).
+4. **Directory Layout & GitOps Guidelines**:
+   - **`provision/`**: Contains only Terraform and Talos VM/Node level provisioning files.
+   - **`infrastructure/`**: Contains shared Kubernetes platform operators/controllers (e.g., `cert-manager`, `ingress-nginx`, `external-dns`, `vault-integration`).
+   - **`apps/`**: Contains user-facing application deployments (e.g., `gitea`, `capacitor`).
+   - **`clusters/`**: Contains only the core FluxCD GitOps entrypoint configurations. Do not put application manifests directly inside `clusters/`—instead, reference paths under `infrastructure/` or `apps/` using Flux Kustomizations.
+
 
