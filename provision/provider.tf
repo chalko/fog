@@ -20,6 +20,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.31.0"
     }
+    pihole = {
+      source  = "dklesev/pihole"
+      version = "~> 1.0"
+    }
   }
 }
 
@@ -45,4 +49,9 @@ provider "vault" {
 provider "kubernetes" {
   config_path = "${path.module}/../kubeconfig"
 }
+
+provider "pihole" {
+  # Reads PIHOLE_URL and PIHOLE_PASSWORD from environment variables
+}
+
 

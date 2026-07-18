@@ -7,7 +7,7 @@ mkdir -p "$SHM_DIR"
 chmod 700 "$SHM_DIR"
 
 # List of env files to manage
-ENVS=("proxmox" "docker" "k8s" "omni" "vault")
+ENVS=("proxmox" "docker" "k8s" "omni" "vault" "pihole")
 
 # Check if pass is installed
 if ! command -v pass &> /dev/null; then
@@ -97,6 +97,14 @@ load_env() {
                 if [ -n "$vault_token" ]; then
                     echo "export VAULT_TOKEN=\"$vault_token\""
                 fi
+            } > "$env_file"
+            ;;
+        pihole)
+            {
+                url="$(pass show fog/pihole/url 2>/dev/null || echo 'http://10.5.110.3')"
+                password="$(pass show lodge/heihei/pihole-app 2>/dev/null)"
+                echo "export PIHOLE_URL=\"$url\""
+                echo "export PIHOLE_PASSWORD=\"$password\""
             } > "$env_file"
             ;;
     esac
