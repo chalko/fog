@@ -26,7 +26,8 @@ spec:
       gpu:
         enabled: false
       models:
-        - llama3.2:1b
+        pull:
+          - llama3.2:1b
         
     persistentVolume:
       enabled: true
