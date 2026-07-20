@@ -35,6 +35,7 @@ spec:
       runAsUser: 0
       runAsNonRoot: false
       allowPrivilegeEscalation: true
+      readOnlyRootFilesystem: false
     persistence:
       enabled: true
       storageClass: local-path
