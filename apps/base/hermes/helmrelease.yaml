@@ -45,12 +45,12 @@ spec:
       HERMES_DASHBOARD_PORT: "9119"
     extraEnv:
       - name: HERMES_DASHBOARD_BASIC_AUTH_USERNAME
-        value: "admin"
+        value: "nick"
       - name: HERMES_DASHBOARD_BASIC_AUTH_PASSWORD
         valueFrom:
           secretKeyRef:
             name: hermes-secrets
-            key: API_SERVER_KEY
+            key: DASHBOARD_PASSWORD
     extraVolumes:
       - name: run-dir
         emptyDir: {}
