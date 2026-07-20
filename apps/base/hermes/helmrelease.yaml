@@ -43,7 +43,14 @@ spec:
       HERMES_DASHBOARD: "true"
       HERMES_DASHBOARD_HOST: "0.0.0.0"
       HERMES_DASHBOARD_PORT: "9119"
-      HERMES_DASHBOARD_INSECURE: "true"
+    extraEnv:
+      - name: HERMES_DASHBOARD_BASIC_AUTH_USERNAME
+        value: "admin"
+      - name: HERMES_DASHBOARD_BASIC_AUTH_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: hermes-secrets
+            key: API_SERVER_KEY
     extraVolumes:
       - name: run-dir
         emptyDir: {}
