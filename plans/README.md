@@ -6,6 +6,7 @@ This directory tracks decisions, architectures, and implementation steps for boo
 
 1. **Proxmox VE Setup**:
    - Provisioning Virtual Machines (VMs) and Containers (LXCs) declaratively (e.g., via Terraform/OpenTofu).
+   - [proxmox_wiki_nfs_share.md](proxmox_wiki_nfs_share.md) - Plan to create a ZFS-backed NFS share for hosting the user's Obsidian wiki on Proxmox.
 2. **Docker Hosts**:
    - Defining multi-container stacks using Docker Compose.
 3. **Kubernetes Cluster**:
