@@ -31,9 +31,8 @@ spec:
     config:
       values:
         model:
-          default: gemini-flash
-          provider: custom
-          base_url: http://litellm.litellm.svc.cluster.local:4000/v1
+          default: gemini-3.5-flash
+          provider: gemini
     extraVolumes:
       - name: run-dir
         emptyDir: {}
@@ -81,11 +80,3 @@ spec:
         - hosts:
             - hermes.fog.chalko.com
           secretName: hermes-tls
-    extraEnv:
-      - name: OPENAI_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: hermes-secrets
-            key: openai-api-key
-      - name: OPENAI_BASE_URL
-        value: "http://litellm.litellm.svc.cluster.local:4000/v1"
