@@ -5,3 +5,5 @@ resources:
   - secrets.yaml
   - gitrepository.yaml
   - helmrelease.yaml
+  - dashboard-ingress.yaml
+
