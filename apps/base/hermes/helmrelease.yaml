@@ -18,6 +18,8 @@ spec:
     apiServer:
       enabled: true
       port: 8642
+    secrets:
+      existingSecret: hermes-secrets
     persistence:
       enabled: true
       storageClass: local-path
