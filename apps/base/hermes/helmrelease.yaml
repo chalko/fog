@@ -15,12 +15,20 @@ spec:
     image:
       repository: nousresearch/hermes-agent
       tag: latest
+    apiServer:
+      enabled: true
+      port: 8642
     persistence:
       enabled: true
       storageClass: local-path
       size: 10Gi
     service:
       enabled: true
+      ports:
+        - name: api
+          port: 80
+          targetPort: 8642
+          protocol: TCP
     ingress:
       enabled: true
       className: nginx
