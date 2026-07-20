@@ -33,6 +33,7 @@ spec:
         model:
           default: gemini-3.5-flash
           provider: gemini
+          base_url: https://generativelanguage.googleapis.com/v1beta
     extraVolumes:
       - name: run-dir
         emptyDir: {}
