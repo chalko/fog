@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: hermes-agent-chart
+  namespace: hermes
+spec:
+  interval: 1h
+  url: https://github.com/ultraworkers/hermes-agent-helm-chart.git
+  ref:
+    branch: main
