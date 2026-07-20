@@ -68,6 +68,7 @@ spec:
           - CHOWN
           - SETUID
           - SETGID
+          - DAC_OVERRIDE
     persistence:
       enabled: true
       storageClass: local-path
