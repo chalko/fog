@@ -54,9 +54,15 @@ spec:
     extraVolumes:
       - name: run-dir
         emptyDir: {}
+      - name: wiki-volume
+        nfs:
+          server: 10.7.82.10
+          path: /local-fast-zfs/users/nick/wiki
     extraVolumeMounts:
       - name: run-dir
         mountPath: /run
+      - name: wiki-volume
+        mountPath: /opt/data/wiki
     podSecurityContext:
       runAsUser: 0
       runAsGroup: 0
