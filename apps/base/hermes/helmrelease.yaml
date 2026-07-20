@@ -21,12 +21,19 @@ spec:
     secrets:
       existingSecret: hermes-secrets
     bootstrap:
-      enabled: false
+      enabled: true
+      overwrite: true
       securityContext:
         runAsUser: 0
         runAsGroup: 0
         runAsNonRoot: false
         allowPrivilegeEscalation: true
+    config:
+      values:
+        model:
+          default: gemini-flash
+          provider: openai
+          base_url: http://litellm.litellm.svc.cluster.local:4000/v1
     extraVolumes:
       - name: run-dir
         emptyDir: {}
