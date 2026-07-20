@@ -35,7 +35,8 @@ spec:
         mountPath: /run
     podSecurityContext:
       runAsUser: 0
-      runAsGroup: 0
+      runAsGroup: 10000
+      fsGroup: 10000
       runAsNonRoot: false
     securityContext:
       runAsUser: 0
