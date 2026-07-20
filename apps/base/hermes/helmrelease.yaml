@@ -32,8 +32,9 @@ spec:
       values:
         model:
           default: gemini-flash
-          provider: openai
+          provider: custom
           base_url: http://litellm.litellm.svc.cluster.local:4000/v1
+          api_key: "os.environ/OPENAI_API_KEY"
     extraVolumes:
       - name: run-dir
         emptyDir: {}
