@@ -9,6 +9,7 @@ This document details three hardware tiers for building a local GPU-accelerated 
 All components are selected to handle high electrical load and fit the physical dimensions of dual-GPU setups.
 
 ### Build B: The Budget Build (Total: ~$2,000)
+
 *Designed for high-speed execution of smaller models (8B).*
 
 * **GPUs**: 2x Nvidia RTX 4070 SUPER 12GB (Total 24 GB VRAM) — **$1,200**
@@ -20,6 +21,7 @@ All components are selected to handle high electrical load and fit the physical 
 * **Case & Cooling**: Fractal Design Pop XL Air + Noctua air cooler — **$140**
 
 ### Build A: The Sweet Spot (Total: ~$3,000)
+
 *Designed to run medium-sized reasoning models (32B) at high speed.*
 
 * **GPUs**: 2x Nvidia RTX 4080 SUPER 16GB (Total 32 GB VRAM) — **$2,000**
@@ -31,6 +33,7 @@ All components are selected to handle high electrical load and fit the physical 
 * **Case & Cooling**: Fractal Design Torrent + 360mm Liquid AIO — **$280**
 
 ### Build C: The Flagship Build (Total: ~$4,200)
+
 *Designed to run large local models (70B) at comfortable reading speeds.*
 
 * **GPUs**: 2x Nvidia RTX 4090 24GB (Total 48 GB VRAM) — **$3,200**
@@ -104,5 +107,6 @@ This compares the local token cost against Google Gemini API's **Blended Rate** 
 
 > [!TIP]
 > **Summary Decision Matrix**:
+>
 > * Under **4-hour loads**, using cloud APIs is more cost-effective for larger models.
 > * Under **16-hour loads**, the local homelab hardware **saves money on every token** across all tiers, with Build B running 3.5x cheaper than Gemini Flash, and Build C beating Gemini Pro.
