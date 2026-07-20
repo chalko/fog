@@ -27,14 +27,16 @@ spec:
             - name: OLLAMA_BASE_URL
               value: "http://ollama.ollama.svc.cluster.local:11434"
             
-            # LiteLLM Connection (for Gemini models)
-            - name: OPENAI_API_BASE_URL
-              value: "http://litellm.litellm.svc.cluster.local:4000/v1"
-            - name: OPENAI_API_KEY
+            # LiteLLM & Hermes Agent Connections
+            - name: LITELLM_KEY
               valueFrom:
                 secretKeyRef:
                   name: open-webui-secrets
                   key: litellm-master-key
+            - name: OPENAI_API_BASE_URLS
+              value: "http://litellm.litellm.svc.cluster.local:4000/v1;http://hermes-hermes-agent.hermes.svc.cluster.local:80/v1"
+            - name: OPENAI_API_KEYS
+              value: "$(LITELLM_KEY);$(LITELLM_KEY)"
 
             # Google OAuth2 Authentication
             - name: ENABLE_OAUTH_SIGNUP
