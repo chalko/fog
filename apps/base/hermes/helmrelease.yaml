@@ -27,6 +27,12 @@ spec:
         runAsGroup: 0
         runAsNonRoot: false
         allowPrivilegeEscalation: true
+    extraVolumes:
+      - name: run-dir
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: run-dir
+        mountPath: /run
     podSecurityContext:
       runAsUser: 0
       runAsGroup: 0
