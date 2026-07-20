@@ -6,7 +6,7 @@ This document tracks the deployment and configuration details of the **Nous Rese
 
 - **Namespace**: `hermes`
 - **Deployment Manifest Location**: [`apps/base/hermes/`](file:///home/nick/src/fog/apps/base/hermes/)
-- **Docker Image**: `ghcr.io/nousresearch/hermes-agent:latest`
+- **Docker Image**: `nousresearch/hermes-agent:latest` (Docker Hub)
 - **Default Port**: `8642` (exposed internally as a ClusterIP service on port `80` and externally via Nginx Ingress)
 
 ## Network Access

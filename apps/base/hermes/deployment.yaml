@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: hermes
-          image: ghcr.io/nousresearch/hermes-agent:latest
+          image: nousresearch/hermes-agent:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8642
