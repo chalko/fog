@@ -36,11 +36,8 @@ spec:
         model:
           default: grok-2
           provider: openai
-          base_url: http://litellm.litellm.svc.cluster.local:4000/v1
+          base_url: https://api.x.ai/v1
           context_length: 131072
-        fallback_model:
-          provider: gemini
-          model: gemini-2.5-flash
     env:
       HERMES_UID: "1000"
       HERMES_GID: "1000"
