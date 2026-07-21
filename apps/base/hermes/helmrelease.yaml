@@ -35,8 +35,7 @@ spec:
       values:
         model:
           default: grok-2
-          provider: openai
-          base_url: https://api.x.ai/v1
+          provider: xai-oauth
           context_length: 131072
     env:
       HERMES_UID: "1000"
