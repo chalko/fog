@@ -34,9 +34,12 @@ spec:
     config:
       values:
         model:
-          default: gemini-3.5-flash
+          default: llama3.2:1b
+          provider: ollama
+          base_url: http://ollama.ollama.svc.cluster.local:11434/v1
+        fallback_model:
           provider: gemini
-          base_url: https://generativelanguage.googleapis.com/v1beta
+          model: gemini-2.5-flash
     env:
       HERMES_UID: "1000"
       HERMES_GID: "1000"
