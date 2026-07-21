@@ -28,6 +28,7 @@ spec:
       models:
         pull:
           - llama3.2:1b
+          - qwen2.5-coder:7b
         
     persistentVolume:
       enabled: true
