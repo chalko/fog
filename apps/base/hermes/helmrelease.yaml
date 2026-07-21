@@ -34,7 +34,7 @@ spec:
     config:
       values:
         model:
-          default: grok-2
+          default: grok-4.5
           provider: xai-oauth
           context_length: 131072
     env:
