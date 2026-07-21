@@ -34,7 +34,7 @@ spec:
     config:
       values:
         model:
-          default: qwen2.5-coder:7b
+          default: llama3.2:1b
           provider: ollama
           base_url: http://ollama.ollama.svc.cluster.local:11434/v1
           context_length: 65536
