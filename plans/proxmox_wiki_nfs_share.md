@@ -29,9 +29,10 @@ Run the following commands as `root` on the Proxmox host (`misty` / `10.7.82.10`
 
 ### Phase B: NFS Sharing & Security
 1. **Set the ZFS NFS sharing properties:**
-   Expose the dataset read-write specifically to the local network subnet, disabling root squashing so the Kubernetes pod can handle ownership mapping cleanly:
+   Expose the dataset read-write specifically to the designated local client IPs or subnet, mapping all connecting users to standard user UID/GID 1000 to maintain clean permission ownership:
    ```bash
-   zfs set sharenfs="rw=@10.7.82.0/24,no_root_squash,async" local-fast-zfs/users/nick/wiki
+   # Expose to specific client IPs (e.g., laptop 10.7.82.50 and K8s nodes 10.7.82.15 / 10.7.82.16)
+   zfs set sharenfs="rw=@10.7.82.15:10.7.82.16:10.7.82.50,all_squash,anonuid=1000,anongid=1000,async" local-fast-zfs/users/nick/wiki
    ```
 
 2. **Verify the NFS export:**
@@ -43,9 +44,10 @@ Run the following commands as `root` on the Proxmox host (`misty` / `10.7.82.10`
 
 ### Phase C: Ownership and Permissions
 1. **Assign permissions to UID/GID 1000 (standard user `nick`):**
+   Restrict directory access strictly to the owner and group:
    ```bash
    chown -R 1000:1000 /local-fast-zfs/users/nick/wiki
-   chmod 775 /local-fast-zfs/users/nick/wiki
+   chmod 770 /local-fast-zfs/users/nick/wiki
    ```
 
 2. **Seed Initial Content (Optional):**
