@@ -37,6 +37,7 @@ spec:
           default: qwen2.5-coder:7b
           provider: ollama
           base_url: http://ollama.ollama.svc.cluster.local:11434/v1
+          context_length: 65536
         fallback_model:
           provider: gemini
           model: gemini-2.5-flash
