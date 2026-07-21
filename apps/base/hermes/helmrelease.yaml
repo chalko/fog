@@ -36,7 +36,6 @@ spec:
         model:
           default: grok-4.5
           provider: xai-oauth
-          context_length: 131072
     env:
       HERMES_UID: "1000"
       HERMES_GID: "1000"
