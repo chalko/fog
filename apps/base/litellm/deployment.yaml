@@ -33,6 +33,11 @@ spec:
                 secretKeyRef:
                   name: litellm-secrets
                   key: gemini-api-key
+            - name: XAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: litellm-secrets
+                  key: xai-api-key
             - name: LITELLM_MASTER_KEY
               valueFrom:
                 secretKeyRef:

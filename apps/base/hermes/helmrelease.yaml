@@ -34,10 +34,10 @@ spec:
     config:
       values:
         model:
-          default: llama3.2:1b
-          provider: ollama
-          base_url: http://ollama.ollama.svc.cluster.local:11434/v1
-          context_length: 65536
+          default: grok-2
+          provider: openai
+          base_url: http://litellm.litellm.svc.cluster.local:4000/v1
+          context_length: 131072
         fallback_model:
           provider: gemini
           model: gemini-2.5-flash
@@ -55,6 +55,11 @@ spec:
           secretKeyRef:
             name: hermes-secrets
             key: DASHBOARD_PASSWORD
+      - name: OPENAI_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: hermes-secrets
+            key: OPENAI_API_KEY
     extraVolumes:
       - name: run-dir
         emptyDir: {}
