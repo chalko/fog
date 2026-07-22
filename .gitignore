@@ -29,6 +29,6 @@ worker.yaml
 talosconfig
 kubeconfig
 
-
-
-
+# Python compilation artifacts
+__pycache__/
+*.pyc
