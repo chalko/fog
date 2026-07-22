@@ -9,7 +9,7 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
 1. **Secrets Management**:
    - Never commit plaintext secrets to this repository.
    - Use `pass` (password-store) to manage host-level and bootstrap secrets.
-   - Use cache files in `/dev/shm/fog/*.env` for active shell sessions to avoid tapping the YubiKey repeatedly.
+   - Use cache files in `/dev/shm/fog/*.env` for active shell sessions to avoid tapping the YubiKey repeatedly. Always source [bin/load-env.sh](bin/load-env.sh) (e.g., `source bin/load-env.sh`) to populate and load these environment configurations from `pass` before running deployment commands or interacting with hosts.
    - Use HashiCorp Vault (`https://10.7.82.90:8200`) as the centralized runtime secrets store for Kubernetes.
    - Manage all Vault policies, authentication backends, and role bindings declaratively in Terraform (`provision/vault_config.tf`).
    - Use the External Secrets Operator (ESO) via `ExternalSecret` manifests to sync secrets from Vault into K8s namespaces. Avoid writing static secrets in Git.

@@ -27,7 +27,7 @@ variable "k8s_nodes" {
   }))
   default = {
     "k8s-control-01" = { vmid = 9010, cores = 2, memory = 4096, disk = 40, ip = "10.7.82.15", mac = "BC:24:11:21:FD:75" }
-    "k8s-worker-01"  = { vmid = 9020, cores = 4, memory = 10240, disk = 150, ip = "10.7.82.16", mac = "BC:24:11:6F:84:D1" }
+    "k8s-worker-01"  = { vmid = 9020, cores = 4, memory = 20480, disk = 150, ip = "10.7.82.16", mac = "BC:24:11:6F:84:D1" }
   }
   description = "Map of Kubernetes nodes to deploy on Proxmox"
 }
