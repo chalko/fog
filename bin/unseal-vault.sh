@@ -2,7 +2,7 @@
 # Script to unseal HashiCorp Vault using keys retrieved from password-store.
 # This requires sourcing the Vault environment variables first.
 
-VAULT_ENV="/dev/shm/fog/vault.env"
+VAULT_ENV="/dev/shm/fog/vault-secret.env"
 
 if [ -f "$VAULT_ENV" ]; then
     echo "Loading Vault environment from $VAULT_ENV..."

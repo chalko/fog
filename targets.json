@@ -1,0 +1,44 @@
+{
+  "proxmox": {
+    "secrets": [
+      {
+        "var": "PM_API_TOKEN_SECRET",
+        "source": "pass",
+        "key": "fog/proxmox/api_token_secret"
+      }
+    ],
+    "composites": [
+      {
+        "var": "PROXMOX_VE_API_TOKEN",
+        "template": "${PM_API_TOKEN_ID}=${PM_API_TOKEN_SECRET}"
+      }
+    ]
+  },
+  "omni": {
+    "secrets": [
+      {
+        "var": "OMNI_SERVICE_ACCOUNT_KEY",
+        "source": "pass",
+        "key": "fog/omni/service_account_key"
+      }
+    ]
+  },
+  "vault": {
+    "secrets": [
+      {
+        "var": "VAULT_TOKEN",
+        "source": "pass",
+        "key": "fog/vault/root_token"
+      }
+    ]
+  },
+  "pihole": {
+    "secrets": [
+      {
+        "var": "PIHOLE_PASSWORD",
+        "source": "pass",
+        "key": "lodge/heihei/pihole-app"
+      }
+    ]
+  }
+}
