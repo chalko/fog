@@ -21,9 +21,11 @@ the home lab.
 | VMID   | VM/LXC Name     | Type       | Cores | RAM   | Rationale                             |
 | :----- | :-------------- | :--------- | :---- | :---- | :------------------------------------ |
 | **9010**| `k8s-control-01`| VM (Talos) | 2     | 4 GB  | Control plane (etcd, k8s API).        |
-| **9020**| `k8s-worker-01` | VM (Talos) | 2     | 20 GB | App host (Gitea, Postgres, Ollama).  |
+| **9020**| `k8s-worker-01` | VM (Talos) | 4     | 8 GB  | App host (Gitea, Postgres, etc.).     |
 | **9090**| `vault`         | LXC        | 1     | 1 GB  | External Vault. Low usage (~50 MB).   |
+| **9100**| `ollama`        | LXC        | 4     | 12 GB | Dedicated standalone Ollama host.     |
 | -      | *ZFS ARC*       | Cache      | -     | 4 GB  | Memory-capped pool for read cache.    |
 | -      | *Host Overhead* | OS Buffer  | -     | 0.4 GB| Leftover pool for Proxmox services.   |
 
 *Total Physical RAM Split*: 32 GB total = 2.6 GB Proxmox Host GPU/Kernel reservation + 29.4 GB allocated (25 GB VM/LXC + 4.4 GB ZFS/Host services).
+

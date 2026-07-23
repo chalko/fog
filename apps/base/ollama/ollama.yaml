@@ -1,61 +1,52 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: otwld-charts
-  namespace: ollama
-spec:
-  interval: 1h
-  url: https://helm.otwld.com/
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
+apiVersion: v1
+kind: Service
 metadata:
   name: ollama
   namespace: ollama
 spec:
-  interval: 10m
-  chart:
-    spec:
-      chart: ollama
-      version: 1.67.0
-      sourceRef:
-        kind: HelmRepository
-        name: otwld-charts
-  values:
-    ollama:
-      gpu:
-        enabled: false
-      models:
-        pull:
-          - llama3.2:1b
-          - qwen2.5-coder:7b
-        
-    persistentVolume:
-      enabled: true
-      storageClass: "local-path"
-      size: 30Gi
-      accessModes:
-        - ReadWriteOnce
-
-    resources:
-      requests:
-        cpu: "500m"
-        memory: "2Gi"
-      limits:
-        cpu: "4000m"
-        memory: "7Gi"
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      hosts:
-        - host: ollama.fog.chalko.com
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - ollama.fog.chalko.com
-          secretName: ollama-tls
+  ports:
+    - name: http
+      port: 11434
+      targetPort: 11434
+      protocol: TCP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ollama
+  namespace: ollama
+subsets:
+  - addresses:
+      - ip: 10.7.82.100
+    ports:
+      - name: http
+        port: 11434
+        protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ollama
+  namespace: ollama
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "8g"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ollama.fog.chalko.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ollama
+                port:
+                  number: 11434
+  tls:
+    - hosts:
+        - ollama.fog.chalko.com
+      secretName: ollama-tls

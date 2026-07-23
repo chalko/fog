@@ -5,6 +5,11 @@
         "var": "PM_API_TOKEN_SECRET",
         "source": "pass",
         "key": "fog/proxmox/api_token_secret"
+      },
+      {
+        "var": "PM_API_TOKEN_ID",
+        "source": "pass",
+        "key": "fog/proxmox/api_token_id"
       }
     ],
     "composites": [
