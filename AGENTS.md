@@ -14,6 +14,7 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
    - Manage all Vault policies, authentication backends, and role bindings declaratively in Terraform (`provision/vault_config.tf`).
    - Use the External Secrets Operator (ESO) via `ExternalSecret` manifests to sync secrets from Vault into K8s namespaces. Avoid writing static secrets in Git.
    - If Vault is restarted, manually unseal it using [bin/unseal-vault.sh](bin/unseal-vault.sh) (which prompts for YubiKey taps to fetch unseal keys from `pass`).
+   - **Do not** attempt to extract, decode, or display sensitive secrets or tokens from the cluster (e.g. running `kubectl get secret -o jsonpath="..." | base64 --decode`).
 2. **Infrastructure as Code (IaC)**:
    - Prefer declarative structures (Terraform, Ansible, Kubernetes YAML, Docker Compose).
 3. **Cluster & Talos Management**:
