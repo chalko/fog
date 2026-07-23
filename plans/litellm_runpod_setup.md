@@ -74,15 +74,10 @@ model_list:
     litellm_params:
       model: gemini/gemini-3.5-pro
       api_key: os.environ/GEMINI_API_KEY
-  - model_name: executive-tier-backup
-    litellm_params:
-      model: anthropic/claude-3-5-sonnet-20241022
-      api_key: os.environ/ANTHROPIC_API_KEY
 
 router_settings:
   fallbacks:
     - worker-tier: ["utility-tier", "executive-tier"]
-    - executive-tier: ["executive-tier-backup"]
   num_retries: 2
   retry_after: 5
 

@@ -12,7 +12,7 @@ We will configure LiteLLM with three distinct tiers:
 | :--- | :--- | :--- | :--- | :--- |
 | **Tier 1 (Utility)** | `utility-tier` | Proxmox LXC (`ollama.fog.chalko.com`) | `llama3.2:1b`, `nomic-embed-text` (embeddings, routing, formatting) | $0.00 / mo |
 | **Tier 2 (Worker)** | `worker-tier` | Rented GPU (RunPod/Vast.ai via Tailscale) | `qwen2.5-coder:32b` or `llama3-70b` (Gas Town Polecats, code generation) | ~$0.40 - $0.70 / hr |
-| **Tier 3 (Executive)**| `executive-tier`| Frontier APIs (Gemini 3.5 Pro / Claude 3.5) | High-level orchestration (Gas Town Mayor, Hermes main agent) | Pay-per-token API |
+| **Tier 3 (Executive)**| `executive-tier`| Frontier APIs (Gemini 3.5 Pro / Grok) | High-level orchestration (Gas Town Mayor, Hermes main agent) | Pay-per-token API |
 
 ---
 
@@ -23,7 +23,6 @@ We will configure LiteLLM with three distinct tiers:
 2.  **Define Environment Variables**: Ensure Vault has keys populated for:
     *   `gemini_api_key`
     *   `xai_api_key`
-    *   `anthropic_api_key`
 3.  **Deploy Changes**: Commit the modified `configmap.yaml` and reconcile Flux.
 
 ### Phase 2: Rented GPU (RunPod) Provisioning
