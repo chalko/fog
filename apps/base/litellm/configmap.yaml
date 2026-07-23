@@ -6,6 +6,23 @@ metadata:
 data:
   config.yaml: |
     model_list:
+      # Logical Tiers
+      - model_name: utility-tier
+        litellm_params:
+          model: ollama/llama3.2:1b
+          api_base: https://ollama.fog.chalko.com
+      - model_name: worker-tier
+        litellm_params:
+          model: openai/qwen2.5-coder-32b
+          api_base: http://gpu-node-1.tailnet.net:8000/v1
+          api_key: "os.environ/WORKER_GPU_API_KEY" # Optional, if set in remote vLLM
+          timeout: 60
+      - model_name: executive-tier
+        litellm_params:
+          model: gemini/gemini-3.5-pro
+          api_key: "os.environ/GEMINI_API_KEY"
+      
+      # Legacy / Specific Models (Backwards Compatibility)
       - model_name: gemini-flash
         litellm_params:
           model: gemini/gemini-3.5-flash
@@ -27,5 +44,11 @@ data:
           model: ollama/llama3.2:1b
           api_base: https://ollama.fog.chalko.com
     
+    router_settings:
+      fallbacks:
+        - worker-tier: ["utility-tier", "executive-tier"]
+      num_retries: 2
+      retry_after: 5
+      
     general_settings:
       master_key: "os.environ/LITELLM_MASTER_KEY"
