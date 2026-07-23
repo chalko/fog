@@ -147,3 +147,34 @@ If you are considering renting a cloud GPU with equivalent VRAM (like an A100 40
   * **Expensive at Scale**: Leaving a server running 24/7 or running continuous daily training loops gets expensive very fast.
   * **Cold Starts & Storage Costs**: You pay for storage even when the instance is turned off, and booting up can take a few minutes as weights are loaded.
   * **Security**: Not ideal for sensitive/private data without paying a premium for secure enterprise cloud zones.
+
+---
+
+## 6. Homelab Power Limits & Multi-GPU Practicality
+
+> [!WARNING]
+> **Electrical limits are the most common pitfall in home lab environments.** 
+> Care must be taken not to exceed the capacities of standard household electrical breakers when scaling GPU nodes.
+
+### A. The 80% Rule of Household Circuits
+In the US, standard rooms are typically wired with **15 Amp / 120 Volt** circuit breakers. 
+*   **Peak Capacity:** $15\text{A} \times 120\text{V} = 1,800\text{W}$ (Absolute limit before the breaker trips).
+*   **Continuous Safe Capacity (80% Rule):** **1,440W** (Maximum draw recommended for continuous operations like model training or rendering).
+
+### B. Power Draw by GPU Quantity (RTX 4090 Examples)
+Estimated power draw under load (including a high-end Ryzen 9 CPU and system overhead):
+
+*   **1x GPU System:** ~550W – 600W under load. (Extremely safe for any household outlet).
+*   **2x GPU System (Build C):** ~1,000W – 1,100W under load. (Fully safe for a standard 15A outlet; leaves room for a monitor and laptop charger on the same circuit).
+*   **3x GPU System:** ~1,500W+ under load. (**Exceeds safe continuous limits of a 15A outlet.** Requires a dedicated 20A circuit or software power limits).
+*   **4x GPU System:** ~2,000W+ under load. (**Trips standard 15A circuit breakers instantly.** Requires dual power supplies and separate circuits or dedicated electrical work).
+
+### C. Multi-Node Restrictions
+You **cannot** run two 2-GPU systems (such as two Build C machines) on the same circuit breaker. Under simultaneous heavy load, they will draw **~2,000W – 2,200W**, overloading even a 20A circuit (which maxes out at 1,920W continuous). Multiple nodes must be physically distributed across outlets on separate breakers.
+
+### D. Summary Recommendation
+For homelab tower setups, **capping the node ceiling at 2 GPUs** is the most practical choice. It offers:
+1.  **Zero electrical configuration:** Runs on standard outlets with no risk of tripping breakers.
+2.  **No software tuning required:** No need to force power limits or throttle performance.
+3.  **Low noise & thermal footprint:** Fits inside standard tower cases with air/AIO cooling without heating up a room like a space heater.
+
