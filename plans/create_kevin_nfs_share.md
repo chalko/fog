@@ -32,9 +32,9 @@ zfs set quota=500G local-fast-zfs/kevin
 ```
 
 ### Step 2: Configure ZFS NFS Share
-Set the ZFS `sharenfs` property to share the dataset read-write with both the `fog` and `lodge` subnets. We map all incoming requests to UID/GID `1000` to prevent root permission conflicts on client mounts:
+Set the ZFS `sharenfs` property to share the dataset read-write with both the `fog` and `lodge` subnets. We map all incoming requests to UID/GID `1000` to prevent root permission conflicts on client mounts. The `insecure` flag is included to allow macOS clients (like Finder) to connect from non-privileged ports:
 ```bash
-zfs set sharenfs="rw=@10.7.82.0/24:@10.5.110.0/24,all_squash,anonuid=1000,anongid=1000,async" local-fast-zfs/kevin
+zfs set sharenfs="rw=@10.7.82.0/24:@10.5.110.0/24,all_squash,anonuid=1000,anongid=1000,async,insecure" local-fast-zfs/kevin
 ```
 
 ### Step 3: Set Directory Permissions
@@ -88,6 +88,6 @@ For macOS clients, NFS mounts require the `resvport` option if the server requir
     # Create the mount point in your home directory
     mkdir -p ~/kevin
     
-    # Mount the volume (resvport is highly recommended on macOS)
+    # Mount the volume
     sudo mount -t nfs -o rw,soft,intr,resvport,locallocks misty.fog.chalko.com:/local-fast-zfs/kevin ~/kevin
     ```
