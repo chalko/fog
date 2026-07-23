@@ -2,7 +2,7 @@
 
 This plan outlines the steps to create a new ZFS dataset named `kevin` from the `local-fast-zfs` pool on the Proxmox VE host (`misty`, `10.7.82.10`), configure it as an NFS share, and export it.
 
-As per your requirements, there is **no need to isolate or protect the data**, so we will authorize access to both the **fog** (`10.7.82.0/24`) and **lodge** (`10.5.110.0/24`) networks, mapping connections to a standard user for clean file permissions. We also limit the share size to **0.5T (500G)**.
+As per your requirements, there is **no need to isolate or protect the data**, so we will authorize access to the **fog** (`10.7.82.0/24`), **lodge** (`10.5.110.0/24`), and **client** (`10.111.45.0/24`) networks, mapping connections to a standard user for clean file permissions. We also limit the share size to **0.5T (500G)**.
 
 ---
 
@@ -16,6 +16,7 @@ As per your requirements, there is **no need to isolate or protect the data**, s
 *   **Allowed Network Subnets:** 
     *   **fog network:** `10.7.82.0/24`
     *   **lodge network:** `10.5.110.0/24`
+    *   **client network:** `10.111.45.0/24` (includes laptop/iMac)
 *   **Ownership User/Group:** `nick:nick` (UID `1000`, GID `1000` - matching existing user permissions to ensure trouble-free access)
 
 ---
@@ -32,9 +33,9 @@ zfs set quota=500G local-fast-zfs/kevin
 ```
 
 ### Step 2: Configure ZFS NFS Share
-Set the ZFS `sharenfs` property to share the dataset read-write with both the `fog` and `lodge` subnets. We map all incoming requests to UID/GID `1000` to prevent root permission conflicts on client mounts. The `insecure` flag is included to allow macOS clients (like Finder) to connect from non-privileged ports:
+Set the ZFS `sharenfs` property to share the dataset read-write with the authorized subnets. We map all incoming requests to UID/GID `1000` to prevent root permission conflicts on client mounts. The `insecure` flag allows macOS clients (like Finder) to connect from non-privileged ports:
 ```bash
-zfs set sharenfs="rw=@10.7.82.0/24:@10.5.110.0/24,all_squash,anonuid=1000,anongid=1000,async,insecure" local-fast-zfs/kevin
+zfs set sharenfs="rw=@10.7.82.0/24:@10.5.110.0/24:@10.111.45.0/24,all_squash,anonuid=1000,anongid=1000,async,insecure" local-fast-zfs/kevin
 ```
 
 ### Step 3: Set Directory Permissions
