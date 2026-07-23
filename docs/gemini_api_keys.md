@@ -19,8 +19,8 @@ The Gemini API Key (`GEMINI_API_KEY`) is generated via **Google AI Studio** and 
 *   **Active GCP Project**: `lodge-network` (used for local systems and resource integrations)
 *   **Alternative GCP DNS Project**: `gddns-1041` (used strictly for CloudDNS API letsencrypt solvers)
 
-The value starting with `AQ.Ab8RN6...` is a standard Google AI Studio API key used directly with Gemini's Developer API endpoints.
-*   **Verification (Last 4 Characters)**: `K87A`
+The active Google AI Studio API key used with Gemini's Developer API endpoints is masked for security.
+*   **Key Verification (Last 4 Characters)**: `...K87A`
 
 ---
 
