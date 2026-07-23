@@ -25,7 +25,7 @@ data:
       - model_name: llama3.2
         litellm_params:
           model: ollama/llama3.2:1b
-          api_base: http://ollama.ollama.svc.cluster.local:11434
+          api_base: https://ollama.fog.chalko.com
     
     general_settings:
       master_key: "os.environ/LITELLM_MASTER_KEY"
