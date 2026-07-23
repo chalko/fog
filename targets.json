@@ -45,5 +45,15 @@
         "key": "lodge/heihei/pihole-app"
       }
     ]
+  },
+  "litellm": {
+    "secrets": [
+      {
+        "var": "LITELLM_MASTER_KEY",
+        "source": "vault",
+        "key": "secret/app/litellm",
+        "field": "master_key"
+      }
+    ]
   }
 }
