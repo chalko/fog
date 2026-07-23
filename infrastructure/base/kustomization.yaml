@@ -5,3 +5,4 @@ resources:
   - ingress-nginx
   - external-dns
   - vault-integration
+  - tailscale-operator
