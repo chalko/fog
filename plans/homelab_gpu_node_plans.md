@@ -110,3 +110,40 @@ This compares the local token cost against Google Gemini API's **Blended Rate** 
 >
 > * Under **4-hour loads**, using cloud APIs is more cost-effective for larger models.
 > * Under **16-hour loads**, the local homelab hardware **saves money on every token** across all tiers, with Build B running 3.5x cheaper than Gemini Flash, and Build C beating Gemini Pro.
+
+---
+
+## 5. Local Build vs. Cloud GPU Rental (e.g., RunPod / Vast.ai)
+
+If you are considering renting a cloud GPU with equivalent VRAM (like an A100 40GB, V100 32GB, or dual RTX 3090/4090 configurations) instead of building, here is the cost and trade-off comparison.
+
+### A. Monthly Cost Comparison
+*Calculations assume a 3-year hardware amortization ($83.33/month for the $3,000 Build A) and $0.16/kWh electricity. Cloud estimates are based on typical marketplace rates of **$0.70/hour** (including persistent storage and network overhead).*
+
+| Workload Volume | Local Build A (Amortization + Power) | Cloud GPU Rental ($0.70/hr + Storage) | Winner |
+| :--- | :--- | :--- | :--- |
+| **Low Load** (1 hr/day) | **~$85 / month** (Mostly idle power + amort.) | **~$26 / month** ($21 compute + $5 storage) | **Cloud Rental** |
+| **4 Hours / Day** | **~$103 / month** | **~$89 / month** ($84 compute + $5 storage) | **Tie** |
+| **16 Hours / Day** | **~$146 / month** | **~$346 / month** ($336 compute + $10 storage) | **Local Homelab** (Saves ~$200/mo) |
+| **Continuous (24/7)** | **~$153 / month** | **~$514 / month** ($504 compute + $10 storage) | **Local Homelab** (Saves ~$360/mo) |
+
+### B. Decision Trade-offs
+
+#### **Option A: Local Build (2x RTX 4080 Super)**
+* **Pros**:
+  * **Lowest Long-Term Cost**: If you run batches or pipelines frequently (over 4 hours/day), the hardware pays for itself quickly.
+  * **Zero Data Privacy Concerns**: All weights, prompts, and context windows remain completely local.
+  * **Zero Latency**: High-speed bandwidth on a local LAN; no need to upload massive datasets or wait for cloud instance provisioning.
+* **Cons**:
+  * **Upfront Cost**: Requires $3,000 cash out-of-pocket upfront.
+  * **Maintenance & Space**: Requires physical desk/rack space, generates heat (~500–600W under load), and noise. You are your own sysadmin if a component fails.
+
+#### **Option B: Cloud GPU Rental**
+* **Pros**:
+  * **Zero Capital Expenditure**: Only pay for what you use. If you don't use it for a week, your cost is close to $0.
+  * **Flexibility**: You can scale up to an H100 (80GB VRAM) for a specialized job in minutes, then scale down to a cheaper card.
+  * **No Hardware Maintenance**: Power, cooling, and hardware failures are managed by the host.
+* **Cons**:
+  * **Expensive at Scale**: Leaving a server running 24/7 or running continuous daily training loops gets expensive very fast.
+  * **Cold Starts & Storage Costs**: You pay for storage even when the instance is turned off, and booting up can take a few minutes as weights are loaded.
+  * **Security**: Not ideal for sensitive/private data without paying a premium for secure enterprise cloud zones.
