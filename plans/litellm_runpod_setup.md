@@ -65,7 +65,7 @@ model_list:
   - model_name: worker-tier
     litellm_params:
       model: openai/qwen2.5-coder-32b
-      api_base: "http://gpu-node-1.tailnet.net:8000/v1"
+      api_base: "http://gpu-node-1.mulard-mermaid.ts.net:8000/v1"
       api_key: "your_vllm_bearer_token"
       timeout: 60
 
