@@ -15,7 +15,7 @@ The keys are synced automatically into the Kubernetes namespace via the External
 
 The Gemini API Key (`GEMINI_API_KEY`) is generated via **Google AI Studio** and is associated with the following Google Cloud environment:
 
-*   **Google Account Owner**: `nick@chalko.com`
+*   **Google Account Owner**: `nick.chalko@gmail.com`
 *   **Active GCP Project**: `lodge-network` (used for local systems and resource integrations)
 *   **Alternative GCP DNS Project**: `gddns-1041` (used strictly for CloudDNS API letsencrypt solvers)
 
