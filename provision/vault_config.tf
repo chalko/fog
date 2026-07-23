@@ -27,6 +27,9 @@ resource "vault_policy" "k8s_read" {
 path "secret/data/app/*" {
   capabilities = ["read"]
 }
+path "secret/data/infrastructure/*" {
+  capabilities = ["read"]
+}
 EOT
 }
 
