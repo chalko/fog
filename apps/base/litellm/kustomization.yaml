@@ -5,3 +5,5 @@ resources:
   - secrets.yaml
   - configmap.yaml
   - deployment.yaml
+  - bootstrap-configmap.yaml
+  - bootstrap-job.yaml

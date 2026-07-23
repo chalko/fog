@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-bootstrap-script
+  namespace: litellm
+data:
+  bootstrap.sh: |
+    #!/bin/sh
+    set -e
+
+    echo "Waiting for LiteLLM to be ready..."
+    until curl -s -k -f http://litellm.litellm.svc.cluster.local:4000/health/liveness; do
+      sleep 2
+    done
+    echo "LiteLLM is ready!"
+
+    # Ensure gastown-workers key exists
+    echo "Registering/verifying gastown-workers key..."
+    curl -s -k -X POST http://litellm.litellm.svc.cluster.local:4000/key/generate \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
+      -d '{
+        "key_alias": "gastown-workers",
+        "models": ["utility-tier", "worker-tier"]
+      }' || echo "Verification/generation completed or skipped"
+
+    # Ensure hermes-mayor key exists
+    echo "Registering/verifying hermes-mayor key..."
+    curl -s -k -X POST http://litellm.litellm.svc.cluster.local:4000/key/generate \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
+      -d '{
+        "key_alias": "hermes-mayor",
+        "models": ["executive-tier", "worker-tier", "utility-tier"]
+      }' || echo "Verification/generation completed or skipped"
