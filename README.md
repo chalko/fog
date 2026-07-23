@@ -69,7 +69,8 @@ For detailed information on design decisions, hardware setups, and operation pro
 - **Hardware Specifications**: See [docs/hardware.md](file:///home/nick/src/fog/docs/hardware.md) for details on the host node (`misty`).
 - **Secrets & Integration**: See [docs/vault.md](file:///home/nick/src/fog/docs/vault.md) for Vault setup, unsealing steps, and Kubernetes External Secrets configurations.
 - **Environment Management**: See [bin/load-env.sh](file:///home/nick/src/fog/bin/load-env.sh) for credential caching setup.
-- **Tailscale & LiteLLM Integration**: See [docs/tailscale.md](file:///home/nick/src/fog/docs/tailscale.md) for details on the Tailscale Kubernetes Operator and LiteLLM virtual key tiers.
+- **Tailscale Operator**: See [docs/tailscale.md](file:///home/nick/src/fog/docs/tailscale.md) for details on the Tailscale Kubernetes Operator.
+- **LiteLLM Tier Setup**: See [docs/litellm.md](file:///home/nick/src/fog/docs/litellm.md) for details on LiteLLM model tiers and virtual key automation.
 - **Completed Infrastructure Milestones**: See [plans/completed/](file:///home/nick/src/fog/plans/completed) for historical blueprints (e.g., node sizing, DNS integration, and disk expansions).
 
 
