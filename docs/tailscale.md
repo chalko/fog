@@ -25,3 +25,9 @@ The official Tailscale Kubernetes Operator is installed in the `tailscale` names
     *   `client_secret`
 3.  **K8s Sync**: ExternalSecrets retrieves these values and provisions the `operator-oauth` secret in the `tailscale` namespace.
 4.  **Vault Policy**: Supported by the `k8s-read` policy (defined in `provision/vault_config.tf` and applied via Terraform), allowing read capabilities on `secret/data/infrastructure/*`.
+
+---
+
+## 2. Tailnet Configuration
+
+*   **Tailnet DNS Name**: `mulard-mermaid.ts.net`
