@@ -19,17 +19,17 @@ data:
           timeout: 60
       - model_name: executive-tier
         litellm_params:
-          model: gemini/gemini-1.5-pro
+          model: gemini/gemini-3.1-pro
           api_key: "os.environ/GEMINI_API_KEY"
       
       # Legacy / Specific Models (Backwards Compatibility)
       - model_name: gemini-flash
         litellm_params:
-          model: gemini/gemini-1.5-flash
+          model: gemini/gemini-3.6-flash
           api_key: "os.environ/GEMINI_API_KEY"
       - model_name: gemini-pro
         litellm_params:
-          model: gemini/gemini-1.5-pro
+          model: gemini/gemini-3.1-pro
           api_key: "os.environ/GEMINI_API_KEY"
       - model_name: grok-2
         litellm_params:
