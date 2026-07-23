@@ -18,15 +18,14 @@ We will configure LiteLLM with three distinct tiers:
 
 ## 2. Step-by-Step Implementation Flow
 
-### Phase 1: Local ConfigMap & Secret Integration (K8s)
-1.  **Modify Configuration**: Update `apps/base/litellm/configmap.yaml` to define the model list aliases and fallback routers.
-2.  **Define Environment Variables**: Ensure Vault has keys populated for:
-    *   `gemini_api_key`
-    *   `xai_api_key`
-3.  **Deploy Changes**: Commit the modified `configmap.yaml` and reconcile Flux.
+### Phase 1: Local ConfigMap & Secret Integration (K8s) - [COMPLETED]
+1.  **Modify Configuration**: Updated [configmap.yaml](file:///home/nick/src/fog/apps/base/litellm/configmap.yaml) to define model lists (`utility-tier`, `worker-tier`, `executive-tier`) and fallback router parameters.
+2.  **Define Environment Variables**: Secrets synced from Vault using ExternalSecrets for Gemini and xAI API keys.
+3.  **Deploy Changes**: Commited configurations and reconciled with Flux.
 
-### Phase 2: Rented GPU (RunPod) Provisioning
-1.  **Startup Script Hook**: Configure the RunPod container template to:
+### Phase 2: Rented GPU (RunPod) Provisioning - [IN PROGRESS]
+1.  **Tailscale Operator in Cluster**: Installed the Tailscale Kubernetes Operator in namespace `tailscale` with OAuth credentials synced from Vault (under path `secret/infrastructure/tailscale`).
+2.  **Startup Script Hook**: RunPod container templates will:
     *   Start Tailscale using a pre-authorized ephemeral auth key: `TAILSCALE_AUTHKEY`.
     *   Mount a persistent network volume to `/workspace/` to cache model weights (e.g. `Qwen/Qwen2.5-Coder-32B-Instruct`).
     *   Launch vLLM with cold-start optimization flags:
@@ -37,16 +36,16 @@ We will configure LiteLLM with three distinct tiers:
           --gpu-memory-utilization 0.85
         ```
 
-### Phase 3: Enforce Key-Level Guardrails (LiteLLM Virtual Keys)
-Using LiteLLM's dashboard or admin API, generate two keys:
-1.  **Worker Key (`sk-worker-xxx`)**:
+### Phase 3: Enforce Key-Level Guardrails (LiteLLM Virtual Keys) - [COMPLETED & GITOPS'ED]
+1.  **GitOps Seeding Job**: Created the `litellm-bootstrap` Kubernetes Job (`apps/base/litellm/bootstrap-job.yaml`) to automatically verify and register keys in the Postgres DB on startup.
+2.  **Worker Key (`gastown-workers`)**:
     *   **Scope**: Access allowed only for `utility-tier` and `worker-tier`.
-    *   **Usage**: Configured inside Gas Town's worker rig configs.
-2.  **Executive Key (`sk-exec-xxx`)**:
+    *   **Usage**: Configured inside Gas Town's worker rig configs. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
+3.  **Executive Key (`hermes-mayor`)**:
     *   **Scope**: Access allowed for `executive-tier`, `worker-tier`, and `utility-tier`.
-    *   **Usage**: Configured inside Hermes configurations and the Gas Town Mayor config.
+    *   **Usage**: Configured inside Hermes configurations and the Gas Town Mayor config. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
 
-### Phase 4: Application Integration
+### Phase 4: Application Integration - [PENDING]
 1.  **Configure Gas Town rigs**:
     *   Set worker rigs to point to the LiteLLM base URL using the **Worker Key** and the `worker-tier` model alias.
     *   Set the Mayor configuration to use the **Executive Key** and the `executive-tier` model alias.
@@ -55,7 +54,8 @@ Using LiteLLM's dashboard or admin API, generate two keys:
 
 ---
 
-## 3. Fallback & Safe Mode Behavior
+## 3. Fallback & Safe Mode Behavior - [VERIFIED]
 
-*   **Offline GPU Failover**: If the rented GPU is powered off, LiteLLM's fallback router will intercept the request on `worker-tier` and temporarily downgrade the request to `utility-tier` (local LXC) or redirect it to `executive-tier` (API) to avoid application downtime.
+*   **Offline GPU Failover (Tested)**: Verified that when `worker-tier` (pointing to `gpu-node-1`) is offline, LiteLLM automatically times out and falls back to `gemini-flash` then `utility-tier` (local Ollama).
+*   **Offline Local Ollama Failover (Tested)**: Verified that if `utility-tier` (local CPU node) fails, it falls back to the low-cost cloud model `gemini-flash-lite`.
 *   **API Cost Thresholds**: Set monthly limits directly in the LiteLLM dashboard on the **Executive Key** to guarantee hard caps on total external API spending.
