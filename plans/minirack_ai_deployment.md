@@ -81,6 +81,78 @@ By co-locating shallow components on the front and rear rails of the same U-spac
  (Active exhaust fans are mounted on the top roof plate pulling rising hot air upward)
 ```
 
+### Top-Down Shelf Layouts (Horizontal Footprint & Clearance)
+
+#### Shelf 1 (6U - 7U): Asus Ascent GX10 (GPU Host)
+```text
++--------------------- 10" Rack Width (~212mm Rails) ---------------------+
+|                                                                        |
+|   +--------------------------+                                         |
+|   |                          |          [ Power Brick ]                |
+|   |    Asus Ascent GX10      |       (Stood vertically on side)        |
+|   |   (150mm W x 150mm D)    |          (62mm W x 140mm D)             |
+|   |                          |                                         |
+|   +--------------------------+                                         |
+|       | (Rear Ports / SFP+ DAC)                                        |
+|       V                                                                |
+|<-- 78.6mm Cabling Clearance -->|                                       |
++-------------------------- Rear Rail Plane -----------------------------+
+```
+
+#### Shelf 2 (4.5U - 5.5U): Minisforum MS-01 (Utility Server)
+```text
++--------------------- 10" Rack Width (~212mm Rails) ---------------------+
+|                                                                        |
+|   +----------------------------------------------+                     |
+|   |                                              |                     |
+|   |            Minisforum MS-01                  |                     |
+|   |           (196mm W x 189mm D)                |                     |
+|   |                                              |                     |
+|   +----------------------------------------------+                     |
+|                   | (Rear SFP+ & Power Ports)                          |
+|                   V                                                    |
+|           [ Power Brick ]                                              |
+|         (65mm W x 140mm D)                                             |
+|                                                                        |
+|<------------- 39.6mm Rear Cabling & Brick Clearance ------------------>|
++-------------------------- Rear Rail Plane -----------------------------+
+```
+
+#### Shelf 3 (2U - 3U): Co-Located NAS (Front) & Switch/Patch Panel (Rear)
+```text
++--------------------- 10" Rack Width (~212mm Rails) ---------------------+
+|                                                                        |
+|   +----------------------------------------------+  [Front-Facing LEDs]|
+|   |          TerraMaster F8-SSD Plus             |  (NAS sits at front)|
+|   |            (140mm W x 140mm D)               |                     |
+|   +----------------------------------------------+                     |
+|                          |                                             |
+|             (160mm Air & DAC Cabling Gap)                              |
+|                          |                                             |
+|   +----------------------------------------------+                     |
+|   |      MikroTik Switch (4U) / Patch (3U)       |  (Rear-Facing Ports)|
+|   |          (141mm W x 115mm D Switch)          |  (sits at rear rail)|
+|   +----------------------------------------------+                     |
+|                                                                        |
++-------------------------- Rear Rail Plane -----------------------------+
+```
+
+#### Shelf 4 (1U): Bottom Intake (Front) & PDU (Rear)
+```text
++--------------------- 10" Rack Width (~212mm Rails) ---------------------+
+|                                                                        |
+|   [================= FRONT BOTTOM INTAKE GRILLE =================]     |
+|                          |                                             |
+|            (250mm Airflow & Power Cable Drops)                         |
+|                          |                                             |
+|   +----------------------------------------------+                     |
+|   |             US NEMA PDU (1U)                 |  (Rear-facing PDU)  |
+|   |             (<50mm depth PDU)                |  (Power exits here) |
+|   +----------------------------------------------+                     |
+|                                                                        |
++-------------------------- Rear Rail Plane -----------------------------+
+```
+
 ### A. Front Panel Allocation
 
 | Height Space | Component Panel | Panel Type | Purpose & Thermal Function |
