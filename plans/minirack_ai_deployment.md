@@ -81,9 +81,9 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | [ 4U]  | [================================]| (GPU)  |
 | [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE and power ports (2U)
 | [ 2U]  | [================================]| (NAS)  |
-| [ 1U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans
+| [ 1U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans (pulling from rear)
 +--------+---------------------------------+--------+
- (Active exhaust fans are mounted on the top roof plate pulling air upward)
+ (Cool air is pulled in from the rear-bottom, and active exhaust fans exhaust hot air out the top roof)
 ```
 
 ### A. Front Panel Allocation
@@ -221,8 +221,12 @@ Because the Asus GX10 and the Minisforum server connect over a dedicated **10Gb 
 * **Throughput**: ~1.2 GB/s read speeds over the 10Gb connection.
 * **Benefit**: Loading a 20GB `qwen2.5-coder:32b` model takes **~17 seconds** from cold-boot.
 
-### Thermal Isolation & Power
-* **Ascent GX10**: Blackwell chips run hot under sustained load. The rack should be open-sided or utilize high-static-pressure fans at the bottom to exhaust air upward and outward through the rear.
+### Thermal Isolation & Airflow Path
+* **Airflow Routing**: Because the front faceplate is a solid, clean panel (wood/acrylic), air cannot enter from the front. Instead:
+  * **Cool Air Intake**: Active fans at the rear-bottom (**1U**) pull cool ambient air into the cabinet from the rear.
+  * **Convective Rise**: Air flows forward, passes through the servers and storage, and rises naturally due to convection.
+  * **Active Exhaust**: Active fans on the **Cabinet Roof** pull the hot air upward and exhaust it out the top/roof.
+* **Ascent GX10**: Blackwell chips run hot under sustained load. The rear-to-roof convective airflow path ensures the GX10 receives fresh cool intake from the bottom and has its heat immediately swept upward and out of the cabinet.
 * **Minisforum/NAS**: Placed above and below the GPU host with a 1U gap where possible to prevent thermal transfer.
 * **Power Budget**: A Blackwell system under load can draw up to 400W–500W. Combined with the Minisforum (90W) and NAS (60W), ensure your 10" Rack PDU is rated for at least **10A / 1200W** continuous load.
 
