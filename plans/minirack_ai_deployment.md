@@ -40,9 +40,11 @@ graph TD
 
 ---
 
-## 2. Physical Layout & Assembly (9U Cabinet)
+## 2. Physical Layout & Assembly (8U Cabinet)
 
-To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speaker grilles, and microphone arrays. The cabinet height is minimized to a compact **9U** layout.
+To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting the screen, speakers, and microphone array. 
+
+By utilizing a machined **bottom-front intake slot** in the console faceplate, we allow the servers' internal fans to pull fresh air directly from the front-bottom without needing a dedicated fan tray. This reduces the total height to a highly optimized **8U** vertical budget.
 
 ### Visual Mockups (ASCII Art)
 
@@ -61,36 +63,32 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 |     ( o )( o )( o )    ( o )( o )( o )   | <-- Machined Stereo Speaker Grills
 |     ( o )( o )( o )    ( o )( o )( o )   |     (left and right full-range audio)
 |                                          |
-|                                          |
-|                                          |
-|                                          |
-|                                          |
-|                                          |
+|  [====================================]  | <-- Front-Bottom Intake Vents / Grille
+|  [====================================]  |     (air path for internal server fans)
 +------------------------------------------+
- (Absolutely clean front - no cables, ports, or rack ears visible)
 ```
 
-#### Back Panel View (Rear Port & Cabling Bay - 9U Stacking)
+#### Back Panel View (Rear Port & Cabling Bay - 8U Stacking)
 ```text
 +--------+---------------------------------+--------+
-| [ 9U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (incoming link)
-| [ 8U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear SFP+ interfaces)
-| [ 7U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit
-| [ 6U]  | [==== Minisforum MS-01 Ports ====]| (UTIL) | <-- Utility Server rear ports & cabling
-| [ 5U]  | [==== Asus Ascent GX10 Ports ====]| (GPU)  | <-- GPU Server rear ports & cabling (2U)
-| [ 4U]  | [================================]| (GPU)  |
-| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE and power ports (2U)
-| [ 2U]  | [================================]| (NAS)  |
-| [ 1U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans (pulling from rear)
+| [ 8U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (incoming link)
+| [ 7U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear SFP+ interfaces)
+| [ 6U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit
+| [ 5U]  | [==== Minisforum MS-01 Ports ====]| (UTIL) | <-- Utility Server rear ports & cabling
+| [ 4U]  | [==== Asus Ascent GX10 Ports ====]| (GPU)  | <-- GPU Server rear ports & cabling (2U)
+| [ 3U]  | [================================]| (GPU)  |
+| [ 2U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE and power ports (2U)
+| [ 1U]  | [================================]| (NAS)  |
 +--------+---------------------------------+--------+
- (Cool air is pulled in from the rear-bottom, and active exhaust fans exhaust hot air out the top roof)
+ (Active exhaust fans are mounted on the top roof plate pulling rising hot air upward)
 ```
 
 ### A. Front Panel Allocation
 
 | Height Space | Component Panel | Panel Type | Purpose & Thermal Function |
 | :--- | :--- | :--- | :--- |
-| **Entire Front Face** | **Unified Console Faceplate** | Full-height custom wood/acrylic bezel | Conceals the vertical rails and rack ears. Mounts the touch display, speakers, and microphone flush. |
+| **Console Faceplate** | **Unified Console Faceplate** | Full-height custom wood/acrylic bezel | Conceals the vertical rails. Mounts touch display, speakers, microphone, and bottom intake slots. |
+| **Lower Grille Slot** | **Machined Vents** | Integrated bottom slot | Allows cool ambient air to enter the front-bottom of the cabinet. |
 | **Inside Chassis** | All hosts, switch, patch panels, and PDU | N/A | Secured internally behind the front face plate. |
 
 ### B. Back Panel & Interior Allocation
@@ -98,13 +96,12 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 9U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
-| **Rear 8U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
-| **Rear 7U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. |
-| **Rear 6U** | **Minisforum MS-01** | 1U Shelf (Reversed) | Server ports face the rear. Air intake pulls from the front internally. |
-| **Rear 4U - 5U** | **Asus Ascent GX10** | 2U Shelf (Reversed) | Server ports face the rear. Exhaust fans push hot air out the back. |
-| **Rear 2U - 3U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
-| **Rear 1U** (Bottom) | **Active Intake Fan Tray** | 1U Dual 120mm Fans | Pulls cool ambient air from the floor/bottom and pushes it upward into the rack. |
+| **Rear 8U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
+| **Rear 7U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
+| **Rear 6U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. |
+| **Rear 5U** | **Minisforum MS-01** | 1U Shelf (Reversed) | Server ports face the rear. Air intake pulls from the front internally. |
+| **Rear 3U - 4U** | **Asus Ascent GX10** | 2U Shelf (Reversed) | Server ports face the rear. Exhaust fans push hot air out the back. |
+| **Rear 1U - 2U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
 | **Internal Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
 
 ---
@@ -222,11 +219,11 @@ Because the Asus GX10 and the Minisforum server connect over a dedicated **10Gb 
 * **Benefit**: Loading a 20GB `qwen2.5-coder:32b` model takes **~17 seconds** from cold-boot.
 
 ### Thermal Isolation & Airflow Path
-* **Airflow Routing**: Because the front faceplate is a solid, clean panel (wood/acrylic), air cannot enter from the front. Instead:
-  * **Cool Air Intake**: Active fans at the rear-bottom (**1U**) pull cool ambient air into the cabinet from the rear.
-  * **Convective Rise**: Air flows forward, passes through the servers and storage, and rises naturally due to convection.
-  * **Active Exhaust**: Active fans on the **Cabinet Roof** pull the hot air upward and exhaust it out the top/roof.
-* **Ascent GX10**: Blackwell chips run hot under sustained load. The rear-to-roof convective airflow path ensures the GX10 receives fresh cool intake from the bottom and has its heat immediately swept upward and out of the cabinet.
+* **Airflow Routing**: Cooling is optimized using a front-to-roof convective pathway:
+  * **Cool Air Intake**: Fresh air enters through a machined grille/vent at the bottom-front of the custom console faceplate. The internal chassis fans of the hosts (GX10, MS-01, F8-SSD Plus) draw this cool air directly into the rack.
+  * **Convective Rise**: The air heats up as it cools the components and flows toward the rear of the devices.
+  * **Active Exhaust**: Dual 120mm active fans mounted on the cabinet's roof/top plate pull this rising hot air upward and exhaust it out of the cabinet.
+* **Ascent GX10**: Blackwell chips run hot under sustained load. The front-to-roof cooling path ensures the GX10 receives fresh ambient intake from the front-bottom vents and has its heat immediately swept upward and out of the cabinet roof.
 * **Minisforum/NAS**: Placed above and below the GPU host with a 1U gap where possible to prevent thermal transfer.
 * **Power Budget**: A Blackwell system under load can draw up to 400W–500W. Combined with the Minisforum (90W) and NAS (60W), ensure your 10" Rack PDU is rated for at least **10A / 1200W** continuous load.
 
