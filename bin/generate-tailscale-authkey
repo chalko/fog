@@ -22,7 +22,7 @@ def main():
                         'reusable': False,
                         'ephemeral': True,
                         'preauthorized': True,
-                        'tags': ['tag:gpu']
+                        'tags': ['tag:gpu-worker']
                     }
                 }
             },
@@ -42,6 +42,9 @@ def main():
             auth_key = data.get('key')
             print("\nTailscale Auth Key generated successfully:")
             print(auth_key)
+    except urllib.error.HTTPError as e:
+        print(f"Error: Failed to create key via Tailscale API. Status: {e.code}, Body: {e.read().decode()}", file=sys.stderr)
+        sys.exit(1)
     except Exception as e:
         print(f"Error: Failed to create key via Tailscale API. Details: {e}", file=sys.stderr)
         sys.exit(1)
