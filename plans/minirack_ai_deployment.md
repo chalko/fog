@@ -89,7 +89,49 @@ Because a 10" rack has limited horizontal width (~254 mm between rails), devices
 
 ---
 
-## 4. Step-by-Step Implementation Flow
+## 4. Detailed Component Specifications
+
+### A. GPU Host: Asus Ascent GX10
+* **Processor**: NVIDIA GB10 Grace Blackwell Superchip (Unified CPU/GPU).
+* **VRAM/RAM**: 128GB LPDDR5x unified memory (allowing local serving of massive models like Qwen2.5-Coder-32B or Llama3-70B with high context windows).
+* **Storage**: 1TB PCIe Gen4 NVMe (Internal boot drive).
+* **NIC**: ConnectX-7 SFP+ (Running over SFP+ transceiver/DAC to the switch at 10Gb).
+* **Role**: Primary worker node running vLLM inside Docker / bare-metal.
+
+### B. Utility Host: Minisforum MS-01 (or UM760 Slim)
+* **CPU**: Intel Core i9-13900H / Ryzen 7 (depends on model selection).
+* **RAM**: 64GB DDR5.
+* **Storage**: Dual 2TB NVMe SSDs in RAID 1.
+* **NIC**: Dual 10G SFP+ ports (integrated in MS-01).
+* **Role**: K8s Control Plane (Talos Linux) or Proxmox VE. Runs LiteLLM, Vault secrets backend, Traefik ingress, local caching DNS, and lightweight classification models (`llama3.2:1b`).
+
+### C. Network: 10Gb Switch
+* **Hardware Option**: *MikroTik CRS305-1G-4S+IN* (4x SFP+ Ports, 1x RJ45) or *CRS309* (mounted vertically or in a custom 3D-printed bracket).
+* **Connections**:
+  * **Port 1 (SFP+)**: Asus GX10 (GPU Host) via DAC cable.
+  * **Port 2 (SFP+)**: Minisforum MS-01 (Utility Host) via DAC cable.
+  * **Port 3 (SFP+)**: 10Gb NAS via DAC cable.
+  * **Port 4 (SFP+)**: Ingress uplink from home network switch.
+  * **Port 5 (RJ45)**: Out-of-band management / IPMI.
+
+### D. NAS: High-Speed Model Store
+* **Hardware Option**: *Synology DS923+* (with 10GbE RJ45 option card) or *Synology DS723+* (2-bay variant with 10GbE slot).
+* **Storage Array**: 4x SATA SSDs in RAID 5/10 (for maximum read speeds when spinning up new models or loading model weights into vLLM memory).
+* **Exposed Shares**: NFS share for `/workspace/models` mounted by both the Minisforum server and the Asus GX10.
+* **⚠️ Dimensions & Fit Warning**:
+  * **DS923+ Width**: 199 mm. Since the internal clearance width of a 10" rack is only **~212 mm**, it fits horizontally but is a very tight squeeze (6.5 mm clearance on each side).
+  * **DS923+ Height**: 166 mm. If stood upright, it occupies **4U** of vertical rack space. To fit into a **3U** slot, it must be laid on its side (166 mm width fits comfortably inside the 212 mm rail clearance, and its 199 mm height fits within 3U / 133.3 mm if laid flat).
+  * **DS723+ (Recommended Alternative)**: Only 108 mm wide and 166 mm tall. It can be mounted vertically on a 10" shelf and leaves enough side clearance to mount the power brick or other small accessories alongside it.
+
+### E. Voice-AI & Monitoring Hub
+* **Screen**: 5-inch or 7-inch HDMI LCD Touch Screen (commonly used for Raspberry Pi / DIY projects) mounted flush onto a custom 2U 10-inch faceplate.
+* **Speakers**: Dual 3W full-range cavity speakers driven by a micro-amplifier connected to the Minisforum server for audio output.
+* **Microphone**: Far-field USB microphone array (e.g., ReSpeaker Mic Array v2.0) mounted behind a mesh/acoustic grill for reliable local voice control of the AI system (e.g., smart assistant or prompt intake).
+* **Role**: Real-time hardware health monitor (temperatures, network load, GPU VRAM usage) and localized audio interface for interacting with the cluster.
+
+---
+
+## 5. Step-by-Step Implementation Flow
 
 ### Phase 1: Storage Provisioning (TerraMaster F8-SSD Plus)
 1. **Initialize Drives**: Insert the 8x M.2 NVMe SSDs into the F8-SSD Plus slots.
