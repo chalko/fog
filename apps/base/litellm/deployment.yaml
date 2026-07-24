@@ -61,7 +61,7 @@ spec:
           command:
             - "sh"
             - "-c"
-            - "pg_resetwal -f -D /var/lib/postgresql/data || true; exec docker-entrypoint.sh postgres"
+            - "su -s /bin/sh postgres -c 'pg_resetwal -f -D /var/lib/postgresql/data' || true; exec docker-entrypoint.sh postgres"
           ports:
             - containerPort: 5432
               name: postgres
