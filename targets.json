@@ -55,5 +55,14 @@
         "field": "master_key"
       }
     ]
+  },
+  "runpod": {
+    "secrets": [
+      {
+        "var": "RUNPOD_API_KEY",
+        "source": "pass",
+        "key": "fog/runpod/api_key"
+      }
+    ]
   }
 }

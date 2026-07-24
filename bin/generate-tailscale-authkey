@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+import subprocess
+import urllib.request
+import json
+import sys
+
+def main():
+    print("Retrieving Tailscale API key from pass...")
+    try:
+        key = subprocess.check_output(['pass', 'show', 'fog/tailscale/api_key'], text=True).strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Error: Failed to retrieve Tailscale API key from pass. Details: {e.stderr}", file=sys.stderr)
+        sys.exit(1)
+
+    print("Generating ephemeral Tailscale Auth Key...")
+    req = urllib.request.Request(
+        'https://api.tailscale.com/api/v2/tailnet/-/keys',
+        data=json.dumps({
+            'capabilities': {
+                'devices': {
+                    'create': {
+                        'reusable': False,
+                        'ephemeral': True,
+                        'preauthorized': True,
+                        'tags': ['tag:gpu']
+                    }
+                }
+            },
+            'expirySeconds': 8600,
+            'description': 'Runpod GPU Node Auth Key'
+        }).encode(),
+        headers={
+            'Authorization': f'Bearer {key}',
+            'Content-Type': 'application/json'
+        },
+        method='POST'
+    )
+    
+    try:
+        with urllib.request.urlopen(req) as res:
+            data = json.loads(res.read().decode())
+            auth_key = data.get('key')
+            print("\nTailscale Auth Key generated successfully:")
+            print(auth_key)
+    except Exception as e:
+        print(f"Error: Failed to create key via Tailscale API. Details: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
