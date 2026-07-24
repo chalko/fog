@@ -40,8 +40,12 @@ def main():
         with urllib.request.urlopen(req) as res:
             data = json.loads(res.read().decode())
             auth_key = data.get('key')
-            print("\nTailscale Auth Key generated successfully:")
-            print(auth_key)
+            import os
+            os.makedirs('/dev/shm/fog', exist_ok=True)
+            with open('/dev/shm/fog/tailscale-authkey.txt', 'w') as f:
+                f.write(auth_key)
+            os.chmod('/dev/shm/fog/tailscale-authkey.txt', 0o600)
+            print("\nTailscale Auth Key generated and saved to /dev/shm/fog/tailscale-authkey.txt")
     except urllib.error.HTTPError as e:
         print(f"Error: Failed to create key via Tailscale API. Status: {e.code}, Body: {e.read().decode()}", file=sys.stderr)
         sys.exit(1)
