@@ -58,6 +58,10 @@ spec:
               memory: "2Gi"
         - name: postgres
           image: postgres:16-alpine
+          command:
+            - "sh"
+            - "-c"
+            - "pg_resetwal -f -D /var/lib/postgresql/data || true; exec docker-entrypoint.sh postgres"
           ports:
             - containerPort: 5432
               name: postgres
