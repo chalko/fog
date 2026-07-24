@@ -25,19 +25,31 @@ This deployment plan outlines the steps required to provision, install, and conf
 
 ## 2. Physical Layout & Assembly (Stacking Order)
 
-Mount components in the following vertical order inside a 12U cabinet to optimize thermal dissipation, cable management, and user interaction:
+Mount components inside a 12U cabinet following these detailed allocations to optimize thermal dissipation, cable management, and user interaction:
 
-```
-[12U] 10" Patch Panel & Keystones
-[11U] MikroTik CRS305 (10Gb Switch)
-[9U-10U] Voice-AI & Monitoring Hub (LCD Screen, Speakers, Microphone)
-[8U]  10" PDU (facing rear)
-[7U]  Minisforum MS-01 (Utility Host)
-[6U]  Thermal Buffer (1U Blank Panel)
-[4U-5U] Asus Ascent GX10 (GPU Host) -- Requires 1U clearance above/below
-[1U-3U] TerraMaster F8-SSD Plus (Laid flat on a 3U shelf)
-[0U]  Cooling Fan Tray (Bottom Intake)
-```
+### A. Front Panel Allocation
+
+| U-Height | Component Panel | Panel Type | Purpose & Thermal Function |
+| :--- | :--- | :--- | :--- |
+| **12U** (Top) | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Clean entry point for external connections and fiber pass-throughs. |
+| **11U** | **Switch Mount Bezel** | 1U Custom 3D/Blank cutout | Integrates the MikroTik CRS305 switch flush with the rack face. |
+| **9U - 10U** | **Voice-AI & Monitoring Hub** | 2U Solid Faceplate (Custom) | Mounts the **LCD screen, dual speaker grills, and microphone mesh**. |
+| **8U** | **Power Status Display** | 1U Blank Panel | Cover panel for the rear-facing PDU (only status indicator visible). |
+| **7U** | **Utility Server Faceplate** | 1U Open Grill Panel | Allows intake air for the Minisforum MS-01 server sitting on a shelf. |
+| **6U** | **Air Spacing Buffer** | 1U Blank Panel | Isolates the utility server from high-temperature GPU heat below. |
+| **4U - 5U** | **GPU Host Faceplate** | 2U Open Grill Panel | Maximizes ambient air intake for the high-power Asus Ascent GX10. |
+| **1U - 3U** | **Storage NAS Cover** | 3U Solid Shelf/Bezel | Covers the TerraMaster F8-SSD Plus laid flat on a 3U shelf. |
+| **0U** (Bottom) | **Cable Management Ingress** | 1U Brush Panel | Allows diagnostic/console cables to enter the rack interior dust-free. |
+
+### B. Back Panel & Interior Allocation
+
+| Position | Component / Mount | Mount Type | Purpose & Cable Routing |
+| :--- | :--- | :--- | :--- |
+| **Rear 8U** | **Power Distribution Unit (PDU)** | 1U Rackmount (Reversed) | Holds the NEMA outlets and power plugs out of sight. |
+| **Rear Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
+| **Rear 11U** | **Switch Interfaces** | Rear-facing ports | Connects all incoming DAC cables and uplinks directly behind the hosts. |
+| **Rear 1U - 7U** | **Vertical Cable Organizers** | Velcro / D-Ring managers | Bundles the SFP+ DAC cables and power lines with clear separation. |
+| **Rear Cabinet** | **Dual Active Exhaust Fans** | Case-mount fans (120mm) | Pulls hot air from the back of the cabinet and expells it outward. |
 
 ---
 
