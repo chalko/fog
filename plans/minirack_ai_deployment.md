@@ -44,6 +44,51 @@ graph TD
 
 Because a 10" rack has limited horizontal width (~254 mm between rails), devices are stacked vertically or housed on custom 10" rack shelves. We expand to a 12U layout to accommodate a dedicated screen, speaker, and microphone console at eye level.
 
+### Visual Mockups (ASCII Art)
+
+#### Front Panel View
+```text
+     +-----------------------------------------+
+    /     =================================     \
+   /     |    [  SYSTEM STATUS MONITOR  ]  |     \   <-- Angled Console (15°-30° Tilt)
+  /      |   CPU: 14%  GPU: 22%  VRAM: 8GB |      \      (Screen, Speakers & Mic array)
+ /       | [  o  o  o  o  o  o  o  o  ]    |       \
++--------+---------------------------------+--------+
+| [12U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- Keystone Patch Panel
+| [11U]  | [MikroTik CRS305] [===] [===]     | (SW)   | <-- 10G Switch (custom bezel)
+| [10U]  | ================================= | (BLANK)| <-- Air Spacing Buffer
+| [ 9U]  | ================================= | (BLANK)| <-- Power Status Display Cover
+| [ 8U]  | ================================= | (BLANK)|
+| [ 7U]  | [ # # # # # # # # # # # # # # ]   | (VENT) | <-- Utility Server MS-01 (shelf)
+| [ 6U]  | ================================= | (BLANK)| <-- Air Spacing Buffer
+| [ 5U]  | [ # # # # # # # # # # # # # # ]   | (VENT) | <-- GPU Host Asus Ascent GX10
+| [ 4U]  | [ # # # # # # # # # # # # # # ]   | (VENT) |      (2U shelf space)
+| [ 3U]  | ================================= | (NAS)  | <-- Storage NAS F8-SSD Plus
+| [ 2U]  | ================================= | (NAS)  |      (laid flat on 3U shelf)
+| [ 1U]  | ================================= | (NAS)  |
+| [ 0U]  | [|||||||||||||||||||||||||||||||] | (BRUSH)| <-- Cable Ingress Brush Panel
++--------+---------------------------------+--------+
+```
+
+#### Back Panel / Interior View
+```text
++--------+---------------------------------+--------+
+| [12U]  | [=======] [=======] [=======]   | (P.P)  | <-- Rear Patch Panel connections
+| [11U]  | [  [1]     [2]     [3]     [4]  ] | (SW)   | <-- Switch SFP+ ports & DAC links
+| [10U]  | ( ( ) )  ( ( ) )  ( ( ) )         | (CABLE)| <-- SFP+ Cable loops
+| [ 9U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- Power outlets (rear PDU)
+| [ 8U]  | [ ( ) ( ) ( ) ( ) ]  [ 15A   ]    | (PDU)  |
+| [ 7U]  | [=== Power Brick ===]   [===]     | (BRICK)| <-- Zip-tied Power Transformers
+| [ 6U]  |   | |  (power / SFP+ lines)  | |  |        |
+| [ 5U]  | [==== Asus GX10 Rear Ports ====]  | (GPU)  | <-- GPU SFP+ and Power connections
+| [ 4U]  |   \ \                        / /  |        |
+| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS Power & 10GbE RJ45 Port
+| [ 2U]  |     |                        |    |        |
+| [ 1U]  |     v  (cabling to bottom)   v    |        |
+| [ 0U]  | [  (O) EXHAUST    (O) EXHAUST  ]  | (FANS) | <-- Dual 120mm Exhaust Fans (cabinet)
++--------+---------------------------------+--------+
+```
+
 ### A. Front Panel Allocation
 
 | U-Height / Space | Component Panel | Panel Type | Purpose & Thermal Function |
