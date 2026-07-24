@@ -100,13 +100,13 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 7.5U - 8U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. Fits GX10 (51 mm) perfectly at the top. |
-| **Rear 6.5U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. **Passive spacer isolating the GPU; creates upper Power Brick Bay.** |
+| **Rear 7.5U - 8U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. **GX10 Power Brick sits on the side (using 62 mm side clearance) or directly behind the server.** |
+| **Rear 6.5U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. **Passive spacer isolating the GPU.** |
 | **Rear 5.5U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear. |
-| **Rear 4.5U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Passive spacer isolating switch; creates lower Power Brick Bay.** |
-| **Rear 3U - 4U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. Fits MS-01 (48 mm) perfectly. |
+| **Rear 4.5U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Passive spacer isolating switch.** |
+| **Rear 3U - 4U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. **MS-01 Power Brick sits directly behind the server on the shelf (using 161 mm of depth clearance).** |
 | **Rear 1U - 2U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
-| **Interior Vertical Rails** | **Power Brick Bracket Mounts** | Zip-tie brackets in passive bays | Hides heavy power transformers for GX10, MS-01, switch, and NAS behind 6.5U and 4.5U lines. |
+| **Interior Vertical Rails** | **PDU & Switch Power Bricks** | Zip-tie brackets in passive bays | Hides smaller power adapters for the switch and NAS behind 6.5U and 4.5U lines. |
 
 ---
 
