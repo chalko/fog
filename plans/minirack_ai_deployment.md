@@ -85,8 +85,9 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE network and power ports
 | [ 2U]  | [================================]| (NAS)  |
 | [ 1U]  | [================================]| (NAS)  |
-| [ 0U]  | [  (O) EXHAUST    (O) EXHAUST  ]  | (FANS) | <-- Dual 120mm cabinet exhaust fans
+| [ 0U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans
 +--------+---------------------------------+--------+
+ (Active exhaust fans are mounted on the top roof plate pulling air upward)
 ```
 
 ### A. Front Panel Allocation
@@ -100,6 +101,7 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
+| **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
 | **Rear 12U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
 | **Rear 11U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
 | **Rear 10U** | **D-Ring Cable Manager** | 1U Cable Manager | Holds switch SFP+ DAC and patch cables tidily. |
@@ -108,7 +110,7 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | **Rear 6U** | **Thermal Buffer** | 1U Blank Panel | Air spacing to separate utility server heat from the GPU host. |
 | **Rear 4U - 5U** | **Asus Ascent GX10** | 2U Shelf (Reversed) | Server ports face the rear. Exhaust fans push hot air out the back. |
 | **Rear 1U - 3U** | **TerraMaster F8-SSD Plus** | 3U Shelf (Reversed) | NAS ports and drive slots face the rear for easy physical service. |
-| **Rear 0U** (Bottom) | **Exhaust Fan Tray** | 1U Dual 120mm Fans | Pulls hot air from the back of the cabinet and expels it outward. |
+| **Rear 0U** (Bottom) | **Active Intake Fan Tray** | 1U Dual 120mm Fans | Pulls cool ambient air from the floor/bottom and pushes it upward into the rack. |
 | **Internal Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
 
 ---
