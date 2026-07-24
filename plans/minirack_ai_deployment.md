@@ -40,14 +40,14 @@ graph TD
 
 ---
 
-## 2. Physical Layout & Assembly (7U Cabinet)
+## 2. Physical Layout & Assembly (8U Cabinet)
 
-To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speakers, and microphone. The cabinet height is minimized to a compact **7U** layout.
+To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speakers, and microphone. The cabinet height is optimized to a compact **8U** layout.
 
 ### Layout Principles:
-1. **Side-by-Side Co-Location**: The **Asus Ascent GX10** (Left) and the **Minisforum MS-01** (Right) sit side-by-side on a custom 2U shelf, saving 1U of vertical rack space.
-2. **Thermal Alternating Spacing**: Passive/non-active components (Patch Panel, PDU) are placed in between active, heat-producing layers (Switch, Servers, NAS) to act as thermal isolators.
-3. **Power Brick Isolation Bays**: Because the Patch Panel (6U) and the PDU (3U) are extremely shallow (<50 mm deep), the vast empty space directly behind them serves as a dedicated **Power Brick Bay**. Heavy power adapters are mounted here out of the way, getting direct cooling from rising air without obstructing server intake.
+1. **1.5U Server Slots**: Both the **Asus Ascent GX10** (51 mm) and the **Minisforum MS-01** (48 mm) are housed in individual **1.5U (66.67 mm) slots** (utilizing custom 1.5U faceplates/brackets). This fits their vertical measurements perfectly with ample breathing room.
+2. **Thermal Alternating Spacing**: Passive/non-active components (Patch Panel, PDU) are placed in between active, heat-producing layers (Switch, Servers, NAS) to isolate heat.
+3. **Power Brick Isolation Bays**: Because the Patch Panel (7U) and the PDU (4.5U) are extremely shallow (<50 mm deep), the empty space directly behind them serves as a dedicated **Power Brick Bay** for power adapters.
 
 ### Visual Mockups (ASCII Art)
 
@@ -71,16 +71,18 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 +------------------------------------------+
 ```
 
-#### Back Panel View (Rear Port & Cabling Bay - 7U Stacking)
+#### Back Panel View (Rear Port & Cabling Bay - 8U Stacking with 1.5U Server Slots)
 ```text
 +--------+---------------------------------+--------+
-| [ 7U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear SFP+ interfaces)
-| [ 6U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (Passive spacer)
-| [ 5U]  | [==== GX10 ====]  [==== MS-01 ==] | (HOSTS)| <-- GPU (Left) & Utility (Right) side-by-side
-| [ 4U]  | [====== Host ======]  [== Server =] | (HOSTS)|     (2U custom shared shelf)
-| [ 3U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit (Passive spacer)
-| [ 2U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE and power ports (2U)
-| [ 1U]  | [================================]| (NAS)  |     (laid flat on 2U shelf)
+| [ 8U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (Active)
+| [ 7U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (Passive spacer)
+| [6.5U] | [===============================] | (GPU)  | <-- Asus Ascent GX10 (Active, 1.5U slot)
+| [ 5U]  | [===== Asus Ascent GX10 ========] | (GPU)  |
+| [4.5U] | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit (Passive spacer)
+| [ 4U]  | [===============================] | (UTIL) | <-- Minisforum MS-01 (Active, 1.5U slot)
+| [ 3U]  | [===== Minisforum MS-01 ========] | (UTIL) |
+| [ 2U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- TerraMaster F8-SSD Plus (Active, 2U slot)
+| [ 1U]  | [================================]| (NAS)  |
 +--------+---------------------------------+--------+
  (Active exhaust fans are mounted on the top roof plate pulling rising hot air upward)
 ```
@@ -98,12 +100,13 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 7U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
-| **Rear 6U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Serves as passive spacer above servers; creates upper Power Brick Bay.** |
-| **Rear 4U - 5U** | **Asus GX10 & Minisforum MS-01** | 2U Shelf (Reversed) | Sits side-by-side. SFP+ and power ports face the rear. Exhaust fans push hot air out the back. |
-| **Rear 3U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. **Serves as passive spacer above NAS; creates lower Power Brick Bay.** |
+| **Rear 8U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
+| **Rear 7U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Passive spacer above servers; creates upper Power Brick Bay.** |
+| **Rear 5.5U - 6.5U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. Fits GX10 (51 mm) perfectly. |
+| **Rear 4.5U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. **Passive spacer isolating the two servers; creates middle Power Brick Bay.** |
+| **Rear 3U - 4U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. Fits MS-01 (48 mm) perfectly. |
 | **Rear 1U - 2U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
-| **Interior Vertical Rails** | **Power Brick Bracket Mounts** | Zip-tie brackets in passive bays | Hides heavy power transformers for GX10, MS-01, switch, and NAS behind 6U and 3U lines. |
+| **Interior Vertical Rails** | **Power Brick Bracket Mounts** | Zip-tie brackets in passive bays | Hides heavy power transformers for GX10, MS-01, switch, and NAS behind 7U and 4.5U lines. |
 
 ---
 
