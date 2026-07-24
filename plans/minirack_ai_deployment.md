@@ -118,8 +118,9 @@ By co-locating shallow components on the front and rear rails of the same U-spac
 ## 3. Hardware Checklist & Procurement
 
 ### Core Rack Components
-* [ ] **7U Wall-Mount Cabinet / Open Frame**: Minimum 7U height and **9-inch (228 mm) depth**.
-  * *MS-01 Depth Offset*: Since the Minisforum MS-01 is 189 mm deep, standard mounting leaves only 39 mm of rear clearance. We will use a custom 3D-printed **1.5U bracket with a 25 mm front-protrusion offset** (letting the front of the MS-01 extend slightly forward of the front rails into the console bezel cavity). This increases the rear cabling clearance to **64 mm**, allowing SFP+ DAC and power cables to bend safely.
+* [ ] **7U Wall-Mount Cabinet / Open Frame**: Configured with a **9-inch (228 mm) front-to-rear rail mounting depth**.
+  * *Rear Rail Clearance*: Ensure the cabinet/enclosure provides **at least 50–70 mm of clearance space behind the rear rails** to accommodate switch SFP+ transceivers, PDU power plugs, and patch cable routing.
+  * *Server Clearance*: With a 9-inch (228 mm) rail-to-rail distance, the Minisforum MS-01 (189 mm deep) naturally leaves **39 mm of clearance in front of the rear rail plane**, and the Asus GX10 (150 mm deep) leaves **78 mm**, allowing all cables to run cleanly past the rear rails.
 * [ ] **10" PDU**: 1U rackmount power strip with surge protection (minimum 10A / 1200W rating).
 * [ ] **10" Patch Panel & Keystones**: 1U 8-to-12 port panel for clean cable entry.
 * [ ] **Cooling**: 120mm dual quiet roof-mount exhaust fans.
