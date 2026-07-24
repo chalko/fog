@@ -40,14 +40,13 @@ graph TD
 
 ---
 
-## 2. Physical Layout & Assembly (8U Cabinet)
+## 2. Physical Layout & Assembly (6U Cabinet)
 
-To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speakers, and microphone. The cabinet height is optimized to a compact **8U** layout.
+To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speakers, and microphone, with status LED cutouts for the NAS at the bottom.
 
-### Layout Principles:
-1. **GPU at the Top**: The **Asus Ascent GX10** (hottest active component) is placed at the very top of the stack. Its heat rises directly into the roof exhaust fans without passing through other gear.
-2. **Alternating Passive Spacers**: Passive components (PDU, Patch Panel) are placed between active components (GX10, Switch, Utility Server) to isolate heat.
-3. **Power Brick Isolation Bays**: The empty space behind the shallow **6.5U PDU** and **4.5U Patch Panel** serves as dedicated cooling bays for power adapters.
+By co-locating shallow components on the front and rear rails of the same U-space, we collapse the entire system down to an ultra-compact **6U vertical height**:
+1. **Front 1U - 2U (NAS)**: The **TerraMaster F8-SSD Plus** is mounted facing the front. Since it is only **140 mm deep**, it leaves **210 mm** of empty depth in the back of the 350 mm cabinet.
+2. **Rear 1U - 2U (Power/Patch)**: The **US NEMA PDU (1U)** and **Keystone Patch Panel (1U)** are mounted on the **rear rails** at the exact same 1U-2U level. Because they are shallow (<50 mm deep), they fit behind the NAS with **160 mm of clearance gap** in the middle for cable bends and air flow.
 
 ### Visual Mockups (ASCII Art)
 
@@ -66,24 +65,23 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 |     ( o )( o )( o )    ( o )( o )( o )   | <-- Machined Stereo Speaker Grills
 |     ( o )( o )( o )    ( o )( o )( o )   |     (left and right full-range audio)
 |                                          |
-|  [====================================]  | <-- Front-Bottom Intake Vents / Grille
-|  [====================================]  |     (air path for internal server fans)
-+------------------------------------------+
+|  +-- TerraMaster F8-SSD Plus LEDs -----+ | <-- Front-visible NAS status display
+|  |  [PWR] [HDD1] [HDD2] ... [HDD8] 10G  | |     (Machined slots in bezel)
++--+--------------------------------------+--+
 ```
 
-#### Back Panel View (Rear Port & Cabling Bay - 8U Stacking Top-Down Layout)
+#### Back Panel View (Rear Port & Cabling Bay - 6U Stacking Layout)
 ```text
 +--------+---------------------------------+--------+
-| [ 8U]  | [===== Asus Ascent GX10 ========] | (GPU)  | <-- Asus Ascent GX10 (Active, 1.5U slot)
-| [7.5U] | [===============================] | (GPU)  |
-| [6.5U] | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit (Passive spacer)
-| [5.5U] | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (Active, 1U slot)
-| [4.5U] | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (Passive spacer)
-| [ 4U]  | [===============================] | (UTIL) | <-- Minisforum MS-01 (Active, 1.5U slot)
-| [ 3U]  | [===== Minisforum MS-01 ========] | (UTIL) |
-| [ 2U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- TerraMaster F8-SSD Plus (Active, 2U slot)
-| [ 1U]  | [================================]| (NAS)  |     (laid flat on 2U shelf)
+| [ 6U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (Active, 1U slot)
+| [5.5U] | [===============================] | (GPU)  | <-- Asus Ascent GX10 (Active, 1.5U slot)
+| [ 4U]  | [===== Asus Ascent GX10 ========] | (GPU)  |
+| [3.5U] | [===============================] | (UTIL) | <-- Minisforum MS-01 (Active, 1.5U slot)
+| [ 2U]  | [===== Minisforum MS-01 ========] | (UTIL) |
+| [ 2U]* | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power PDU (Mounted behind upper NAS)
+| [ 1U]* | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Patch Panel (Mounted behind lower NAS)
 +--------+---------------------------------+--------+
+ (*Note: The F8-SSD Plus NAS is mounted on the front rails at 1U-2U)
  (Active exhaust fans are mounted on the top roof plate pulling rising hot air upward)
 ```
 
@@ -91,22 +89,21 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 
 | Height Space | Component Panel | Panel Type | Purpose & Thermal Function |
 | :--- | :--- | :--- | :--- |
-| **Console Faceplate** | **Unified Console Faceplate** | Full-height custom wood/acrylic bezel | Conceals the vertical rails. Mounts touch display, speakers, microphone, and bottom intake slots. |
-| **Lower Grille Slot** | **Machined Vents** | Integrated bottom slot | Allows cool ambient air to enter the front-bottom of the cabinet. |
-| **Inside Chassis** | All hosts, switch, patch panels, and PDU | N/A | Secured internally behind the front face plate. |
+| **Console Faceplate** | **Unified Console Faceplate** | Full-height custom wood/acrylic bezel | Conceals the vertical rails. Mounts touch display, speakers, microphone, and bottom vents. |
+| **Lower Faceplate** | **NAS Bezel Cutout** | Custom slot in console | Exposes the front power button and status LEDs of the TerraMaster F8-SSD Plus. |
+| **Front 1U - 2U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Front-facing) | Main high-speed model storage. Fits GX10 (140 mm deep) perfectly. |
 
 ### B. Back Panel & Interior Allocation
 
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 7.5U - 8U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. **GX10 Power Brick sits on the side (using 62 mm side clearance) or directly behind the server.** |
-| **Rear 6.5U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. **Passive spacer isolating the GPU.** |
-| **Rear 5.5U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear. |
-| **Rear 4.5U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Passive spacer isolating switch.** |
-| **Rear 3U - 4U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. **MS-01 Power Brick sits directly behind the server on the shelf (using 161 mm of depth clearance).** |
-| **Rear 1U - 2U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
-| **Interior Vertical Rails** | **PDU & Switch Power Bricks** | Zip-tie brackets in passive bays | Hides smaller power adapters for the switch and NAS behind 6.5U and 4.5U lines. |
+| **Rear 6U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
+| **Rear 4.5U - 5.5U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. GX10 Power Brick sits beside it. |
+| **Rear 3U - 4U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. MS-01 Power Brick sits directly behind it. |
+| **Rear 2U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables. **Mounted on rear rails behind the upper half of the F8-SSD Plus.** |
+| **Rear 1U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Mounted on rear rails behind the lower half of the F8-SSD Plus.** |
+| **Interior Vertical Rails** | **PDU & Switch Power Bricks** | Zip-tie brackets in passive bays | Hides smaller power adapters for the switch and NAS behind 6U and 2U lines. |
 
 ---
 
