@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: litellm
-          image: ghcr.io/berriai/litellm:main-v1.59.0
+          image: ghcr.io/berriai/litellm:latest
           imagePullPolicy: IfNotPresent
           args:
             - "--config"

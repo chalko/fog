@@ -14,13 +14,15 @@ data:
       - model_name: worker-tier
         litellm_params:
           model: openai/qwen2.5-coder:32b
-          api_base: https://ndglg1vrob0l31-11434.proxy.runpod.net/v1
+          api_base: https://g19t9xsjzxevdk-11434.proxy.runpod.net/v1
           api_key: "not-needed"
           timeout: 60
       - model_name: executive-tier
         litellm_params:
-          model: gemini/gemini-3.1-pro-preview
-          api_key: "os.environ/GEMINI_API_KEY"
+          model: openai/qwen2.5-coder:32b
+          api_base: https://g19t9xsjzxevdk-11434.proxy.runpod.net/v1
+          api_key: "not-needed"
+          timeout: 60
       
       # Legacy / Specific Models (Backwards Compatibility)
       - model_name: gemini-flash-lite
