@@ -46,12 +46,13 @@ Because a 10" rack has limited horizontal width (~254 mm between rails), devices
 
 ### A. Front Panel Allocation
 
-| U-Height | Component Panel | Panel Type | Purpose & Thermal Function |
+| U-Height / Space | Component Panel | Panel Type | Purpose & Thermal Function |
 | :--- | :--- | :--- | :--- |
-| **12U** (Top) | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Clean entry point for external connections and fiber pass-throughs. |
+| **Top Console** | **Angled Voice-AI Console** | 2U/3U Custom 15°-30° Tilt Bezel | Mounts the **LCD screen, speaker chambers, and mic array** angled upward. |
+| **12U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Clean entry point for external connections and fiber pass-throughs. |
 | **11U** | **Switch Mount Bezel** | 1U Custom 3D/Blank cutout | Integrates the MikroTik CRS305 switch flush with the rack face. |
-| **9U - 10U** | **Voice-AI & Monitoring Hub** | 2U Solid Faceplate (Custom) | Mounts the **LCD screen, dual speaker grills, and microphone mesh**. |
-| **8U** | **Power Status Display** | 1U Blank Panel | Cover panel for the rear-facing PDU (only status indicator visible). |
+| **10U** | **Air Spacing Buffer** | 1U Blank Panel | Extra spacing to separate switch cabling from lower modules. |
+| **8U - 9U** | **Power Status Display** | 2U Blank Panel (Covers PDU) | Covers the rear-facing PDU (only status indicator visible). |
 | **7U** | **Utility Server Faceplate** | 1U Open Grill Panel | Allows intake air for the Minisforum MS-01 server sitting on a shelf. |
 | **6U** | **Air Spacing Buffer** | 1U Blank Panel | Isolates the utility server from high-temperature GPU heat below. |
 | **4U - 5U** | **GPU Host Faceplate** | 2U Open Grill Panel | Maximizes ambient air intake for the high-power Asus Ascent GX10. |
@@ -124,10 +125,11 @@ Because a 10" rack has limited horizontal width (~254 mm between rails), devices
   * **DS723+ (Recommended Alternative)**: Only 108 mm wide and 166 mm tall. It can be mounted vertically on a 10" shelf and leaves enough side clearance to mount the power brick or other small accessories alongside it.
 
 ### E. Voice-AI & Monitoring Hub
-* **Screen**: 5-inch or 7-inch HDMI LCD Touch Screen (commonly used for Raspberry Pi / DIY projects) mounted flush onto a custom 2U 10-inch faceplate.
-* **Speakers**: Dual 3W full-range cavity speakers driven by a micro-amplifier connected to the Minisforum server for audio output.
-* **Microphone**: Far-field USB microphone array (e.g., ReSpeaker Mic Array v2.0) mounted behind a mesh/acoustic grill for reliable local voice control of the AI system (e.g., smart assistant or prompt intake).
-* **Role**: Real-time hardware health monitor (temperatures, network load, GPU VRAM usage) and localized audio interface for interacting with the cluster.
+* **Mounting Style (Angled Console / Top Hat)**: Mounted at the very top of the cabinet on a custom console plate angled upward at **15° to 30°**. This tilts the interface directly toward the user's line of sight when the rack sits on a desk or nearby table.
+* **Screen**: 5-inch or 7-inch HDMI LCD Touch Screen mounted flush onto the angled console faceplate.
+* **Speakers**: Dual 3W full-range cavity speakers mounted behind speaker grills on the left and right sides of the console, angled upward to optimize voice acoustics.
+* **Microphone**: Far-field USB microphone array (e.g., ReSpeaker Mic Array v2.0) mounted centrally on the angled panel behind an acoustic mesh grill to maximize voice capture sensitivity and trigger reliability.
+* **Role**: Ergonomic real-time hardware health monitor (temperatures, network load, GPU VRAM usage) and localized audio interface for interacting with the cluster.
 
 ---
 
