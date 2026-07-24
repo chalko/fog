@@ -42,77 +42,74 @@ graph TD
 
 ## 2. Physical Layout & Assembly (12U Cabinet)
 
-Because a 10" rack has limited horizontal width (~254 mm between rails), devices are stacked vertically or housed on custom 10" rack shelves. We expand to a 12U layout to accommodate a dedicated screen, speaker, and microphone console at eye level.
+To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speaker grilles, and microphone arrays.
 
 ### Visual Mockups (ASCII Art)
 
-#### Front Panel View
+#### Front Panel View (Unified Interaction Console)
 ```text
-     +-----------------------------------------+
-    /     =================================     \
-   /     |    [  SYSTEM STATUS MONITOR  ]  |     \   <-- Angled Console (15°-30° Tilt)
-  /      |   CPU: 14%  GPU: 22%  VRAM: 8GB |      \      (Screen, Speakers & Mic array)
- /       | [  o  o  o  o  o  o  o  o  ]    |       \
-+--------+---------------------------------+--------+
-| [12U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- Keystone Patch Panel
-| [11U]  | [MikroTik CRS305] [===] [===]     | (SW)   | <-- 10G Switch (custom bezel)
-| [10U]  | ================================= | (BLANK)| <-- Air Spacing Buffer
-| [ 9U]  | ================================= | (BLANK)| <-- Power Status Display Cover
-| [ 8U]  | ================================= | (BLANK)|
-| [ 7U]  | [ # # # # # # # # # # # # # # ]   | (VENT) | <-- Utility Server MS-01 (shelf)
-| [ 6U]  | ================================= | (BLANK)| <-- Air Spacing Buffer
-| [ 5U]  | [ # # # # # # # # # # # # # # ]   | (VENT) | <-- GPU Host Asus Ascent GX10
-| [ 4U]  | [ # # # # # # # # # # # # # # ]   | (VENT) |      (2U shelf space)
-| [ 3U]  | ================================= | (NAS)  | <-- Storage NAS F8-SSD Plus
-| [ 2U]  | ================================= | (NAS)  |      (laid flat on 3U shelf)
-| [ 1U]  | ================================= | (NAS)  |
-| [ 0U]  | [|||||||||||||||||||||||||||||||] | (BRUSH)| <-- Cable Ingress Brush Panel
-+--------+---------------------------------+--------+
++------------------------------------------+
+|  +------------------------------------+  |
+|  |     [  SYSTEM MONITOR CONSOLE ]    |  | <-- Flush 7" or 10" Touch LCD screen
+|  |  CPU: 18%  |  GPU: 32%  |  VRAM: 8GB |  |     (Displays cluster telemetry)
+|  |  Tier Route: worker-tier -> AsusGX   |  |
+|  +------------------------------------+  |
+|                                          |
+|            [  o  o  o  o  o  ]           | <-- Far-field Microphone Array
+|                                          |     (central voice capture mesh)
+|                                          |
+|     ( o )( o )( o )    ( o )( o )( o )   | <-- Machined Stereo Speaker Grills
+|     ( o )( o )( o )    ( o )( o )( o )   |     (left and right full-range audio)
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
++------------------------------------------+
+ (Absolutely clean front - no cables, ports, or rack ears visible)
 ```
 
-#### Back Panel / Interior View
+#### Back Panel View (Rear Port & Cabling Bay)
 ```text
 +--------+---------------------------------+--------+
-| [12U]  | [=======] [=======] [=======]   | (P.P)  | <-- Rear Patch Panel connections
-| [11U]  | [  [1]     [2]     [3]     [4]  ] | (SW)   | <-- Switch SFP+ ports & DAC links
-| [10U]  | ( ( ) )  ( ( ) )  ( ( ) )         | (CABLE)| <-- SFP+ Cable loops
-| [ 9U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- Power outlets (rear PDU)
-| [ 8U]  | [ ( ) ( ) ( ) ( ) ]  [ 15A   ]    | (PDU)  |
-| [ 7U]  | [=== Power Brick ===]   [===]     | (BRICK)| <-- Zip-tied Power Transformers
-| [ 6U]  |   | |  (power / SFP+ lines)  | |  |        |
-| [ 5U]  | [==== Asus GX10 Rear Ports ====]  | (GPU)  | <-- GPU SFP+ and Power connections
-| [ 4U]  |   \ \                        / /  |        |
-| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS Power & 10GbE RJ45 Port
-| [ 2U]  |     |                        |    |        |
-| [ 1U]  |     v  (cabling to bottom)   v    |        |
-| [ 0U]  | [  (O) EXHAUST    (O) EXHAUST  ]  | (FANS) | <-- Dual 120mm Exhaust Fans (cabinet)
+| [12U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (incoming link)
+| [11U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear DAC interfaces)
+| [10U]  | ================================= | (BLANK)| <-- Cable slack manager block
+| [ 9U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit
+| [ 8U]  | [ ( ) ( ) ( ) ( ) ]  [ 15A   ]    | (PDU)  |     (plugs & power cables stay here)
+| [ 7U]  | [==== Minisforum MS-01 Ports ====]| (UTIL) | <-- Utility Server rear ports & cabling
+| [ 6U]  | ================================= | (BLANK)| <-- Thermal buffer space
+| [ 5U]  | [==== Asus Ascent GX10 Ports ====]| (GPU)  | <-- GPU Server rear ports & cabling
+| [ 4U]  | [================================]| (GPU)  |
+| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE network and power ports
+| [ 2U]  | [================================]| (NAS)  |
+| [ 1U]  | [================================]| (NAS)  |
+| [ 0U]  | [  (O) EXHAUST    (O) EXHAUST  ]  | (FANS) | <-- Dual 120mm cabinet exhaust fans
 +--------+---------------------------------+--------+
 ```
 
 ### A. Front Panel Allocation
 
-| U-Height / Space | Component Panel | Panel Type | Purpose & Thermal Function |
+| Height Space | Component Panel | Panel Type | Purpose & Thermal Function |
 | :--- | :--- | :--- | :--- |
-| **Top Console** | **Angled Voice-AI Console** | 2U/3U Custom 15°-30° Tilt Bezel | Mounts the **LCD screen, speaker chambers, and mic array** angled upward. |
-| **12U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Clean entry point for external connections and fiber pass-throughs. |
-| **11U** | **Switch Mount Bezel** | 1U Custom 3D/Blank cutout | Integrates the MikroTik CRS305 switch flush with the rack face. |
-| **10U** | **Air Spacing Buffer** | 1U Blank Panel | Extra spacing to separate switch cabling from lower modules. |
-| **8U - 9U** | **Power Status Display** | 2U Blank Panel (Covers PDU) | Covers the rear-facing PDU (only status indicator visible). |
-| **7U** | **Utility Server Faceplate** | 1U Open Grill Panel | Allows intake air for the Minisforum MS-01 server sitting on a shelf. |
-| **6U** | **Air Spacing Buffer** | 1U Blank Panel | Isolates the utility server from high-temperature GPU heat below. |
-| **4U - 5U** | **GPU Host Faceplate** | 2U Open Grill Panel | Maximizes ambient air intake for the high-power Asus Ascent GX10. |
-| **1U - 3U** | **Storage NAS Cover** | 3U Solid Shelf/Bezel | Covers the TerraMaster F8-SSD Plus laid flat on a 3U shelf. |
-| **0U** (Bottom) | **Cable Management Ingress** | 1U Brush Panel | Allows diagnostic/console cables to enter the rack interior dust-free. |
+| **Entire Front Face** | **Unified Console Faceplate** | Full-height custom wood/acrylic bezel | Conceals the vertical rails and rack ears. Mounts the touch display, speakers, and microphone flush. |
+| **Inside Chassis** | All hosts, switch, patch panels, and PDU | N/A | Secured internally behind the front face plate. |
 
 ### B. Back Panel & Interior Allocation
 
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
-| **Rear 8U** | **Power Distribution Unit (PDU)** | 1U Rackmount (Reversed) | Holds the NEMA outlets and power plugs out of sight. |
-| **Rear Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
-| **Rear 11U** | **Switch Interfaces** | Rear-facing ports | Connects all incoming DAC cables and uplinks directly behind the hosts. |
-| **Rear 1U - 7U** | **Vertical Cable Organizers** | Velcro / D-Ring managers | Bundles the SFP+ DAC cables and power lines with clear separation. |
-| **Rear Cabinet** | **Dual Active Exhaust Fans** | Case-mount fans (120mm) | Pulls hot air from the back of the cabinet and expells it outward. |
+| **Rear 12U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
+| **Rear 11U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
+| **Rear 10U** | **D-Ring Cable Manager** | 1U Cable Manager | Holds switch SFP+ DAC and patch cables tidily. |
+| **Rear 8U - 9U** | **PDU / Power Strip** | 2U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. |
+| **Rear 7U** | **Minisforum MS-01** | 1U Shelf (Reversed) | Server ports face the rear. Air intake pulls from the front internally. |
+| **Rear 6U** | **Thermal Buffer** | 1U Blank Panel | Air spacing to separate utility server heat from the GPU host. |
+| **Rear 4U - 5U** | **Asus Ascent GX10** | 2U Shelf (Reversed) | Server ports face the rear. Exhaust fans push hot air out the back. |
+| **Rear 1U - 3U** | **TerraMaster F8-SSD Plus** | 3U Shelf (Reversed) | NAS ports and drive slots face the rear for easy physical service. |
+| **Rear 0U** (Bottom) | **Exhaust Fan Tray** | 1U Dual 120mm Fans | Pulls hot air from the back of the cabinet and expels it outward. |
+| **Internal Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
 
 ---
 
@@ -170,11 +167,11 @@ Because a 10" rack has limited horizontal width (~254 mm between rails), devices
   * **DS723+ (Recommended Alternative)**: Only 108 mm wide and 166 mm tall. It can be mounted vertically on a 10" shelf and leaves enough side clearance to mount the power brick or other small accessories alongside it.
 
 ### E. Voice-AI & Monitoring Hub
-* **Mounting Style (Angled Console / Top Hat)**: Mounted at the very top of the cabinet on a custom console plate angled upward at **15° to 30°**. This tilts the interface directly toward the user's line of sight when the rack sits on a desk or nearby table.
-* **Screen**: 5-inch or 7-inch HDMI LCD Touch Screen mounted flush onto the angled console faceplate.
-* **Speakers**: Dual 3W full-range cavity speakers mounted behind speaker grills on the left and right sides of the console, angled upward to optimize voice acoustics.
-* **Microphone**: Far-field USB microphone array (e.g., ReSpeaker Mic Array v2.0) mounted centrally on the angled panel behind an acoustic mesh grill to maximize voice capture sensitivity and trigger reliability.
-* **Role**: Ergonomic real-time hardware health monitor (temperatures, network load, GPU VRAM usage) and localized audio interface for interacting with the cluster.
+* **Mounting Style (Unified Front Console)**: Mounted directly into a single custom-fitted faceplate (made of machined acrylic, wood, or aluminum) covering the entire front face of the 12U cabinet. This faceplate completely conceals the rack rails, server chassis fronts, and ports, converting the entire unit into a clean, appliance-like AI terminal console.
+* **Screen**: A 7-inch or 10-inch HDMI LCD Touch Screen mounted flush in the upper-center portion of the front faceplate for clear stat telemetry viewing.
+* **Speakers**: Dual 3W or 5W full-range audio cavity speakers mounted behind machined slot grilles in the lower-left and lower-right quadrants of the faceplate.
+* **Microphone**: A far-field USB microphone array (e.g., ReSpeaker Mic Array v2.0) mounted behind a central acoustic mesh cutout in the middle of the faceplate for unobstructed voice capture.
+* **Role**: Local human-machine interface (HMI) displaying cluster status, temps, active routing states, and acting as the dedicated microphone/speaker node for local AI voice assistant interactions.
 
 ---
 
