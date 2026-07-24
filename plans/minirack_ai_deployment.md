@@ -52,26 +52,16 @@ By co-locating shallow components on the front and rear rails of the same U-spac
 
 ### Visual Mockups (ASCII Art)
 
-#### Front Panel View (Unified Interaction Console)
+#### Front Panel View (Unified 7U Interaction Console - scaled to 1 line = 1 RU)
 ```text
 +------------------------------------------+
-|  +------------------------------------+  |
-|  |     [  SYSTEM MONITOR CONSOLE ]    |  | <-- Flush 7" or 10" Touch LCD screen
-|  |  CPU: 18%  |  GPU: 32%  |  VRAM: 8GB |  |     (Displays cluster telemetry)
-|  |  Tier Route: worker-tier -> AsusGX   |  |
-|  +------------------------------------+  |
-|                                          |
-|            [  o  o  o  o  o  ]           | <-- Far-field Microphone Array
-|                                          |     (central voice capture mesh)
-|                                          |
-|     ( o )( o )( o )    ( o )( o )( o )   | <-- Machined Stereo Speaker Grills
-|     ( o )( o )( o )    ( o )( o )( o )   |     (left and right full-range audio)
-|                                          |
-|  +-- TerraMaster F8-SSD Plus LEDs -----+ | <-- Front-visible NAS status display
-|  |  [PWR] [HDD1] [HDD2] ... [HDD8] 10G  | |     (Machined slots in bezel)
-|  +--------------------------------------+ |
-|  [====================================]  | <-- Front-Bottom Intake Vents / Grille
-|  [====================================]  |     (positioned at 1U beneath NAS)
+| [7U]  [==== SYSTEM MONITOR CONSOLE ====] | <-- Flush Touch LCD Screen (telemetry display)
+| [6U]  [  o  o  o  ] Microphone & Speakers | <-- Far-field mic array & stereo speakers
+| [5U]  [================================] | <-- Bezel front (covers Asus GX10)
+| [4U]  [================================] | <-- Bezel front (covers Minisforum MS-01)
+| [3U]  +-- TerraMaster F8-SSD Plus -----+ | <-- NAS front bezel cutout
+| [2U]  |  [PWR] [HDD1] ... [HDD8] 10G   | |     (power switch & activity LEDs)
+| [1U]  [==== FRONT BOTTOM INTAKE GRILLE ====] <-- Cool air entry vents (1U)
 +------------------------------------------+
 ```
 
