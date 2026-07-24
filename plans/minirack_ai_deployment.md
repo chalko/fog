@@ -40,9 +40,9 @@ graph TD
 
 ---
 
-## 2. Physical Layout & Assembly (12U Cabinet)
+## 2. Physical Layout & Assembly (9U Cabinet)
 
-To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speaker grilles, and microphone arrays.
+To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separates the cluster into a **clean Front Interaction Console** and a **functional Rear Cabling Bay**. All networking, patch panels, switch ports, power cords, and server I/O are mounted facing the rear. The front panel consists of a single custom-fitted, solid faceplate hosting only the screen, speaker grilles, and microphone arrays. The cabinet height is minimized to a compact **9U** layout.
 
 ### Visual Mockups (ASCII Art)
 
@@ -70,22 +70,18 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
  (Absolutely clean front - no cables, ports, or rack ears visible)
 ```
 
-#### Back Panel View (Rear Port & Cabling Bay)
+#### Back Panel View (Rear Port & Cabling Bay - 9U Stacking)
 ```text
 +--------+---------------------------------+--------+
-| [12U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (incoming link)
-| [11U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear DAC interfaces)
-| [10U]  | ================================= | (BLANK)| <-- Cable slack manager block
-| [ 9U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit
-| [ 8U]  | [ ( ) ( ) ( ) ( ) ]  [ 15A   ]    | (PDU)  |     (plugs & power cables stay here)
-| [ 7U]  | [==== Minisforum MS-01 Ports ====]| (UTIL) | <-- Utility Server rear ports & cabling
-| [ 6U]  | ================================= | (BLANK)| <-- Thermal buffer space
-| [ 5U]  | [==== Asus Ascent GX10 Ports ====]| (GPU)  | <-- GPU Server rear ports & cabling
+| [ 9U]  | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Keystone Patch Panel (incoming link)
+| [ 8U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (rear SFP+ interfaces)
+| [ 7U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power Distribution Unit
+| [ 6U]  | [==== Minisforum MS-01 Ports ====]| (UTIL) | <-- Utility Server rear ports & cabling
+| [ 5U]  | [==== Asus Ascent GX10 Ports ====]| (GPU)  | <-- GPU Server rear ports & cabling (2U)
 | [ 4U]  | [================================]| (GPU)  |
-| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE network and power ports
+| [ 3U]  | [=== F8-SSD Plus Rear Ports ===]  | (NAS)  | <-- NAS 10GbE and power ports (2U)
 | [ 2U]  | [================================]| (NAS)  |
-| [ 1U]  | [================================]| (NAS)  |
-| [ 0U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans
+| [ 1U]  | [  (O) INTAKE      (O) INTAKE   ]  | (FANS) | <-- Dual 120mm cabinet intake fans
 +--------+---------------------------------+--------+
  (Active exhaust fans are mounted on the top roof plate pulling air upward)
 ```
@@ -102,15 +98,13 @@ To achieve a clean, premium "AI Terminal Appliance" aesthetic, this design separ
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 12U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
-| **Rear 11U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
-| **Rear 10U** | **D-Ring Cable Manager** | 1U Cable Manager | Holds switch SFP+ DAC and patch cables tidily. |
-| **Rear 8U - 9U** | **PDU / Power Strip** | 2U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. |
-| **Rear 7U** | **Minisforum MS-01** | 1U Shelf (Reversed) | Server ports face the rear. Air intake pulls from the front internally. |
-| **Rear 6U** | **Thermal Buffer** | 1U Blank Panel | Air spacing to separate utility server heat from the GPU host. |
+| **Rear 9U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. |
+| **Rear 8U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
+| **Rear 7U** | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables and blocks in the rear. |
+| **Rear 6U** | **Minisforum MS-01** | 1U Shelf (Reversed) | Server ports face the rear. Air intake pulls from the front internally. |
 | **Rear 4U - 5U** | **Asus Ascent GX10** | 2U Shelf (Reversed) | Server ports face the rear. Exhaust fans push hot air out the back. |
-| **Rear 1U - 3U** | **TerraMaster F8-SSD Plus** | 3U Shelf (Reversed) | NAS ports and drive slots face the rear for easy physical service. |
-| **Rear 0U** (Bottom) | **Active Intake Fan Tray** | 1U Dual 120mm Fans | Pulls cool ambient air from the floor/bottom and pushes it upward into the rack. |
+| **Rear 2U - 3U** | **TerraMaster F8-SSD Plus** | 2U Shelf (Reversed) | NAS ports and drive slots face the rear. Laid flat to minimize height. |
+| **Rear 1U** (Bottom) | **Active Intake Fan Tray** | 1U Dual 120mm Fans | Pulls cool ambient air from the floor/bottom and pushes it upward into the rack. |
 | **Internal Sides** | **Power Brick Bracket Mounts** | Zip-tie brackets on vertical rails | Offloads heavy external power transformers (for NUC/Switch/NAS). |
 
 ---
