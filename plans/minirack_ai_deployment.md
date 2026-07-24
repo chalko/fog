@@ -25,13 +25,15 @@ This deployment plan outlines the steps required to provision, install, and conf
 
 ## 2. Physical Layout & Assembly (Stacking Order)
 
-Mount components in the following vertical order to optimize thermal dissipation and cable management:
+Mount components in the following vertical order inside a 12U cabinet to optimize thermal dissipation, cable management, and user interaction:
 
 ```
-[9U]  10" Patch Panel & Keystones
-[8U]  MikroTik CRS305 (10Gb Switch)
-[7U]  10" PDU
-[6U]  Minisforum MS-01 (Utility Host)
+[12U] 10" Patch Panel & Keystones
+[11U] MikroTik CRS305 (10Gb Switch)
+[9U-10U] Voice-AI & Monitoring Hub (LCD Screen, Speakers, Microphone)
+[8U]  10" PDU (facing rear)
+[7U]  Minisforum MS-01 (Utility Host)
+[6U]  Thermal Buffer (1U Blank Panel)
 [4U-5U] Asus Ascent GX10 (GPU Host) -- Requires 1U clearance above/below
 [1U-3U] TerraMaster F8-SSD Plus (Laid flat on a 3U shelf)
 [0U]  Cooling Fan Tray (Bottom Intake)
