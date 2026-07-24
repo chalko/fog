@@ -78,11 +78,11 @@ By co-locating shallow components on the front and rear rails of the same U-spac
 #### Back Panel View (Rear Port & Cabling Bay - 7U Stacking Layout)
 ```text
 +--------+---------------------------------+--------+
-| [ 7U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (Active, 1U slot)
-| [6.5U] | [===============================] | (GPU)  | <-- Asus Ascent GX10 (Active, 1.5U slot)
-| [ 5U]  | [===== Asus Ascent GX10 ========] | (GPU)  |
-| [4.5U] | [===============================] | (UTIL) | <-- Minisforum MS-01 (Active, 1.5U slot)
-| [ 3U]  | [===== Minisforum MS-01 ========] | (UTIL) |
+| [ 7U]  | [===== Asus Ascent GX10 ========] | (GPU)  | <-- Asus Ascent GX10 (Active, 1.5U slot)
+| [6.5U] | [===============================] | (GPU)  |
+| [5.5U] | [===== Minisforum MS-01 ========] | (UTIL) | <-- Minisforum MS-01 (Active, 1.5U slot)
+| [4.5U] | [===============================] | (UTIL) |
+| [ 4U]  | [MikroTik CRS305 Switch SFP+]   | (SW)   | <-- 10G Switch (Active, 1U slot)
 | [ 3U]* | [o] [o] [o] [o]   [o] [o] [o] [o] | (P.P)  | <-- 1U Patch Panel (Mounted behind upper NAS)
 | [ 2U]* | ================================= | (BLANK)| <-- Cable slack organizer (Mounted behind lower NAS)
 | [ 1U]  | [ ( ) ( ) ( ) ( ) ]  [ RESET ]    | (PDU)  | <-- 1U Power PDU (Mounted at rear-bottom)
@@ -105,9 +105,9 @@ By co-locating shallow components on the front and rear rails of the same U-spac
 | Position | Component / Mount | Mount Type | Purpose & Cable Routing |
 | :--- | :--- | :--- | :--- |
 | **Cabinet Roof** | **Active Exhaust Fans** | Dual 120mm Top-mount Fans | Actively pulls rising hot air upward and exhausts it out the top/roof of the cabinet. |
-| **Rear 7U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear for easy patching. |
-| **Rear 5.5U - 6.5U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. GX10 Power Brick sits beside it. |
-| **Rear 4U - 5U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. MS-01 Power Brick sits directly behind it. |
+| **Rear 6U - 7U** | **Asus Ascent GX10** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes GPU vLLM host. GX10 Power Brick sits beside it. **Located at the very top for optimal convection.** |
+| **Rear 4.5U - 5.5U** | **Minisforum MS-01** | 1.5U Shelf (Reversed) | Server ports face the rear. Exposes utility server. MS-01 Power Brick sits directly behind it. |
+| **Rear 4U** | **MikroTik CRS305 Switch** | 1U Custom 3D Ears (Reversed) | Central 10G SFP+ switch backplane facing the rear. **Positioned below both servers for easy routing of short DAC patch cords.** |
 | **Rear 3U** | **Keystone Patch Panel** | 1U 8-Port Flush Panel | Directs house/uplink ethernet and fiber connections into the rack from the back. **Mounted on rear rails behind the upper half of the F8-SSD Plus.** |
 | **Rear 2U** | **Cable Manager / Spacer** | 1U Blank Panel | Manages switch SFP+ DAC and patch cable slack. **Mounted on rear rails behind the lower half of the F8-SSD Plus.** |
 | **Rear 1U** (Bottom) | **PDU / Power Strip** | 1U PDU (US NEMA) | Consolidates all system power cables at the bottom. **Allows easy power cord routing out of the bottom-rear of the cabinet.** |
