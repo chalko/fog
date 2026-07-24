@@ -51,11 +51,11 @@ spec:
               subPath: config.yaml
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "200m"
+              memory: "256Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "1000m"
+              memory: "1Gi"
         - name: postgres
           image: postgres:16-alpine
           ports:
