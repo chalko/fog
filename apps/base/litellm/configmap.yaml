@@ -13,8 +13,8 @@ data:
           api_base: https://ollama.fog.chalko.com
       - model_name: worker-tier
         litellm_params:
-          model: openai/qwen2.5-coder-32b
-          api_base: http://gpu-node-1.mulard-mermaid.ts.net:8000/v1
+          model: openai/qwen2.5-coder:32b
+          api_base: https://ndglg1vrob0l31-11434.proxy.runpod.net/v1
           api_key: "not-needed"
           timeout: 60
       - model_name: executive-tier
