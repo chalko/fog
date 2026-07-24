@@ -1,31 +1,48 @@
-# 10" Mini-Rack local AI Cluster Deployment Plan
+# 10" Mini-Rack local AI Cluster Design & Deployment Plan
 
-This deployment plan outlines the steps required to provision, install, and configure the local 10-inch mini-rack AI cluster using the **TerraMaster F8-SSD Plus** as the central high-speed storage backend, the **Asus Ascent GX10** as the primary GPU worker, and a **Minisforum server** for utility/routing (LiteLLM, local classifiers, DNS, and secrets).
+This document details the architectural layout, component specifications, procurement checklist, and implementation steps for building and deploying a space-efficient, high-performance **10-inch mini-rack based local AI cluster**. 
 
----
-
-## 1. Hardware Checklist & Procurement
-
-### Core Rack Components
-* [ ] **10" Wall-Mount Cabinet / Open Frame**: Minimum 9U height and **at least 350 mm depth** to accommodate cable bend radii.
-* [ ] **10" PDU**: 1U rackmount power strip with surge protection (minimum 10A / 1200W rating).
-* [ ] **10" Patch Panel & Keystones**: 1U 8-to-12 port panel for clean cable entry.
-* [ ] **Cooling**: 1U dual exhaust fan tray (or rear-mounted quiet high-static-pressure fans).
-
-### Servers & Storage
-* [ ] **GPU Host**: Asus Ascent GX10 (1.6L chassis, NVIDIA GB10 Grace Blackwell Superchip, 128GB Unified Memory).
-* [ ] **Utility Host**: Minisforum MS-01 (equipped with dual 10G SFP+ ports).
-* [ ] **10Gb NAS**: TerraMaster F8-SSD Plus.
-  * [ ] 8x M.2 2280 NVMe SSDs (e.g. 2TB/4TB models depending on storage requirements).
-* [ ] **Network Switch**: MikroTik CRS305-1G-4S+IN (10Gb SFP+).
-  * [ ] 3D-printed 10" rackmount ears for CRS305.
-  * [ ] 3x SFP+ DAC (Direct Attach Copper) cables (1m length).
+By separating heavy GPU inference (Asus Ascent GX10) from utility orchestration (Minisforum utility server) and centralizing storage (TerraMaster F8-SSD Plus), this design maximizes local throughput while maintaining a minimal physical footprint.
 
 ---
 
-## 2. Physical Layout & Assembly (Stacking Order)
+## 1. System Architecture & Data Flow
 
-Mount components inside a 12U cabinet following these detailed allocations to optimize thermal dissipation, cable management, and user interaction:
+```mermaid
+graph TD
+    subgraph "Local Network (Clients / Swarms)"
+        GT[Gas Town Swarm / Rigs]
+        HM[Hermes Agent / Dev Machines]
+    end
+
+    subgraph "10'' Mini-Rack"
+        SW[10Gb SFP+ Switch]
+        MF[Minisforum Utility Host - Proxmox/Talos]
+        GX[Asus Ascent GX10 - GPU Host]
+        NAS[10Gb NAS - Model Storage]
+    end
+
+    %% Network Connections
+    GT -- 1Gb/2.5Gb --> SW
+    HM -- 1Gb/2.5Gb --> SW
+    MF -- 10Gb SFP+ / DAC --> SW
+    GX -- 10Gb SFP+ / DAC --> SW
+    NAS -- 10Gb SFP+ / DAC --> SW
+
+    %% Logic Connections
+    GT -- Requests --> MF
+    HM -- Requests --> MF
+    MF -- "LiteLLM Router (worker-tier)" --> GX
+    MF -- "LiteLLM Router (utility-tier)" --> MF
+    GX -- "NFS Mount (vLLM HF Cache)" --> NAS
+    MF -- "NFS Mount (Talos PV / Backups)" --> NAS
+```
+
+---
+
+## 2. Physical Layout & Assembly (12U Cabinet)
+
+Because a 10" rack has limited horizontal width (~254 mm between rails), devices are stacked vertically or housed on custom 10" rack shelves. We expand to a 12U layout to accommodate a dedicated screen, speaker, and microphone console at eye level.
 
 ### A. Front Panel Allocation
 
@@ -53,7 +70,26 @@ Mount components inside a 12U cabinet following these detailed allocations to op
 
 ---
 
-## 3. Step-by-Step Implementation Flow
+## 3. Hardware Checklist & Procurement
+
+### Core Rack Components
+* [ ] **12U Wall-Mount Cabinet / Open Frame**: Minimum 12U height and **at least 350 mm depth** to accommodate cable bend radii.
+* [ ] **10" PDU**: 1U rackmount power strip with surge protection (minimum 10A / 1200W rating).
+* [ ] **10" Patch Panel & Keystones**: 1U 8-to-12 port panel for clean cable entry.
+* [ ] **Cooling**: 1U dual exhaust fan tray (or rear-mounted quiet high-static-pressure fans).
+
+### Servers & Storage
+* [ ] **GPU Host**: Asus Ascent GX10 (1.6L chassis, NVIDIA GB10 Grace Blackwell Superchip, 128GB Unified Memory).
+* [ ] **Utility Host**: Minisforum MS-01 (equipped with dual 10G SFP+ ports).
+* [ ] **10Gb NAS**: TerraMaster F8-SSD Plus.
+  * [ ] 8x M.2 2280 NVMe SSDs (e.g. 2TB/4TB models depending on storage requirements).
+* [ ] **Network Switch**: MikroTik CRS305-1G-4S+IN (10Gb SFP+).
+  * [ ] 3D-printed 10" rackmount ears for CRS305.
+  * [ ] 3x SFP+ DAC (Direct Attach Copper) cables (1m length).
+
+---
+
+## 4. Step-by-Step Implementation Flow
 
 ### Phase 1: Storage Provisioning (TerraMaster F8-SSD Plus)
 1. **Initialize Drives**: Insert the 8x M.2 NVMe SSDs into the F8-SSD Plus slots.
@@ -96,7 +132,21 @@ Mount components inside a 12U cabinet following these detailed allocations to op
 
 ---
 
-## 4. System Bills of Materials (BOM)
+## 5. Key Configurations & Optimizations
+
+### NFS Model Caching (Cold-Start Speedups)
+Because the Asus GX10 and the Minisforum server connect over a dedicated **10Gb SFP+ link** through the switch, they can mount model weights directly from the NAS over NFS without network bottlenecks:
+* **Throughput**: ~1.2 GB/s read speeds over the 10Gb connection.
+* **Benefit**: Loading a 20GB `qwen2.5-coder:32b` model takes **~17 seconds** from cold-boot.
+
+### Thermal Isolation & Power
+* **Ascent GX10**: Blackwell chips run hot under sustained load. The rack should be open-sided or utilize high-static-pressure fans at the bottom to exhaust air upward and outward through the rear.
+* **Minisforum/NAS**: Placed above and below the GPU host with a 1U gap where possible to prevent thermal transfer.
+* **Power Budget**: A Blackwell system under load can draw up to 400W–500W. Combined with the Minisforum (90W) and NAS (60W), ensure your 10" Rack PDU is rated for at least **10A / 1200W** continuous load.
+
+---
+
+## 6. System Bills of Materials (BOM)
 
 ### A. Hardware Bill of Materials (HW-BOM)
 
