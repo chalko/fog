@@ -43,8 +43,14 @@ spec:
                 secretKeyRef:
                   name: litellm-secrets
                   key: master-key
+            - name: VLLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: litellm-secrets
+                  key: vllm-api-key
             - name: DATABASE_URL
               value: "postgresql://postgres:postgres@localhost:5432/litellm"
+
           volumeMounts:
             - name: config-volume
               mountPath: /app/config.yaml
