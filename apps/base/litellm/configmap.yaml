@@ -13,10 +13,11 @@ data:
           api_base: https://ollama.fog.chalko.com
       - model_name: worker-tier
         litellm_params:
-          model: openai/qwen2.5-coder:32b
+          model: openai/Qwen/Qwen3-8B
           api_base: https://1ts8ifygfl1kyw-8000.proxy.runpod.net/v1
           api_key: "os.environ/VLLM_API_KEY"
           timeout: 60
+
 
       - model_name: executive-tier
         litellm_params:
