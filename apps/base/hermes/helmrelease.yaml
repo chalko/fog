@@ -18,6 +18,13 @@ spec:
     apiServer:
       enabled: true
       port: 8642
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: "4"
+        memory: 8Gi
     secrets:
       existingSecret: hermes-secrets
     bootstrap:
