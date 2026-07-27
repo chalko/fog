@@ -29,4 +29,4 @@ The active Google AI Studio API key used with Gemini's Developer API endpoints i
 
 ## 3. Excluded Providers
 
-*   **Anthropic**: There is **no** active Anthropic/Claude integration or credentials configured in this repository. All fallbacks and high-reasoning tasks route exclusively through Gemini models (e.g. `gemini-3.5-pro` and `gemini-3.5-flash`) or xAI (`grok-2` / `grok-beta`).
+*   **Anthropic**: There is **no** active Anthropic/Claude integration or credentials configured in this repository. All fallbacks and high-reasoning tasks route exclusively through Gemini models (e.g. `gemini-3.5-pro` and `gemini-3.5-flash`) or xAI (`grok-4.5` / `grok-beta`).

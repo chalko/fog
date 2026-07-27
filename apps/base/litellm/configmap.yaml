@@ -26,7 +26,7 @@ data:
           api_key: "os.environ/GEMINI_API_KEY"
       - model_name: executive-tier
         litellm_params:
-          model: xai/grok-2
+          model: xai/grok-4.5
           api_key: "os.environ/XAI_API_KEY"
 
       
@@ -45,7 +45,11 @@ data:
           api_key: "os.environ/GEMINI_API_KEY"
       - model_name: grok-2
         litellm_params:
-          model: xai/grok-2
+          model: xai/grok-4.5
+          api_key: "os.environ/XAI_API_KEY"
+      - model_name: grok-4.5
+        litellm_params:
+          model: xai/grok-4.5
           api_key: "os.environ/XAI_API_KEY"
       - model_name: grok-beta
         litellm_params:

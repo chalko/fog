@@ -10,7 +10,7 @@ LiteLLM routes queries to different backend models based on three logical tiers 
 
 *   **Utility Tier (`utility-tier`)**: Maps to local CPU-only Ollama (`llama3.2:1b`) serving fast, low-cost utility tasks.
 *   **Worker Tier (`worker-tier`)**: Maps to an on-demand RunPod Secure Cloud GPU node hosting `vLLM` (e.g., serving `Qwen3-8B` or coder models).
-*   **Executive Tier (`executive-tier`)**: Maps to frontier API models (`gemini-1.5-pro`/`gemini-3.1-pro` and `grok-2`).
+*   **Executive Tier (`executive-tier`)**: Maps to frontier API models (`gemini-1.5-pro`/`gemini-3.1-pro` and `grok-4.5`).
 
 ---
 
