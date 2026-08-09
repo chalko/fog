@@ -88,7 +88,27 @@
       },
       {
         "var": "DOLT_DATABASE",
+        "template": "hq"
+      },
+      {
+        "var": "BEADS_DOLT_HOST",
+        "template": "dolt.fog.chalko.com"
+      },
+      {
+        "var": "BEADS_DOLT_PORT",
+        "template": "3306"
+      },
+      {
+        "var": "BEADS_DOLT_USER",
         "template": "gascity"
+      },
+      {
+        "var": "BEADS_DOLT_DATABASE",
+        "template": "hq"
+      },
+      {
+        "var": "BEADS_DOLT_PASSWORD",
+        "template": "${DOLT_PASSWORD}"
       }
     ]
   }
