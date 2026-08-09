@@ -64,5 +64,33 @@
         "key": "fog/runpod/api_key"
       }
     ]
+  },
+  "gc": {
+    "secrets": [
+      {
+        "var": "DOLT_PASSWORD",
+        "source": "pass",
+        "key": "fog/gascity/dolt/password"
+      }
+    ],
+    "composites": [
+      {
+        "var": "DOLT_HOST",
+        "template": "dolt.fog.chalko.com"
+      },
+      {
+        "var": "DOLT_PORT",
+        "template": "3306"
+      },
+      {
+        "var": "DOLT_USER",
+        "template": "gascity"
+      },
+      {
+        "var": "DOLT_DATABASE",
+        "template": "gascity"
+      }
+    ]
   }
 }
+
