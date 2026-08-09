@@ -7,4 +7,6 @@ resources:
   - litellm
   - open-webui
   - hermes
+  - dolt
+
 

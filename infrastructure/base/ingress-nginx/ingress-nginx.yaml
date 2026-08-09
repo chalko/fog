@@ -29,3 +29,6 @@ spec:
         type: ClusterIP
       publishService:
         enabled: false
+    tcp:
+      3306: "dolt/dolt:3306"
+

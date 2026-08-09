@@ -38,7 +38,7 @@ resource "vault_kubernetes_auth_backend_role" "app_role" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "app-role"
   bound_service_account_names      = ["app-sa"]
-  bound_service_account_namespaces = ["default", "external-dns", "gitea"]
+  bound_service_account_namespaces = ["default", "external-dns", "gitea", "dolt"]
   token_policies                   = [vault_policy.k8s_read.name]
   token_ttl                        = 86400
 }
