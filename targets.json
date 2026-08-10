@@ -53,6 +53,12 @@
         "source": "vault",
         "key": "secret/app/litellm",
         "field": "master_key"
+      },
+      {
+        "var": "LITELLM_WORKER_KEY",
+        "source": "vault",
+        "key": "secret/app/litellm",
+        "field": "worker_key"
       }
     ]
   },
