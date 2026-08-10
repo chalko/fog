@@ -23,11 +23,19 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 
 | Service | URL |
 | :--- | :--- |
-| **Base OpenAI API** | `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1` |
-| **Models List** | `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1/models` |
-| **Chat Completions** | `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1/chat/completions` |
+| **Direct vLLM API** | `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1` |
+| **Direct Health Endpoint**| `https://8zzicwtx96fnfl-8000.proxy.runpod.net/health` |
+| **LiteLLM Proxy Endpoint**| `https://llm.fog.chalko.com/v1/chat/completions` (Model: `worker-tier`) |
 
 ---
+
+## LiteLLM Integration & Secrets
+
+* **LiteLLM Model Tier:** `worker-tier`
+* **Custom Headers Required:** `User-Agent: vLLM/Client` (Bypasses Cloudflare WAF on `proxy.runpod.net`)
+* **Health Check Probe:** `GET /health` (Ultra-lightweight, 0-byte payload, zero GPU compute)
+* **Worker Virtual Key:** `gastown-workers` (Stored in Vault `secret/app/litellm` `worker_key` and sourced via `LITELLM_WORKER_KEY`)
+
 
 ## Container Configuration
 

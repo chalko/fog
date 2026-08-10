@@ -28,14 +28,16 @@ We will configure LiteLLM with three distinct tiers:
 2. **ConfigMap Update**: Updated LiteLLM `worker-tier` target in [configmap.yaml](file:///home/nick/src/fog/apps/base/litellm/configmap.yaml) to point to `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1`.
 
 
-### Phase 3: Enforce Key-Level Guardrails (LiteLLM Virtual Keys) - [COMPLETED & GITOPS'ED]
+### Phase 3: Enforce Key-Level Guardrails (LiteLLM Virtual Keys) - [COMPLETED & VERIFIED]
 1.  **GitOps Seeding Job**: Created the `litellm-bootstrap` Kubernetes Job (`apps/base/litellm/bootstrap-job.yaml`) to automatically verify and register keys in the Postgres DB on startup.
 2.  **Worker Key (`gastown-workers`)**:
     *   **Scope**: Access allowed only for `utility-tier` and `worker-tier`.
-    *   **Usage**: Configured inside Gas Town's worker rig configs. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
+    *   **Vault Storage**: Stored in Vault at `secret/app/litellm` under field `worker_key` and mapped to `LITELLM_WORKER_KEY` in `targets.json`.
+    *   **Usage**: Sourced from `/dev/shm/fog/litellm-secret.env` and used by Gas Town worker rigs for inference. Tested and verified HTTP 200 OK.
 3.  **Executive Key (`gastown-mayor`)**:
     *   **Scope**: Access allowed for `executive-tier`, `worker-tier`, and `utility-tier`.
-    *   **Usage**: Configured inside the Gas Town Mayor config. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
+    *   **Usage**: Configured inside the Gas Town Mayor config.
+
 
 ### Phase 4: Application Integration - [IN PROGRESS]
 1. **Configure Gas Town Rigs & Agents**:
