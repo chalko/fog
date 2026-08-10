@@ -29,3 +29,8 @@ the home lab.
 
 *Total Physical RAM Split*: 32 GB total = 2.6 GB Proxmox Host GPU/Kernel reservation + 29.4 GB allocated (25 GB VM/LXC + 4.4 GB ZFS/Host services).
 
+## Cloud GPU Infrastructure
+
+- **RunPod GPU Cloud**: See [RunPod Deployment Documentation](hardware/runpod.md) for active cloud GPU instances, specifications, costs, and API endpoints on [RunPod Console](https://console.runpod.io/).
+
+
