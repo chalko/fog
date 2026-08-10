@@ -14,9 +14,9 @@ data:
       - model_name: worker-tier
         litellm_params:
           model: openai/Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-          api_base: https://sa5hjhhlb7hjhr-8000.proxy.runpod.net/v1
-          api_key: "os.environ/VLLM_API_KEY"
-          timeout: 60
+          api_base: https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1
+          timeout: 120
+
 
 
 

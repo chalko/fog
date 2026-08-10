@@ -23,18 +23,10 @@ We will configure LiteLLM with three distinct tiers:
 2.  **Define Environment Variables**: Secrets synced from Vault using ExternalSecrets for Gemini and xAI API keys.
 3.  **Deploy Changes**: Commited configurations and reconciled with Flux.
 
-### Phase 2: Rented GPU (RunPod) Provisioning - [IN PROGRESS]
-1.  **Tailscale Operator in Cluster**: Installed the Tailscale Kubernetes Operator in namespace `tailscale` with OAuth credentials synced from Vault (under path `secret/infrastructure/tailscale`).
-2.  **Startup Script Hook**: RunPod container templates will:
-    *   Start Tailscale using a pre-authorized ephemeral auth key: `TAILSCALE_AUTHKEY`.
-    *   Mount a persistent network volume to `/workspace/` to cache model weights (e.g. `Qwen/Qwen2.5-Coder-32B-Instruct`).
-    *   Launch vLLM with cold-start optimization flags:
-        ```bash
-        vllm serve /workspace/models/Qwen2.5-Coder-32B-Instruct \
-          --port 8000 \
-          --max-thread-workers 16 \
-          --gpu-memory-utilization 0.85
-        ```
+### Phase 2: Rented GPU (RunPod) Provisioning - [COMPLETED]
+1. **Active Pod Deployment**: Deployed container pod `qwen-vllm-v063` (`8zzicwtx96fnfl`) running `vllm/vllm-openai:v0.6.3` with `Qwen/Qwen2.5-Coder-32B-Instruct-AWQ` on 1x A100-SXM4-80GB ($1.59/hr). Documented in [hardware/runpod.md](file:///home/nick/src/fog/docs/hardware/runpod.md).
+2. **ConfigMap Update**: Updated LiteLLM `worker-tier` target in [configmap.yaml](file:///home/nick/src/fog/apps/base/litellm/configmap.yaml) to point to `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1`.
+
 
 ### Phase 3: Enforce Key-Level Guardrails (LiteLLM Virtual Keys) - [COMPLETED & GITOPS'ED]
 1.  **GitOps Seeding Job**: Created the `litellm-bootstrap` Kubernetes Job (`apps/base/litellm/bootstrap-job.yaml`) to automatically verify and register keys in the Postgres DB on startup.
@@ -45,12 +37,12 @@ We will configure LiteLLM with three distinct tiers:
     *   **Scope**: Access allowed for `executive-tier`, `worker-tier`, and `utility-tier`.
     *   **Usage**: Configured inside Hermes configurations and the Gas Town Mayor config. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
 
-### Phase 4: Application Integration - [PENDING]
-1.  **Configure Gas Town rigs**:
-    *   Set worker rigs to point to the LiteLLM base URL using the **Worker Key** and the `worker-tier` model alias.
-    *   Set the Mayor configuration to use the **Executive Key** and the `executive-tier` model alias.
-2.  **Configure Hermes**:
-    *   Point `~/.hermes/config.yaml` to the LiteLLM proxy with the **Executive Key** and the `executive-tier` model alias.
+### Phase 4: Application Integration - [IN PROGRESS]
+1. **Configure Gas Town Rigs & Agents**:
+    * **Mayor Configuration**: Uses the `executive-tier` model alias via LiteLLM (`hermes-mayor` key).
+    * **Worker Polecats Configuration**: Configured to route worker traffic via `gastown-workers` key pointing to LiteLLM `worker-tier` / `utility-tier`.
+2. **Configure Hermes**:
+    * *(Deferred / Ignored for now per operator instructions)*
 
 ---
 
