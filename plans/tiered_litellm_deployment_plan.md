@@ -12,7 +12,7 @@ We will configure LiteLLM with three distinct tiers:
 | :--- | :--- | :--- | :--- | :--- |
 | **Tier 1 (Utility)** | `utility-tier` | Proxmox LXC (`ollama.fog.chalko.com`) | `llama3.2:1b`, `nomic-embed-text` (embeddings, routing, formatting) | $0.00 / mo |
 | **Tier 2 (Worker)** | `worker-tier` | Rented GPU (RunPod/Vast.ai via Tailscale) | `qwen2.5-coder:32b` or `llama3-70b` (Gas Town Polecats, code generation) | ~$0.40 - $0.70 / hr |
-| **Tier 3 (Executive)**| `executive-tier`| Frontier APIs (Gemini 3.5 Pro / Grok) | High-level orchestration (Gas Town Mayor, Hermes main agent) | Pay-per-token API |
+| **Tier 3 (Executive)**| `executive-tier`| Frontier APIs (Gemini 3.5 Pro / Grok) | High-level orchestration (Gas Town Mayor) | Pay-per-token API |
 
 ---
 
@@ -33,16 +33,15 @@ We will configure LiteLLM with three distinct tiers:
 2.  **Worker Key (`gastown-workers`)**:
     *   **Scope**: Access allowed only for `utility-tier` and `worker-tier`.
     *   **Usage**: Configured inside Gas Town's worker rig configs. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
-3.  **Executive Key (`hermes-mayor`)**:
+3.  **Executive Key (`gastown-mayor`)**:
     *   **Scope**: Access allowed for `executive-tier`, `worker-tier`, and `utility-tier`.
-    *   **Usage**: Configured inside Hermes configurations and the Gas Town Mayor config. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
+    *   **Usage**: Configured inside the Gas Town Mayor config. Cached in `/dev/shm/fog/litellm-virtual-keys.env`.
 
 ### Phase 4: Application Integration - [IN PROGRESS]
 1. **Configure Gas Town Rigs & Agents**:
-    * **Mayor Configuration**: Uses the `executive-tier` model alias via LiteLLM (`hermes-mayor` key).
+    * **Mayor Configuration**: Uses the `executive-tier` model alias via LiteLLM (`gastown-mayor` key).
     * **Worker Polecats Configuration**: Configured to route worker traffic via `gastown-workers` key pointing to LiteLLM `worker-tier` / `utility-tier`.
-2. **Configure Hermes**:
-    * *(Deferred / Ignored for now per operator instructions)*
+
 
 ---
 
