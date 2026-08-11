@@ -4,5 +4,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - service.yaml
+  - certificate.yaml
+  - configmap.yaml
   - statefulset.yaml
   - ingress.yaml

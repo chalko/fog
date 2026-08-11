@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dolt-tls
+  namespace: dolt
+spec:
+  secretName: dolt-tls-secret
+  dnsNames:
+    - dolt.fog.chalko.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

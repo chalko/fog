@@ -20,6 +20,7 @@ spec:
         - name: dolt
           image: dolthub/dolt-sql-server:2.2.3
           imagePullPolicy: IfNotPresent
+          command: ["dolt", "sql-server", "--config", "/etc/dolt/config.yaml"]
           ports:
             - containerPort: 3306
               name: mysql
@@ -34,6 +35,12 @@ spec:
           volumeMounts:
             - name: dolt-data
               mountPath: /var/lib/dolt
+            - name: certs-volume
+              mountPath: /etc/dolt/certs
+              readOnly: true
+            - name: config-volume
+              mountPath: /etc/dolt/config.yaml
+              subPath: config.yaml
           resources:
             requests:
               cpu: "250m"
@@ -41,6 +48,13 @@ spec:
             limits:
               cpu: "2000m"
               memory: "2Gi"
+      volumes:
+        - name: certs-volume
+          secret:
+            secretName: dolt-tls-secret
+        - name: config-volume
+          configMap:
+            name: dolt-config
   volumeClaimTemplates:
     - metadata:
         name: dolt-data
