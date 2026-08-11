@@ -14,7 +14,7 @@ data:
       - model_name: worker-tier
         litellm_params:
           model: openai/Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-          api_base: https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1
+          api_base: https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1
           api_key: "none"
           extra_headers:
             User-Agent: "vLLM/Client"
@@ -77,8 +77,7 @@ data:
       num_retries: 2
       retry_after: 5
 
-
-      
     general_settings:
       master_key: "os.environ/LITELLM_MASTER_KEY"
+
       background_health_checks: true

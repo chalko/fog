@@ -9,7 +9,7 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 | Property | Details |
 | :--- | :--- |
 | **Pod Name** | `qwen-vllm-v063` |
-| **Pod ID** | [`8zzicwtx96fnfl`](https://console.runpod.io/pods) |
+| **Pod ID** | [`ms68rc2gadvzu5`](https://console.runpod.io/pods) |
 | **Model** | `Qwen/Qwen2.5-Coder-32B-Instruct-AWQ` |
 | **Engine** | `vllm/vllm-openai:v0.6.3` *(Pinned stable release)* |
 | **Hardware** | 1x NVIDIA A100-SXM4-80GB VRAM |
@@ -23,8 +23,8 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 
 | Service | URL |
 | :--- | :--- |
-| **Direct vLLM API** | `https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1` |
-| **Direct Health Endpoint**| `https://8zzicwtx96fnfl-8000.proxy.runpod.net/health` |
+| **Direct vLLM API** | `https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1` |
+| **Direct Health Endpoint**| `https://ms68rc2gadvzu5-8000.proxy.runpod.net/health` |
 | **LiteLLM Proxy Endpoint**| `https://llm.fog.chalko.com/v1/chat/completions` (Model: `worker-tier`) |
 
 ---
