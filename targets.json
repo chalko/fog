@@ -71,6 +71,15 @@
       }
     ]
   },
+  "tailscale": {
+    "secrets": [
+      {
+        "var": "TAILSCALE_API_KEY",
+        "source": "pass",
+        "key": "fog/tailscale/api_key"
+      }
+    ]
+  },
   "gc": {
     "secrets": [
       {
