@@ -24,12 +24,34 @@ data:
         "models": ["utility-tier", "worker-tier"]
       }' || echo "Verification/generation completed or skipped"
 
-    # Ensure hermes-mayor key exists
-    echo "Registering/verifying hermes-mayor key..."
+    # DEPRECATED: Legacy key for Hermes & Mayor (kept for backwards compatibility until Gas City is updated)
+    echo "Registering/verifying legacy hermes-mayor key..."
     curl -s -k -X POST http://litellm.litellm.svc.cluster.local:4000/key/generate \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
       -d '{
         "key_alias": "hermes-mayor",
-        "models": ["executive-tier", "worker-tier", "utility-tier"]
+        "models": ["executive-tier", "worker-tier", "utility-tier", "worker-coder", "worker-general", "utility-fast", "utility-simple"]
       }' || echo "Verification/generation completed or skipped"
+
+    # Ensure gastown-crew key exists
+    echo "Registering/verifying gastown-crew key..."
+    curl -s -k -X POST http://litellm.litellm.svc.cluster.local:4000/key/generate \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
+      -d '{
+        "key_alias": "gastown-crew",
+        "models": ["executive-tier", "worker-coder", "worker-general", "utility-fast", "utility-simple"]
+      }' || echo "Verification/generation completed or skipped"
+
+    # Ensure hermes key exists
+    echo "Registering/verifying hermes key..."
+    curl -s -k -X POST http://litellm.litellm.svc.cluster.local:4000/key/generate \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
+      -d '{
+        "key_alias": "hermes",
+        "models": ["executive-tier", "worker-coder", "worker-general", "utility-fast", "utility-simple"]
+      }' || echo "Verification/generation completed or skipped"
+
+
