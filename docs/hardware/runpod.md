@@ -40,7 +40,7 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 ## Container Configuration
 
 * **Image:** `vllm/vllm-openai:v0.6.3`
-* **Docker Arguments:** `--model Qwen/Qwen2.5-Coder-32B-Instruct-AWQ --tensor-parallel-size 1 --enforce-eager`
+* **Docker Arguments:** `--model Qwen/Qwen2.5-Coder-32B-Instruct-AWQ --tensor-parallel-size 1 --enforce-eager --enable-auto-tool-choice --tool-call-parser hermes`
 * **Ports Exposed:** `8000/http`, `22/tcp`
 * **Disk Allocation:** 50 GB Container Disk + 100 GB Workspace Volume
 
