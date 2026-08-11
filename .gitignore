@@ -39,3 +39,10 @@ __pycache__/
 .beads-credential-key
 .beads/proxieddb/
 *.gate.lock*
+
+# Gas City & Agent Runtime
+.beads/*
+!.beads/identity.toml
+.agents/
+.opencode/
+
