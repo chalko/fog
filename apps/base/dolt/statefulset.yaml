@@ -51,10 +51,11 @@ spec:
       volumes:
         - name: certs-volume
           secret:
-            secretName: dolt-tls-secret
+            secretName: dolt-tls
         - name: config-volume
           configMap:
             name: dolt-config
+
   volumeClaimTemplates:
     - metadata:
         name: dolt-data
