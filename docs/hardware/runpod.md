@@ -12,8 +12,8 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 | **Pod ID** | [`ms68rc2gadvzu5`](https://console.runpod.io/pods) |
 | **Model** | `Qwen/Qwen2.5-Coder-32B-Instruct-AWQ` |
 | **Engine** | `vllm/vllm-openai:v0.6.3` *(Pinned stable release)* |
-| **Hardware** | 1x NVIDIA A100-SXM4-80GB VRAM |
-| **Cost** | `$1.59 / hr` |
+| **Hardware** | 1x NVIDIA GPU Cloud Pod (24GB+ VRAM) |
+| **Cost** | `$2.00 / hr` |
 | **Status** | **RUNNING & SERVING** |
 | **Console Link** | [RunPod Console Pods](https://console.runpod.io/pods) |
 
@@ -25,17 +25,21 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 | :--- | :--- |
 | **Direct vLLM API** | `https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1` |
 | **Direct Health Endpoint**| `https://ms68rc2gadvzu5-8000.proxy.runpod.net/health` |
-| **LiteLLM Proxy Endpoint**| `https://llm.fog.chalko.com/v1/chat/completions` (Model: `worker-tier`) |
+| **LiteLLM Proxy Endpoints**| `https://llm.fog.chalko.com/v1/chat/completions` (Models: `worker-coder`, `worker-general`, `worker-tier`) |
 
 ---
 
 ## LiteLLM Integration & Secrets
 
-* **LiteLLM Model Tier:** `worker-tier`
+* **LiteLLM Model Tiers:** `worker-coder` (Coder swarms) and `worker-general` (General workers). (`worker-tier` supported for legacy compatibility).
 * **Custom Headers Required:** `User-Agent: vLLM/Client` (Bypasses Cloudflare WAF on `proxy.runpod.net`)
 * **Health Check Probe:** `GET /health` (Ultra-lightweight, 0-byte payload, zero GPU compute)
-* **Worker Virtual Key:** `gastown-workers` (Stored in Vault `secret/app/litellm` `worker_key` and sourced via `LITELLM_WORKER_KEY`)
+* **Virtual Keys:**
+  * `gastown-workers`: Gas Town Polecat worker rigs (`worker-coder`, `worker-general`, `utility-fast`, `utility-simple`).
+  * `gastown-crew`: Mayor and interactive crew agent sessions (`executive-tier`, `worker-coder`, `worker-general`, `utility-fast`, `utility-simple`).
+  * `hermes`: Standalone Hermes main agent (`executive-tier`, `worker-coder`, `worker-general`, `utility-fast`, `utility-simple`).
 
+---
 
 ## Container Configuration
 
@@ -49,7 +53,7 @@ This document tracks active cloud GPU workloads deployed on [RunPod](https://con
 ## Sample API Verification Query
 
 ```bash
-curl -X POST https://8zzicwtx96fnfl-8000.proxy.runpod.net/v1/chat/completions \
+curl -X POST https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
@@ -70,5 +74,5 @@ Secrets and credentials are managed via `pass` and cached in memory per workspac
 
 # Query active pod status via runpodctl
 source /dev/shm/fog/runpod-secret.env
-runpodctl pod get 8zzicwtx96fnfl
+runpodctl pod get ms68rc2gadvzu5
 ```
