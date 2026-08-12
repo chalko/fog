@@ -1,0 +1,79 @@
+formula = "fog-gitops"
+description = "Feature-branch GitOps workflow for fog homelab with Kaylee review & inspection gate"
+
+[requires]
+formula_compiler = ">=2.0.0"
+
+[vars]
+[vars.base_branch]
+description = "Base target branch for merge reconciliation (default: main)."
+default = "main"
+
+[[steps]]
+id = "workspace-setup"
+title = "Set up worktree and feature branch"
+description = """
+1. Fetch latest origin/main:
+   git fetch --prune origin
+
+2. Create an isolated worktree and feature branch:
+   WORKTREE_PATH=$(pwd)/worktrees/$WORK_BEAD_ID
+   git worktree add "$WORKTREE_PATH" -b "feature/$WORK_BEAD_ID" origin/main
+   cd "$WORKTREE_PATH"
+
+3. Record branch in bead metadata:
+   gc bd update "$WORK_BEAD_ID" --set-metadata branch="feature/$WORK_BEAD_ID" --set-metadata target="main"
+"""
+
+[[steps]]
+id = "implement-and-test"
+title = "Implement changes and run local verification"
+needs = ["workspace-setup"]
+description = """
+1. Implement requested code, manifest, or infrastructure changes.
+2. Run validation checks:
+   - For Terraform: terraform validate / terraform plan
+   - For K8s: kustomize build <dir>
+   - For Docker: docker build / dry-run syntax checks
+3. Commit changes to the feature branch:
+   git add -A
+   git commit -m "<type>(scope): <imperative title> ($WORK_BEAD_ID)"
+"""
+
+[[steps]]
+id = "submit-for-review"
+title = "Push branch to Gitea and hand off to Kaylee"
+needs = ["implement-and-test"]
+description = """
+1. Verify working directory is clean:
+   git status --porcelain
+
+2. Push feature branch to Gitea remote:
+   git push origin HEAD
+
+3. Reassign bead to Kaylee for Chief Engineer inspection:
+   gc bd update "$WORK_BEAD_ID" --status=open --assignee="fog/kaylee" --notes "Pushed feature branch for review. Ready for Kaylee inspection."
+
+4. Nudge Kaylee with MERGE_READY signal:
+   gc session nudge "fog/kaylee" "MERGE_READY: Bead $WORK_BEAD_ID branch feature/$WORK_BEAD_ID is ready for inspection."
+"""
+
+[[steps]]
+id = "kaylee-inspection-and-merge"
+title = "Kaylee Inspection Gate & FluxCD Release"
+needs = ["submit-for-review"]
+description = """
+Executed strictly by fog/kaylee (Chief Engineer):
+1. Review git diff:
+   git diff main..feature/$WORK_BEAD_ID
+
+2. Run safety and compliance checks:
+   - Verify no plaintext secrets or host system (/etc/hosts) violations exist.
+   - Validate manifests and schema correctness.
+   - Verify container tags and Vault secret paths.
+
+3. Reconcile & Release:
+   - Merge feature branch into main on gitea.fog.chalko.com.
+   - Push main upstream to trigger FluxCD GitOps reconciliation.
+   - Close the bead: gc bd close $WORK_BEAD_ID
+"""

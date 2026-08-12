@@ -43,8 +43,10 @@ __pycache__/
 # Gas City & Agent Runtime
 .beads/*
 !.beads/identity.toml
+!.beads/formulas/fog-gitops.formula.toml
 .gc/
-.agents/
+.agents/*
+!.agents/skills/
 .opencode/
 
 
