@@ -8,15 +8,6 @@ resource "pihole_local_dns" "misty" {
   ip       = "10.7.82.10"
 }
 
-resource "pihole_local_dns" "ollama_node" {
-  hostname = "ollama.node.fog.chalko.com"
-  ip       = "10.7.82.100"
-}
-
-resource "pihole_local_dns" "dolt" {
-  hostname = "dolt.fog.chalko.com"
-  ip       = "10.7.82.16"
-}
 
 
 
