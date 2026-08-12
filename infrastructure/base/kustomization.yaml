@@ -7,6 +7,8 @@ resources:
   - vault-integration
   - tailscale-operator
   - proxmox-dns-sync
+  - grafana
+
 
 
 
