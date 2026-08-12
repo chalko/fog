@@ -23,8 +23,8 @@ Key configuration manifests in this repository:
 | **Tier 1** | **Executive** | `executive-tier` | Frontier Cloud APIs (Gemini / Claude / Grok) | Mapped via version-agnostic logical aliases (`gemini-pro`, `gemini-flash`, `grok-4.5`). High reasoning depth for Mayor & Crew Lead Agents. | Pay-per-token API |
 | **Tier 2A** | **Worker - General** | `worker-general` | Gemini Cloud API (`gemini-flash`) | `gemini/gemini-3.6-flash`. Non-coding worker tasks, document synthesis, workflow execution. | Pay-per-token API |
 | **Tier 2B** | **Worker - Coder** | `worker-coder` | Gemini Cloud API (`gemini-flash` / `gemini-pro`) | `gemini/gemini-3.6-flash`. Gas Town Polecat swarms for parallel coding, unit testing, refactoring. | Pay-per-token API |
-| **Tier 3** | **Fast Utility** | `utility-fast` | `misty` CPU Ollama (`ollama.fog.chalko.com`) | `llama3.2:3b` / `qwen2.5:3b`. Dedicated LXC container (VMID 9100, 12 GB RAM, 4 vCPUs). Fast prompt routing & task classification. | $0.00 / mo (local CPU) |
-| **Tier 4** | **Simple Utility** | `utility-simple` | `misty` CPU Ollama (`ollama.fog.chalko.com`) | `llama3.2:1b` (JSON structure & schema validation) and `nomic-embed-text` (vector embeddings). 12 GB LXC RAM allocation. | $0.00 / mo (local CPU) |
+| **Tier 3** | **Fast Utility** | `utility-fast` | `misty` CPU Ollama (`ollama.node.fog.chalko.com`) | `llama3.2:3b` / `qwen2.5:3b`. Dedicated LXC container (VMID 9100, 12 GB RAM, 4 vCPUs). Fast prompt routing & task classification. | $0.00 / mo (local CPU) |
+| **Tier 4** | **Simple Utility** | `utility-simple` | `misty` CPU Ollama (`ollama.node.fog.chalko.com`) | `llama3.2:1b` (JSON structure & schema validation) and `nomic-embed-text` (vector embeddings). 12 GB LXC RAM allocation. | $0.00 / mo (local CPU) |
 
 
 ---

@@ -43,6 +43,8 @@ __pycache__/
 # Gas City & Agent Runtime
 .beads/*
 !.beads/identity.toml
+.gc/
 .agents/
 .opencode/
+
 

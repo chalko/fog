@@ -27,5 +27,9 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
    - **`infrastructure/`**: Contains shared Kubernetes platform operators/controllers (e.g., `cert-manager`, `ingress-nginx`, `external-dns`, `vault-integration`).
    - **`apps/`**: Contains user-facing application deployments (e.g., `gitea`, `capacitor`).
    - **`clusters/`**: Contains only the core FluxCD GitOps entrypoint configurations. Do not put application manifests directly inside `clusters/`—instead, reference paths under `infrastructure/` or `apps/` using Flux Kustomizations.
+5. **Scope Boundaries**:
+   - Only make changes to the `fog` homelab repository, cluster infrastructure, and Proxmox VMs.
+   - **Never** attempt to modify the local workstation host (`brida`) or edit system files on the host machine (e.g., `/etc/hosts` or host system configs).
+
 
 

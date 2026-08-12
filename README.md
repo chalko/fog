@@ -31,7 +31,8 @@ This will:
 1. Verify/create directory `/dev/shm/fog` with `700` permissions.
 2. Read required secrets from `pass` (e.g., `fog/proxmox/api_token_secret`, etc.).
 3. Cache them securely under `/dev/shm/fog/{proxmox,docker,k8s}.env` with `600` permissions.
-4. Source the files in the current shell session (which exports credentials like `VAULT_TOKEN`).
+4. Source the files in the current shell session (using `set -a` and `set +a` wrappers so all variables like `VAULT_TOKEN` are automatically exported into your shell environment).
+
 
 ## Cluster Deployment & Management
 
@@ -66,7 +67,8 @@ kubectl get nodes
 
 For detailed information on design decisions, hardware setups, and operation procedures:
 
-- **Hardware Specifications**: See [docs/hardware.md](file:///home/nick/src/fog/docs/hardware.md) for details on the host node (`misty`).
+- **DNS Architecture**: See [docs/dns.md](file:///home/nick/gt-city/rigs/fog/docs/dns.md) for domain namespace separation rules (`*.fog.chalko.com` vs `*.node.fog.chalko.com`).
+- **Hardware Specifications**: See [docs/hardware.md](file:///home/nick/gt-city/rigs/fog/docs/hardware.md) for details on the host node (`misty`).
 - **Secrets & Integration**: See [docs/vault.md](file:///home/nick/src/fog/docs/vault.md) for Vault setup, unsealing steps, and Kubernetes External Secrets configurations.
 - **Environment Management**: See [bin/load-env.sh](file:///home/nick/src/fog/bin/load-env.sh) for credential caching setup.
 - **Tailscale Operator**: See [docs/tailscale.md](file:///home/nick/src/fog/docs/tailscale.md) for details on the Tailscale Kubernetes Operator.
