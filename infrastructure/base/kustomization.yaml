@@ -6,5 +6,7 @@ resources:
   - coredns-fog
   - vault-integration
   - tailscale-operator
+  - proxmox-dns-sync
+
 
 

@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: proxmox-dns-sync
+  namespace: external-dns
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: proxmox-dns-sync
+              image: ghcr.io/fog-homelab/proxmox-dns-sync:latest
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: EXTERNAL_DNS_PROXMOX_URL
+                  value: "https://10.7.82.10:8006/api2/json"
+                - name: EXTERNAL_DNS_PIHOLE_SERVER
+                  value: "http://10.5.110.3"
+                - name: DOMAIN_SUFFIX
+                  value: "node.fog.chalko.com"
+                - name: EXTERNAL_DNS_PROXMOX_TOKEN_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: proxmox-secrets
+                      key: api_token
+                - name: EXTERNAL_DNS_PROXMOX_TOKEN_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: proxmox-secrets
+                      key: api_token
+                - name: EXTERNAL_DNS_PIHOLE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: pihole-secrets
+                      key: password
+              resources:
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
