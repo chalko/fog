@@ -4,5 +4,7 @@ resources:
   - cert-manager
   - ingress-nginx
   - external-dns
+  - coredns-fog
   - vault-integration
   - tailscale-operator
+

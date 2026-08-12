@@ -13,7 +13,9 @@ metadata:
   name: external-dns
   namespace: external-dns
 spec:
+  suspend: true
   interval: 10m
+
   chart:
     spec:
       chart: external-dns
@@ -38,5 +40,7 @@ spec:
     txtOwnerId: "lodge-k8s-cluster"
     extraArgs:
       - --pihole-api-version=6
-      - --interval=5m
+
+
+
 
