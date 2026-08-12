@@ -41,6 +41,8 @@ metadata:
     app: coredns-fog
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: coredns-fog
