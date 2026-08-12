@@ -21,6 +21,7 @@ spec:
         kind: HelmRepository
         name: external-dns
   values:
+    interval: 5m
     provider: pihole
     env:
       - name: EXTERNAL_DNS_PIHOLE_SERVER
@@ -37,3 +38,5 @@ spec:
     txtOwnerId: "lodge-k8s-cluster"
     extraArgs:
       - --pihole-api-version=6
+      - --interval=5m
+
