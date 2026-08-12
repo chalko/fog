@@ -6,23 +6,15 @@ metadata:
 data:
   config.yaml: |
     model_list:
-      # --- Logical Tiers (New 5-Tier Scheme) ---
+      # --- Logical Tiers (5-Tier Scheme) ---
       - model_name: worker-coder
         litellm_params:
-          model: openai/Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-          api_base: https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1
-          api_key: "none"
-          extra_headers:
-            User-Agent: "vLLM/Client"
-          timeout: 120
+          model: gemini/gemini-3.6-flash
+          api_key: "os.environ/GEMINI_API_KEY"
       - model_name: worker-general
         litellm_params:
-          model: openai/Qwen/Qwen2.5-32B-Instruct-AWQ
-          api_base: https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1
-          api_key: "none"
-          extra_headers:
-            User-Agent: "vLLM/Client"
-          timeout: 120
+          model: gemini/gemini-3.6-flash
+          api_key: "os.environ/GEMINI_API_KEY"
       - model_name: utility-fast
         litellm_params:
           model: ollama/llama3.2:3b
@@ -43,12 +35,8 @@ data:
           api_base: https://ollama.fog.chalko.com
       - model_name: worker-tier
         litellm_params:
-          model: openai/Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-          api_base: https://ms68rc2gadvzu5-8000.proxy.runpod.net/v1
-          api_key: "none"
-          extra_headers:
-            User-Agent: "vLLM/Client"
-          timeout: 120
+          model: gemini/gemini-3.6-flash
+          api_key: "os.environ/GEMINI_API_KEY"
       - model_name: executive-tier
         litellm_params:
           model: gemini/gemini-3.1-pro-preview
@@ -90,9 +78,9 @@ data:
 
     router_settings:
       fallbacks:
-        - worker-coder: ["gemini-flash", "utility-fast"]
-        - worker-general: ["gemini-flash", "utility-fast"]
-        - worker-tier: ["gemini-flash", "utility-tier"]
+        - worker-coder: ["gemini-pro", "utility-fast"]
+        - worker-general: ["gemini-flash-lite", "utility-fast"]
+        - worker-tier: ["gemini-pro", "utility-tier"]
         - utility-tier: ["gemini-flash-lite"]
         - utility-fast: ["gemini-flash-lite"]
       num_retries: 2
