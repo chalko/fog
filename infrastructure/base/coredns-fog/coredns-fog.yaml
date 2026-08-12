@@ -2,6 +2,11 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: coredns-fog
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -48,18 +53,26 @@ spec:
       containers:
       - name: coredns
         image: registry.k8s.io/coredns/coredns:v1.12.0
+        securityContext:
+          capabilities:
+            add:
+            - NET_BIND_SERVICE
         args: [ "-conf", "/etc/coredns/Corefile" ]
+
         volumeMounts:
         - name: config-volume
           mountPath: /etc/coredns
           readOnly: true
         ports:
         - containerPort: 53
+          hostPort: 53
           name: dns-udp
           protocol: UDP
         - containerPort: 53
+          hostPort: 53
           name: dns-tcp
           protocol: TCP
+
         - containerPort: 8080
           name: health
           protocol: TCP
