@@ -42,7 +42,13 @@ __pycache__/
 
 # Gas City & Agent Runtime
 .beads/*
+!.beads/config.yaml
+!.beads/metadata.json
 !.beads/identity.toml
+!.beads/README.md
+!.beads/.gitignore
+!.beads/formulas/
+.beads/formulas/*
 !.beads/formulas/fog-gitops.formula.toml
 .gc/
 .agents/*
