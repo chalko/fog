@@ -31,6 +31,12 @@ data:
             answer "{{ .Name }} 60 IN A 10.7.82.16"
         }
     }
+    .:53 {
+        log
+        errors
+        forward . 10.5.110.3 1.1.1.1
+        cache 30
+    }
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,6 +57,8 @@ spec:
       labels:
         app: coredns-fog
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-47e-fbr
       serviceAccountName: coredns-fog
       containers:
       - name: coredns
@@ -67,9 +75,11 @@ spec:
           readOnly: true
         ports:
         - containerPort: 53
+          hostPort: 53
           name: dns-udp
           protocol: UDP
         - containerPort: 53
+          hostPort: 53
           name: dns-tcp
           protocol: TCP
 
