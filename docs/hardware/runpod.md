@@ -70,7 +70,7 @@ Secrets and credentials are managed via `pass` and cached in memory per workspac
 
 ```bash
 # Refresh RunPod secrets cache
-./bin/refresh-secrets runpod
+keeper runpod
 
 # Query active pod status via runpodctl
 source /dev/shm/fog/runpod-secret.env

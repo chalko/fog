@@ -67,6 +67,7 @@ kubectl get nodes
 
 For detailed information on design decisions, hardware setups, and operation procedures:
 
+- **Service Catalog & Topology**: See [docs/services.md](file:///home/nick/gt-city/rigs/fog/docs/services.md) for a full breakdown of all running services, hypervisors, and endpoints.
 - **DNS Architecture**: See [docs/dns.md](file:///home/nick/gt-city/rigs/fog/docs/dns.md) for domain namespace separation rules (`*.fog.chalko.com` vs `*.node.fog.chalko.com`).
 - **Hardware Specifications**: See [docs/hardware.md](file:///home/nick/gt-city/rigs/fog/docs/hardware.md) for details on the host node (`misty`).
 - **Secrets & Integration**: See [docs/vault.md](file:///home/nick/src/fog/docs/vault.md) for Vault setup, unsealing steps, and Kubernetes External Secrets configurations.

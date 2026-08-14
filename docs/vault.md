@@ -61,7 +61,7 @@ pass show fog/vault/unseal_key_3
 Whenever the Vault LXC container or the service restarts, Vault starts in a **sealed** state. You can unseal it using one of the following methods:
 
 #### Method A: From your local computer (Recommended)
-If you have initialized your secure environment cache using `bin/refresh-secrets vault`, you can unseal Vault directly from your laptop/desktop without SSHing into Proxmox:
+If you have initialized your secure environment cache using `keeper vault`, you can unseal Vault directly from your laptop/desktop without SSHing into Proxmox:
 ```bash
 # 1. Load the Vault environment
 source /dev/shm/fog/vault-secret.env

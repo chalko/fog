@@ -16,6 +16,12 @@ the home lab.
 - **Primary Role**: Proxmox VE Host (`misty`), hosting Kubernetes
   controlplane/worker nodes and HashiCorp Vault.
 
+### Node 2: ASUS Ascent GX10
+
+- **Form Factor**: Dedicated AI Micro-Server / Workstation
+- **Hostname / FQDN**: `gx10-2b2a.lodge.chalko.com`
+- **Primary Role**: Dedicated high-performance local AI compute, inference, and model hosting.
+
 ## Proxmox Resource Allocation Matrix
 
 | VMID   | VM/LXC Name     | Type       | Cores | RAM   | Rationale                             |
