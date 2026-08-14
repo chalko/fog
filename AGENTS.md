@@ -30,6 +30,10 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
 5. **Scope Boundaries**:
    - Only make changes to the `fog` homelab repository, cluster infrastructure, and Proxmox VMs.
    - **Never** attempt to modify the local workstation host (`brida`) or edit system files on the host machine (e.g., `/etc/hosts` or host system configs).
+6. **GPU & AI Inference Host Management (`haze` / GX10)**:
+   - LLM inference runtimes (e.g., vLLM, Ollama) and GPU server workloads have long startup/warmup lifecycles (loading large models into VRAM, allocating KV cache, and compiling attention kernels).
+   - **Never** restart, remove, or recreate GPU model containers, Docker daemons, or systemd services on inference nodes (such as `haze`) to experiment or debug without explicit confirmation from the human operator.
+   - Always allow running model containers to complete their initialization and warmup cycles uninterrupted. Use read-only log inspection (`docker logs`) and process monitoring (`ps aux`, `nvidia-smi`) to track progress.
 
 
 
