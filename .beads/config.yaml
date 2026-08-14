@@ -11,6 +11,3 @@ types.custom: molecule,convoy,message,event,gate,merge-request,agent,role,rig,se
 sync:
   remote: "git+https://gitea.fog.chalko.com/Chalko/fog"
 dolt.mode: server
-dolt.host: dolt.fog.chalko.com
-dolt.port: 3306
-dolt.user: root

@@ -21,7 +21,7 @@ Managed via Terraform in [`provision/`](file:///home/nick/gt-city/rigs/fog/provi
 | Service / Host | Role / Purpose | Endpoint / IP | Management |
 | :--- | :--- | :--- | :--- |
 | **`misty`** | Proxmox VE 8.x Hypervisor Host | `10.7.82.10`<br>`https://misty.node.fog.chalko.com:8006` | Proxmox VE |
-| **`gx10-2b2a`** (ASUS Ascent GX10) | Dedicated AI Micro-Server / Workstation | `gx10-2b2a.lodge.chalko.com` | Standalone Node |
+| **`haze`** (ASUS Ascent GX10) | Dedicated AI Micro-Server / Workstation | `haze.lodge.chalko.com`<br>`gx10-2b2a.lodge.chalko.com` | Standalone Node |
 | **HashiCorp Vault** | Central Secrets Management & Encryption Engine | `https://10.7.82.90:8200`<br>`vault.node.fog.chalko.com` | Terraform / Pass |
 | **Ollama GPU Host** | Dedicated VM with GPU Passthrough for Local LLMs | `http://10.7.82.100:11434`<br>`ollama.node.fog.chalko.com` | Proxmox VM / Terraform |
 | **Talos K8s Nodes** | Immutable OS Kubernetes Control Plane & Worker Nodes | `10.7.82.50+` range | Talos Linux / Terraform |
