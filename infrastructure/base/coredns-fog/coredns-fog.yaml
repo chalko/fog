@@ -67,11 +67,9 @@ spec:
           readOnly: true
         ports:
         - containerPort: 53
-          hostPort: 53
           name: dns-udp
           protocol: UDP
         - containerPort: 53
-          hostPort: 53
           name: dns-tcp
           protocol: TCP
 
