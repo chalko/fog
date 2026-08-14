@@ -22,6 +22,7 @@ data:
 
       - job_name: 'litellm'
         metrics_path: '/metrics'
+        bearer_token_file: '/etc/prometheus/secrets/litellm-master-key'
         static_configs:
           - targets: ['litellm.litellm.svc.cluster.local:4000']
             labels:

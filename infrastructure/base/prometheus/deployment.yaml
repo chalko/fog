@@ -40,6 +40,9 @@ spec:
               mountPath: /etc/prometheus
             - name: storage
               mountPath: /prometheus
+            - name: secrets
+              mountPath: /etc/prometheus/secrets
+              readOnly: true
       volumes:
         - name: config
           configMap:
@@ -47,6 +50,9 @@ spec:
         - name: storage
           persistentVolumeClaim:
             claimName: prometheus-data-pvc
+        - name: secrets
+          secret:
+            secretName: prometheus-secrets
 ---
 apiVersion: v1
 kind: Service

@@ -11,16 +11,16 @@ data:
         litellm_params:
           model: openai/Qwen/Qwen3.8-27B-FP8
           api_base: http://haze.lodge.chalko.com:8000/v1
-          reasoning_effort: "high"
           max_tokens: 16384
           temperature: 0.1
+          drop_params: true
       - model_name: worker-general
         litellm_params:
           model: openai/Qwen/Qwen3.8-27B-FP8
           api_base: http://haze.lodge.chalko.com:8000/v1
-          reasoning_effort: "low"
           max_tokens: 2048
           temperature: 0.2
+          drop_params: true
       - model_name: utility-fast
         litellm_params:
           model: ollama/llama3.2:3b
@@ -96,3 +96,4 @@ data:
       master_key: "os.environ/LITELLM_MASTER_KEY"
       background_health_checks: true
       allow_unauthenticated_metrics: true
+      drop_params: true
