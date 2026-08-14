@@ -95,3 +95,4 @@ data:
     general_settings:
       master_key: "os.environ/LITELLM_MASTER_KEY"
       background_health_checks: true
+      allow_unauthenticated_metrics: true
