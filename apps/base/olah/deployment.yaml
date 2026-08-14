@@ -17,8 +17,12 @@ spec:
     spec:
       containers:
         - name: olah
-          image: ghcr.io/vtuber-plan/olah:latest
+          image: python:3.11-slim
           imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - "pip install --no-cache-dir olah && exec python -m olah --host 0.0.0.0 --port 8080 --storage-dir /app/cache"
           ports:
             - name: http
               containerPort: 8080
