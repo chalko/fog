@@ -14,7 +14,7 @@ data:
         disableDeletion: false
         editable: true
         options:
-          path: /var/lib/grafana/dashboards
+          path: /var/lib/grafana-dashboards
 
   proxmox-dashboard.json: |
     {

@@ -23,19 +23,52 @@ spec:
             - containerPort: 3000
               name: http
           env:
+            - name: GF_SERVER_ROOT_URL
+              value: "https://grafana.fog.chalko.com"
             - name: GF_SECURITY_ADMIN_USER
               value: "admin"
             - name: GF_SECURITY_ADMIN_PASSWORD
               value: "fog-homelab-admin"
             - name: GF_USERS_ALLOW_SIGN_UP
               value: "false"
+            - name: GF_USERS_AUTO_ASSIGN_ORG_ROLE
+              value: "Viewer"
+            # Google OAuth Configuration
+            - name: GF_AUTH_GOOGLE_ENABLED
+              value: "true"
+            - name: GF_AUTH_GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secrets
+                  key: google-client-id
+            - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secrets
+                  key: google-client-secret
+            - name: GF_AUTH_GOOGLE_SCOPES
+              value: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+            - name: GF_AUTH_GOOGLE_AUTH_URL
+              value: "https://accounts.google.com/o/oauth2/auth"
+            - name: GF_AUTH_GOOGLE_TOKEN_URL
+              value: "https://oauth2.googleapis.com/token"
+            - name: GF_AUTH_GOOGLE_ALLOWED_DOMAINS
+              value: "chalko.com"
+            - name: GF_AUTH_GOOGLE_ALLOW_SIGN_UP
+              value: "true"
+            - name: GF_AUTH_GOOGLE_AUTO_SIGN_UP
+              value: "true"
+            - name: GF_AUTH_GOOGLE_ROLE_ATTRIBUTE_PATH
+              value: "email == 'nick@chalko.com' && 'Admin' || 'Viewer'"
           volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
             - name: datasources
               mountPath: /etc/grafana/provisioning/datasources
             - name: dashboard-provider
               mountPath: /etc/grafana/provisioning/dashboards
             - name: dashboards
-              mountPath: /var/lib/grafana/dashboards
+              mountPath: /var/lib/grafana-dashboards
           resources:
             limits:
               cpu: 200m
@@ -44,6 +77,9 @@ spec:
               cpu: 50m
               memory: 128Mi
       volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-data-pvc
         - name: datasources
           configMap:
             name: grafana-datasources
