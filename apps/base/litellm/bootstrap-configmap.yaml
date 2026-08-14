@@ -21,7 +21,7 @@ data:
       -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
       -d '{
         "key_alias": "gastown-workers",
-        "models": ["utility-tier", "worker-tier"]
+        "models": ["utility-tier", "worker-tier", "worker-coder", "worker-general", "utility-fast", "utility-simple"]
       }' || echo "Verification/generation completed or skipped"
 
     # DEPRECATED: Legacy key for Hermes & Mayor (kept for backwards compatibility until Gas City is updated)
