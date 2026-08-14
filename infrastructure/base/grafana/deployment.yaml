@@ -103,3 +103,5 @@ spec:
                 path: litellm-dashboard.json
               - key: executive-dashboard.json
                 path: executive-dashboard.json
+              - key: haze-dashboard.json
+                path: haze-dashboard.json

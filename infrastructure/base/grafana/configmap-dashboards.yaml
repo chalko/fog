@@ -265,3 +265,89 @@ data:
       "title": "Executive Pilot Combo Dashboard",
       "uid": "executive-pilot-overview"
     }
+
+  haze-dashboard.json: |
+    {
+      "annotations": { "list": [] },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "liveNow": true,
+      "panels": [
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+          "id": 1,
+          "title": "Active Running Requests",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:num_requests_running{instance=\"haze\"}", "legendFormat": "Running" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+          "id": 2,
+          "title": "Queued Waiting Requests",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:num_requests_waiting{instance=\"haze\"}", "legendFormat": "Waiting" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+          "id": 3,
+          "title": "GPU KV Cache Usage (%)",
+          "type": "gauge",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:gpu_cache_usage_factor{instance=\"haze\"} * 100", "legendFormat": "KV Cache %" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+          "id": 4,
+          "title": "Completed Requests Total",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:request_success_total{instance=\"haze\"}", "legendFormat": "Success Total" }
+          ]
+        },
+        {
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+          "id": 5,
+          "title": "Token Generation & Prompt Speed (tokens/s)",
+          "type": "timeseries",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:avg_generation_throughput_tok_per_s{instance=\"haze\"}", "legendFormat": "Gen Tokens/s" },
+            { "datasource": "Prometheus", "expr": "vllm:avg_prompt_throughput_tok_per_s{instance=\"haze\"}", "legendFormat": "Prompt Tokens/s" }
+          ]
+        },
+        {
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+          "id": 6,
+          "title": "Cumulative Output vs Prompt Tokens",
+          "type": "timeseries",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "vllm:generation_tokens_total{instance=\"haze\"}", "legendFormat": "Total Output Tokens" },
+            { "datasource": "Prometheus", "expr": "vllm:prompt_tokens_total{instance=\"haze\"}", "legendFormat": "Total Prompt Tokens" }
+          ]
+        },
+        {
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 14 },
+          "id": 7,
+          "title": "Request Latency p95 / TTFT (ms)",
+          "type": "timeseries",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "histogram_quantile(0.95, sum(rate(vllm:time_to_first_token_seconds_bucket{instance=\"haze\"}[5m])) by (le)) * 1000", "legendFormat": "Time to First Token (TTFT) p95 ms" },
+            { "datasource": "Prometheus", "expr": "histogram_quantile(0.95, sum(rate(vllm:time_per_output_token_seconds_bucket{instance=\"haze\"}[5m])) by (le)) * 1000", "legendFormat": "Time per Output Token (TPOT) p95 ms" }
+          ]
+        }
+      ],
+      "refresh": "2s",
+      "schemaVersion": 38,
+      "style": "dark",
+      "tags": ["haze", "gx10", "vllm", "qwen", "ai"],
+      "time": { "from": "now-15m", "to": "now" },
+      "title": "Haze GX10 GPU & LLM Inference Overview",
+      "uid": "haze-gx10-inference-overview"
+    }
