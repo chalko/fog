@@ -11,6 +11,8 @@ resources:
   - olah
   - harbor
   - proxmox-dns-sync
+  - netbox
+
 
 
 

@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: netbox
+  namespace: netbox
+  labels:
+    app.kubernetes.io/name: netbox
+    app.kubernetes.io/component: app
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: netbox
+    app.kubernetes.io/component: app
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: netbox-media
+  namespace: netbox
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: "local-path"
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbox
+  namespace: netbox
+  labels:
+    app.kubernetes.io/name: netbox
+    app.kubernetes.io/component: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: netbox
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: netbox
+        app.kubernetes.io/component: app
+    spec:
+      serviceAccountName: netbox-sa
+      containers:
+        - name: netbox
+          image: netboxcommunity/netbox:v4.6.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: "netbox-postgres"
+            - name: DB_NAME
+              value: "netbox"
+            - name: DB_USER
+              value: "netbox"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: netbox-secrets
+                  key: DB_PASSWORD
+                  optional: true
+            - name: REDIS_HOST
+              value: "netbox-redis"
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: netbox-secrets
+                  key: SECRET_KEY
+                  optional: true
+          volumeMounts:
+            - name: media
+              mountPath: /opt/netbox/netbox/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: netbox-media

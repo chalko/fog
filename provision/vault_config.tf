@@ -118,4 +118,28 @@ resource "vault_kubernetes_auth_backend_role" "proxmox_dns_sync_role" {
   token_ttl                        = 86400
 }
 
+# 12. Dedicated Least-Privilege Policy for NetBox
+resource "vault_policy" "netbox_policy" {
+  name   = "netbox-read"
+  policy = <<EOT
+path "secret/data/app/netbox" {
+  capabilities = ["read"]
+}
+path "secret/data/app/netbox/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 13. Bind NetBox Policy to ServiceAccount
+resource "vault_kubernetes_auth_backend_role" "netbox_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "netbox-role"
+  bound_service_account_names      = ["netbox-sa", "default"]
+  bound_service_account_namespaces = ["netbox"]
+  token_policies                   = [vault_policy.netbox_policy.name]
+  token_ttl                        = 86400
+}
+
+
 
