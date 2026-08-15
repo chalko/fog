@@ -23,9 +23,8 @@ spec:
         kind: HelmRepository
         name: harbor-charts
   values:
-    existingSecretAdminPassword: "harbor-secret"
-    existingSecretSecretKey: "harbor-secret"
     expose:
+
       type: ingress
       tls:
         enabled: true
