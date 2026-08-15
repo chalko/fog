@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: proxmox-dns-sync
+  namespace: proxmox-dns-sync
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: proxmox-dns-sync-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: proxmox-dns-sync
+              image: harbor.fog.chalko.com/library/proxmox-dns-sync:v1.0.0
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: EXTERNAL_DNS_PROXMOX_URL
+                  value: "https://10.7.82.10:8006/api2/json"
+                - name: EXTERNAL_DNS_PIHOLE_SERVER
+                  value: "http://10.5.110.3"
+                - name: DOMAIN_SUFFIX
+                  value: "node.fog.chalko.com"
+              envFrom:
+                - secretRef:
+                    name: proxmox-dns-sync-secrets

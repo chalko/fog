@@ -69,3 +69,53 @@ resource "vault_approle_auth_backend_role" "haze_role" {
   token_ttl      = 86400
 }
 
+# 8. Dedicated Least-Privilege Policy for Harbor Registry
+resource "vault_policy" "harbor_policy" {
+  name   = "harbor-read"
+  policy = <<EOT
+path "secret/data/app/harbor" {
+  capabilities = ["read"]
+}
+path "secret/data/app/harbor/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 9. Bind Harbor Policy to Harbor ServiceAccount
+resource "vault_kubernetes_auth_backend_role" "harbor_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "harbor-role"
+  bound_service_account_names      = ["harbor-sa", "default"]
+  bound_service_account_namespaces = ["harbor"]
+  token_policies                   = [vault_policy.harbor_policy.name]
+  token_ttl                        = 86400
+}
+
+# 10. Dedicated Least-Privilege Policy for Proxmox DNS Sync
+resource "vault_policy" "proxmox_dns_sync_policy" {
+  name   = "proxmox-dns-sync-read"
+  policy = <<EOT
+path "secret/data/app/proxmox-dns-sync" {
+  capabilities = ["read"]
+}
+path "secret/data/infrastructure/pve" {
+  capabilities = ["read"]
+}
+path "secret/data/infrastructure/pihole" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 11. Bind Proxmox DNS Sync Policy to ServiceAccount
+resource "vault_kubernetes_auth_backend_role" "proxmox_dns_sync_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "proxmox-dns-sync-role"
+  bound_service_account_names      = ["proxmox-dns-sync-sa", "default"]
+  bound_service_account_namespaces = ["proxmox-dns-sync"]
+  token_policies                   = [vault_policy.proxmox_dns_sync_policy.name]
+  token_ttl                        = 86400
+}
+
+

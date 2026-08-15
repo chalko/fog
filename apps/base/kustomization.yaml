@@ -10,5 +10,7 @@ resources:
   - dolt
   - olah
   - harbor
+  - proxmox-dns-sync
+
 
 
