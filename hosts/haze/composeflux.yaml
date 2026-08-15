@@ -1,0 +1,18 @@
+apiVersion: composeflux.io/v1alpha1
+kind: ComposeStack
+metadata:
+  name: haze-vllm
+  host: haze.lodge.chalko.com
+spec:
+  interval: 5m
+  path: hosts/haze
+  composeFile: compose.yaml
+  envFile: .env
+  source:
+    repository: https://gitea.fog.chalko.com/fog/fog.git
+    branch: main
+  healthCheck:
+    endpoint: http://127.0.0.1:8000/health
+    expectedStatus: 200
+    initialDelaySeconds: 180
+    periodSeconds: 30
