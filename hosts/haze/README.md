@@ -5,13 +5,14 @@ This directory contains the declarative Docker Compose and ComposeFlux configura
 ## Workloads
 
 ### `vllm-qwen38`
-- **Image**: `nvcr.io/nvidia/vllm:26.07-py3` (ARM64 optimized NVIDIA container)
+- **Image**: `vllm/vllm-openai:latest` (Official multi-arch ARM64 vLLM image)
 - **Model**: `Qwen/Qwen3.8-27B-FP8`
-- **Context Length**: 16,384 tokens
+- **Context Length**: 131,072 tokens (128k context)
 - **Port**: `8000` (OpenAI-compatible `/v1/chat/completions` & `/v1/models`)
 - **Key Flags**:
   - `NVIDIA_DISABLE_REQUIRE=1`: Disables driver constraint checks for ARM64 container runtime.
-  - `--gpu-memory-utilization 0.90`: Reserves optimal VRAM allocation for KV cache and attention kernels.
+  - `--gpu-memory-utilization 0.55`: Calibrated for Grace Blackwell unified memory headroom.
+  - `--enforce-eager`: Prevents PyTorch CUDA graph allocator fluctuations in unified memory.
   - `ipc: host`: Shared memory access for low-latency inference.
 
 ## GitOps Deployment with ComposeFlux

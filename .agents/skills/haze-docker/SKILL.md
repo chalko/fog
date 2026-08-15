@@ -19,17 +19,16 @@ This skill defines the mandatory GitOps workflow and operational rules for manag
 2. **Uninterrupted Warmup Lifecycles (Rule #6)**:
    * LLM inference engines (vLLM, SGLang, Ollama) on Blackwell require multi-minute initialization cycles (loading 28+ GB safetensors weights into VRAM, allocating 76+ GB KV-cache, and compiling CUDA graph attention kernels).
    * Never interrupt or cycle running containers during their initialization and warmup cycles.
-3. **Read-Only Observability**:
-   * Always monitor container progress via read-only inspection:
+3. **HTTP Observability (No SSH Hacking)**:
+   * Monitor service readiness and health via HTTP endpoints:
      ```bash
-     ssh nick@10.7.82.11 "docker ps"
-     ssh nick@10.7.82.11 "docker logs --tail 30 vllm-qwen38"
-     ssh nick@10.7.82.11 "nvidia-smi"
+     curl -s http://10.7.82.11:8000/health
+     curl -s http://10.7.82.11:8000/v1/models
      ```
 
 ---
 
-## 2. Standard Deployment Workflow (Edit ➔ Push ➔ Kick Flux)
+## 2. Standard Deployment Workflow (Edit ➔ Push ➔ ComposeFlux)
 
 Whenever you need to update model configurations, environment variables, or compose services on Haze:
 
@@ -40,28 +39,21 @@ Modify [`hosts/haze/compose.yaml`](file:///home/nick/laredo/rigs/fog/hosts/haze/
 ```bash
 git add hosts/haze/compose.yaml
 git commit -m "feat(haze): update compose stack configuration"
-git push gitea main
+git push origin main
 ```
 
-### Step 3: Kick ComposeFlux Sync
+### Step 3: Trigger ComposeFlux Sync
 Trigger the ComposeFlux GitOps sync on Haze to apply the newly pushed commit:
 ```bash
 # Webhook trigger (Port 9898)
-curl -s -X POST http://10.7.82.11:9898/webhook || true
-
-# Or trigger direct ComposeFlux agent sync
-ssh nick@10.7.82.11 "sudo /opt/composeflux/bin/composeflux sync || cd /home/nick/stacks/haze && docker compose up -d"
+curl -s -X POST http://10.7.82.11:9898/webhook/gitea || true
 ```
 
-### Step 4: Monitor Warmup & Verify
-Tail the startup logs until the OpenAI endpoint comes online:
+### Step 4: Verify via Health Endpoint
 ```bash
-# Check GPU memory allocation
-ssh nick@10.7.82.11 "nvidia-smi"
-
 # Verify API readiness
-curl -s http://10.7.82.11:8000/v1/models
 curl -s http://10.7.82.11:8000/health
+curl -s http://10.7.82.11:8000/v1/models
 ```
 
 ---
