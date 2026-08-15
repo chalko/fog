@@ -28,6 +28,8 @@ services:
       - "16384"
       - "--gpu-memory-utilization"
       - "0.40"
+      - "--enforce-eager"
+
 
 
 
