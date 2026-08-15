@@ -27,7 +27,8 @@ services:
       - "--max-model-len"
       - "16384"
       - "--gpu-memory-utilization"
-      - "0.90"
+      - "0.40"
+
 
 
     deploy:
