@@ -34,11 +34,15 @@ spec:
       ingress:
         hosts:
           core: harbor.fog.chalko.com
-        controller: default
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "900"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
+          ingress.kubernetes.io/ssl-redirect: "true"
     externalURL: https://harbor.fog.chalko.com
+
 
     persistence:
       persistentVolumeClaim:
