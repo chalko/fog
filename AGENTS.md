@@ -37,6 +37,6 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
    - LLM inference runtimes (e.g., vLLM, Ollama) and GPU server workloads have long startup/warmup lifecycles (loading large models into VRAM, allocating KV cache, and compiling attention kernels).
    - **Never** restart, remove, or recreate GPU model containers, Docker daemons, or systemd services on inference nodes (such as `haze`) to experiment or debug without explicit confirmation from the human operator.
    - Always allow running model containers to complete their initialization and warmup cycles uninterrupted. Use read-only log inspection (`docker logs`) and process monitoring (`ps aux`, `nvidia-smi`) to track progress.
-
-
-
+7. **Rig Ownership & Engineering Responsibility (`fog`)**:
+   - **`fog` is Kaylee's Rig**: Kaylee is the Chief Engineer and crew agent responsible for code changes, deployments, and infrastructure modifications in `fog`.
+   - **Mayor / Joan Boundary**: The Mayor (Joan) coordinates city-wide planning and dispatches tasks via beads and mail, but must **never** directly modify files or commit code in the `fog` repository. All technical changes must be requested through beads or mail for Kaylee to implement.
