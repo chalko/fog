@@ -341,12 +341,57 @@ data:
             { "datasource": "Prometheus", "expr": "histogram_quantile(0.95, sum(rate(vllm:time_to_first_token_seconds_bucket{instance=\"haze\"}[5m])) by (le)) * 1000", "legendFormat": "Time to First Token (TTFT) p95 ms" },
             { "datasource": "Prometheus", "expr": "histogram_quantile(0.95, sum(rate(vllm:time_per_output_token_seconds_bucket{instance=\"haze\"}[5m])) by (le)) * 1000", "legendFormat": "Time per Output Token (TPOT) p95 ms" }
           ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 0, "y": 22 },
+          "id": 8,
+          "title": "GitOps Sync Status",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "composeflux_sync_status{instance=\"haze\"}", "legendFormat": "{{stack}} Status" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 6, "y": 22 },
+          "id": 9,
+          "title": "GitOps Last Applied Commit",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "composeflux_stack_info{instance=\"haze\"}", "legendFormat": "{{revision}}" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 12, "y": 22 },
+          "id": 10,
+          "title": "GitOps Stack Drift",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "composeflux_stack_drift{instance=\"haze\"}", "legendFormat": "{{stack}} Drift" }
+          ]
+        },
+        {
+          "gridPos": { "h": 6, "w": 6, "x": 18, "y": 22 },
+          "id": 11,
+          "title": "Last Sync Duration",
+          "type": "stat",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "composeflux_sync_duration_seconds{instance=\"haze\"}", "legendFormat": "{{stack}} (s)" }
+          ]
+        },
+        {
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 28 },
+          "id": 12,
+          "title": "ComposeFlux Sync Duration History (s)",
+          "type": "timeseries",
+          "targets": [
+            { "datasource": "Prometheus", "expr": "composeflux_sync_duration_seconds{instance=\"haze\"}", "legendFormat": "{{stack}} Sync Duration" }
+          ]
         }
       ],
       "refresh": "2s",
       "schemaVersion": 38,
       "style": "dark",
-      "tags": ["haze", "gx10", "vllm", "qwen", "ai"],
+      "tags": ["haze", "gx10", "vllm", "qwen", "ai", "composeflux", "gitops"],
       "time": { "from": "now-15m", "to": "now" },
       "title": "Haze GX10 GPU & LLM Inference Overview",
       "uid": "haze-gx10-inference-overview"

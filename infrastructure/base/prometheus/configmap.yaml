@@ -20,6 +20,15 @@ data:
               node: 'haze.lodge.chalko.com'
               accelerator: 'NVIDIA-GX10'
 
+      - job_name: 'composeflux-haze'
+        metrics_path: '/metrics'
+        static_configs:
+          - targets: ['haze.lodge.chalko.com:9898']
+            labels:
+              instance: 'haze'
+              node: 'haze.lodge.chalko.com'
+              app: 'composeflux'
+
       - job_name: 'litellm'
         metrics_path: '/metrics'
         bearer_token_file: '/etc/prometheus/secrets/litellm-master-key'
