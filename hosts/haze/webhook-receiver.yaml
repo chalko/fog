@@ -1,0 +1,19 @@
+apiVersion: composeflux.io/v1alpha1
+kind: WebhookReceiver
+metadata:
+  name: haze-gitea-webhook
+  namespace: composeflux
+spec:
+  port: 9898
+  path: /webhook/gitea
+  events:
+    - push
+  filters:
+    branches:
+      - main
+    paths:
+      - "hosts/haze/**"
+  targetStack: haze-vllm
+  actions:
+    - sync
+    - apply

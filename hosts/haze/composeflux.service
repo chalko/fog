@@ -1,0 +1,24 @@
+[Unit]
+Description=ComposeFlux GitOps Agent for Docker Compose Stacks
+Documentation=https://github.com/composeflux/composeflux
+After=network-online.target docker.service
+Wants=network-online.target docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/composeflux
+EnvironmentFile=-/etc/composeflux/agent.env
+ExecStartPre=-/opt/composeflux/scripts/fetch-vault-secrets.sh
+ExecStart=/usr/local/bin/composeflux agent --config /etc/composeflux/config.yaml
+Restart=always
+RestartSec=10s
+
+# Sandboxing & Resource Hygiene
+LimitNOFILE=65536
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=composeflux
+
+[Install]
+WantedBy=multi-user.target

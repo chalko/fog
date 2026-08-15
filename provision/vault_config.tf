@@ -42,3 +42,30 @@ resource "vault_kubernetes_auth_backend_role" "app_role" {
   token_policies                   = [vault_policy.k8s_read.name]
   token_ttl                        = 86400
 }
+
+# 5. Policy for Standalone AI/GPU Host (Haze)
+resource "vault_policy" "haze_read" {
+  name   = "haze-read"
+  policy = <<EOT
+path "secret/data/fog/haze/*" {
+  capabilities = ["read"]
+}
+path "secret/data/app/haze/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 6. Enable AppRole Auth Backend for Standalone Hosts
+resource "vault_auth_backend" "approle" {
+  type = "approle"
+}
+
+# 7. AppRole for Haze Node
+resource "vault_approle_auth_backend_role" "haze_role" {
+  backend        = vault_auth_backend.approle.path
+  role_name      = "haze"
+  token_policies = [vault_policy.haze_read.name]
+  token_ttl      = 86400
+}
+
