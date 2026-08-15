@@ -6,8 +6,10 @@ Welcome to the `fog` home lab repository.
 This repository contains Infrastructure as Code (IaC) configuration for setting up and managing a home lab environment consisting of Proxmox VE, Docker hosts, and a Kubernetes cluster.
 
 ## Rules & Guidelines
-1. **Secrets Management**:
-   - Never commit plaintext secrets to this repository.
+1. **Secrets Management (Zero-Plaintext Protocols)**:
+   - **Zero Plaintext Transmission**: Never send, paste, or echo credentials, tokens, passwords, or private keys over `gc mail`, git commits, task beads, or chat output.
+   - **Path-Only References**: Always reference secrets by `pass` path, Vault path, target alias, or RAM cache file (`/dev/shm/fog/*-secret.env`).
+   - **No Inline Secret Arguments**: Never pass tokens/passwords as CLI arguments (`docker login -p`, `curl -u`). Use `--password-stdin` or `keeper exec`.
    - Use `pass` (password-store) to manage host-level and bootstrap secrets.
    - Use cache files in `/dev/shm/fog/*-secret.env` for active shell sessions to avoid tapping the YubiKey repeatedly. Source public configs via `config.env` and load target secret environments (e.g., `source /dev/shm/fog/proxmox-secret.env`). Use `keeper <target>` (or `keeper --all`) to populate/refresh the secrets cache from `pass`.
    - Use HashiCorp Vault (`https://10.7.82.90:8200`) as the centralized runtime secrets store for Kubernetes.
@@ -15,6 +17,7 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
    - Use the External Secrets Operator (ESO) via `ExternalSecret` manifests to sync secrets from Vault into K8s namespaces. Avoid writing static secrets in Git.
    - If Vault is restarted, manually unseal it using [bin/unseal-vault.sh](bin/unseal-vault.sh) (which prompts for YubiKey taps to fetch unseal keys from `pass`).
    - **Do not** attempt to extract, decode, or display sensitive secrets or tokens from the cluster (e.g. running `kubectl get secret -o jsonpath="..." | base64 --decode`).
+
 2. **Infrastructure as Code (IaC)**:
    - Prefer declarative structures (Terraform, Ansible, Kubernetes YAML, Docker Compose).
 3. **Cluster & Talos Management**:
