@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oxidized-config
+  namespace: oxidized
+data:
+  config: |
+    ---
+    username: backup
+    ssh:
+      private_key: /home/oxidized/.ssh/id_rsa
+      secure: false
+    resolve_dns: false
+    interval: 86400
+    use_syslog: false
+    debug: false
+    rest: 0.0.0.0:8888
+
+    model_map:
+      routeros: routeros
+
+    source:
+      default: csv
+      csv:
+        file: /home/oxidized/.config/oxidized/router.db
+        delimiter: ":"
+        map:
+          name: 0
+          model: 1
+
+    output:
+      default: git
+      git:
+        single_repo: true
+        repo: /var/lib/oxidized/backups.git
+        user: "Oxidized Backup"
+        email: "oxidized@fog.chalko.com"
+
+  router.db: |
+    10.111.45.1:routeros
+    192.168.99.253:routeros
+    192.168.99.254:routeros
+    192.168.99.251:routeros

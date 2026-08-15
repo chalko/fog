@@ -12,6 +12,9 @@ resources:
   - harbor
   - proxmox-dns-sync
   - netbox
+  - librenms
+  - oxidized
+
 
 
 

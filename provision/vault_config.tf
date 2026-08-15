@@ -141,5 +141,52 @@ resource "vault_kubernetes_auth_backend_role" "netbox_role" {
   token_ttl                        = 86400
 }
 
+# 14. Dedicated Least-Privilege Policy for LibreNMS
+resource "vault_policy" "librenms_policy" {
+  name   = "librenms-read"
+  policy = <<EOT
+path "secret/data/app/librenms" {
+  capabilities = ["read"]
+}
+path "secret/data/app/librenms/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 15. Bind LibreNMS Policy to ServiceAccount
+resource "vault_kubernetes_auth_backend_role" "librenms_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "librenms-role"
+  bound_service_account_names      = ["librenms-sa", "default"]
+  bound_service_account_namespaces = ["librenms"]
+  token_policies                   = [vault_policy.librenms_policy.name]
+  token_ttl                        = 86400
+}
+
+# 16. Dedicated Least-Privilege Policy for Oxidized
+resource "vault_policy" "oxidized_policy" {
+  name   = "oxidized-read"
+  policy = <<EOT
+path "secret/data/app/oxidized" {
+  capabilities = ["read"]
+}
+path "secret/data/app/oxidized/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+# 17. Bind Oxidized Policy to ServiceAccount
+resource "vault_kubernetes_auth_backend_role" "oxidized_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "oxidized-role"
+  bound_service_account_names      = ["oxidized-sa", "default"]
+  bound_service_account_namespaces = ["oxidized"]
+  token_policies                   = [vault_policy.oxidized_policy.name]
+  token_ttl                        = 86400
+}
+
+
 
 

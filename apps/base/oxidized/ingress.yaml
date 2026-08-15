@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oxidized-ingress
+  namespace: oxidized
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - oxidized.fog.chalko.com
+      secretName: oxidized-tls
+  rules:
+    - host: oxidized.fog.chalko.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: oxidized
+                port:
+                  number: 8888
