@@ -14,10 +14,20 @@ spec:
         spec:
           serviceAccountName: proxmox-dns-sync-sa
           restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile:
+              type: RuntimeDefault
           containers:
             - name: proxmox-dns-sync
               image: harbor.fog.chalko.com/library/proxmox-dns-sync:v1.0.0
               imagePullPolicy: IfNotPresent
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
               env:
                 - name: EXTERNAL_DNS_PROXMOX_URL
                   value: "https://10.7.82.10:8006/api2/json"
@@ -28,3 +38,5 @@ spec:
               envFrom:
                 - secretRef:
                     name: proxmox-dns-sync-secrets
+                    optional: true
+
