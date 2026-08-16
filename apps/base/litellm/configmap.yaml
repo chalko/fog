@@ -9,13 +9,13 @@ data:
       # --- Logical Tiers (5-Tier Scheme) ---
       - model_name: worker-coder
         litellm_params:
-          model: openai/Qwen/Qwen3.8-27B-FP8
+          model: openai/nvidia/Llama-3.3-70B-Instruct-FP8
           api_base: http://haze.lodge.chalko.com:8000/v1
           api_key: "dummy-key"
           temperature: 0.1
       - model_name: worker-general
         litellm_params:
-          model: openai/Qwen/Qwen3.8-27B-FP8
+          model: openai/nvidia/Llama-3.3-70B-Instruct-FP8
           api_base: http://haze.lodge.chalko.com:8000/v1
           api_key: "dummy-key"
           temperature: 0.2

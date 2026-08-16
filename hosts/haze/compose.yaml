@@ -1,13 +1,12 @@
 services:
-  vllm-qwen38:
+  vllm-llama33:
     image: vllm/vllm-openai:latest
-    container_name: vllm-qwen38
+    container_name: vllm-llama33
 
     restart: unless-stopped
     ipc: host
     environment:
       - NVIDIA_DISABLE_REQUIRE=1
-      - VLLM_USE_DEEP_GEMM=0
       - HF_TOKEN=${HF_TOKEN}
       - HF_HOME=/root/.cache/huggingface
       - VLLM_USAGE_SOURCE=production
@@ -17,22 +16,21 @@ services:
     ports:
       - "${VLLM_PORT:-8000}:8000"
     command:
-      - "--model"
-      - "Qwen/Qwen3.8-27B-FP8"
+      - "nvidia/Llama-3.3-70B-Instruct-FP8"
       - "--host"
       - "0.0.0.0"
       - "--port"
       - "8000"
-      - "--trust-remote-code"
+      - "--tensor-parallel-size"
+      - "1"
       - "--max-model-len"
       - "32768"
       - "--gpu-memory-utilization"
-      - "0.28"
+      - "0.90"
+      - "--kv-cache-dtype"
+      - "fp8"
       - "--enforce-eager"
-
-
-
-
+      - "--enable-prefix-caching"
 
     deploy:
       resources:
@@ -46,4 +44,4 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 600s
+      start_period: 1200s
