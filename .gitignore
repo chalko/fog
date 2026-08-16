@@ -55,6 +55,12 @@ __pycache__/
 .gc/
 .agents/*
 !.agents/skills/
+.agents/skills/core.*
+.agents/skills/gc.*
+.agents/skills/.*
 .opencode/
+.claude/
+.codex/
+
 
 
