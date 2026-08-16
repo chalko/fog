@@ -40,3 +40,6 @@ This repository contains Infrastructure as Code (IaC) configuration for setting 
 7. **Rig Ownership & Engineering Responsibility (`fog`)**:
    - **`fog` is Kaylee's Rig**: Kaylee is the Chief Engineer and crew agent responsible for code changes, deployments, and infrastructure modifications in `fog`.
    - **Mayor / Joan Boundary**: The Mayor (Joan) coordinates city-wide planning and dispatches tasks via beads and mail, but must **never** directly modify files or commit code in the `fog` repository. All technical changes must be requested through beads or mail for Kaylee to implement.
+8. **LLM Model Governance & SSCRM Clearance (`scai/peggy`)**:
+   - **Mandatory Clearance**: All LLM model selections, weight architectures, quantization formats, and deployment manifests across the homelab must be verified against Peggy Carter's (`scai/peggy`) approved sovereign model list prior to deployment.
+   - **Zero Untrusted / Foreign Weights**: No adversarial nation-state models (such as Qwen or DeepSeek) may be deployed, cached, or configured as fallbacks in LiteLLM, vLLM, or Ollama. All workloads must use vetted sovereign open weights (e.g. Meta Llama 3.1/3.3, Mistral) or approved cloud providers (e.g. Gemini, Grok).

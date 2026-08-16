@@ -16,7 +16,7 @@ services:
     ports:
       - "${VLLM_PORT:-8000}:8000"
     command:
-      - "nvidia/Llama-3.3-70B-Instruct-FP8"
+      - "neuralmagic/Llama-3.3-70B-Instruct-FP8"
       - "--host"
       - "0.0.0.0"
       - "--port"
@@ -26,9 +26,11 @@ services:
       - "--max-model-len"
       - "32768"
       - "--gpu-memory-utilization"
-      - "0.85"
+      - "0.80"
       - "--kv-cache-dtype"
       - "fp8"
+      - "--safetensors-load-strategy"
+      - "eager"
       - "--enforce-eager"
       - "--enable-prefix-caching"
 
@@ -44,4 +46,4 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 1200s
+      start_period: 1800s
