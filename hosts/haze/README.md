@@ -6,13 +6,14 @@ This directory contains the declarative Docker Compose and ComposeFlux configura
 
 ### `vllm-llama33`
 - **Image**: `vllm/vllm-openai:latest` (Official multi-arch ARM64 vLLM image)
-- **Model**: `nvidia/Llama-3.3-70B-Instruct-FP8` (Meta Llama 3.3 70B Instruct in native FP8)
+- **Model**: `RedHatAI/Llama-3.3-70B-Instruct-quantized.w4a16` (Neural Magic official W4A16 Llama 3.3 70B Instruct)
 - **Context Length**: 32,768 tokens (32k context)
 - **Port**: `8000` (OpenAI-compatible `/v1/chat/completions` & `/v1/models`)
 - **Key Flags**:
   - `NVIDIA_DISABLE_REQUIRE=1`: Disables driver constraint checks for ARM64 container runtime.
-  - `--gpu-memory-utilization 0.90`: Calibrated for Grace Blackwell unified memory headroom (~70GB weights + FP8 KV cache).
+  - `--gpu-memory-utilization 0.38`: Calibrated for Grace Blackwell initial CUDA pool and ~38.5 GB weights.
   - `--kv-cache-dtype fp8`: FP8 KV cache allocation for maximum throughput and concurrency.
+  - `--safetensors-load-strategy eager`: Eager safetensors loading releasing memory maps.
   - `--enforce-eager`: Prevents PyTorch CUDA graph allocator fluctuations in unified memory.
   - `--enable-prefix-caching`: Accelerates multi-turn and repeated context processing.
   - `ipc: host`: Shared memory access for low-latency inference.

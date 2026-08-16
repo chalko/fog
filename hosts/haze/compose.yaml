@@ -16,7 +16,7 @@ services:
     ports:
       - "${VLLM_PORT:-8000}:8000"
     command:
-      - "neuralmagic/Llama-3.3-70B-Instruct-FP8"
+      - "RedHatAI/Llama-3.3-70B-Instruct-quantized.w4a16"
       - "--host"
       - "0.0.0.0"
       - "--port"
@@ -26,7 +26,7 @@ services:
       - "--max-model-len"
       - "32768"
       - "--gpu-memory-utilization"
-      - "0.80"
+      - "0.38"
       - "--kv-cache-dtype"
       - "fp8"
       - "--safetensors-load-strategy"
