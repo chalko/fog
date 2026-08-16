@@ -26,7 +26,7 @@ services:
       - "--max-model-len"
       - "32768"
       - "--gpu-memory-utilization"
-      - "0.90"
+      - "0.85"
       - "--kv-cache-dtype"
       - "fp8"
       - "--enforce-eager"
