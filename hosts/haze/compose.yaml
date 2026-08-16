@@ -25,7 +25,7 @@ services:
       - "8000"
       - "--trust-remote-code"
       - "--max-model-len"
-      - "16384"
+      - "32768"
       - "--gpu-memory-utilization"
       - "0.28"
       - "--enforce-eager"
